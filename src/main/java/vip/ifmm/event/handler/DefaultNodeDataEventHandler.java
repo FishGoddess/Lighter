@@ -2,7 +2,7 @@ package vip.ifmm.event.handler;
 
 import vip.ifmm.core.support.Node;
 import vip.ifmm.event.NodeDataEvent;
-import vip.ifmm.core.net.protocol.Commad;
+import vip.ifmm.core.net.protocol.Command;
 
 import java.util.List;
 
@@ -29,13 +29,13 @@ public class DefaultNodeDataEventHandler implements NodeDataEventHandler {
 
     // 内部真正处理事件的方法
     private boolean handlerInternal(NodeDataEvent event) {
-        Commad commad = event.getCommad();
+        Command command = event.getCommand();
         List<Node<String, String>> nodes = event.getNodes();
 
-        if ("save".equals(commad.getInstruction())) {
-            nodes.get(0).save(commad.getKey(), commad.getValue());
+        if ("save".equals(command.getInstruction())) {
+            nodes.get(0).save(command.getKey(), command.getValue());
         } else {
-            System.out.println(nodes.get(0).fetch(commad.getKey()));
+            System.out.println(nodes.get(0).fetch(command.getKey()));
         }
 
         return true;

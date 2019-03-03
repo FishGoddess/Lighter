@@ -1,8 +1,8 @@
 package vip.ifmm.event;
 
 import org.springframework.context.ApplicationEvent;
+import vip.ifmm.core.net.protocol.Command;
 import vip.ifmm.core.support.Node;
-import vip.ifmm.core.net.protocol.Commad;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class NodeDataEvent extends ApplicationEvent {
     private List<Node<String, String>> nodes = null;
 
     // 当前事件要执行的指令
-    private Commad commad = null;
+    private Command command = null;
 
     public NodeDataEvent(Object source) {
         super(source);
@@ -33,12 +33,12 @@ public class NodeDataEvent extends ApplicationEvent {
         this.nodes = nodes;
     }
 
-    public Commad getCommad() {
-        return commad;
+    public Command getCommand() {
+        return command;
     }
 
-    public void setCommad(Commad commad) {
-        this.commad = commad;
+    public void setCommand(Command command) {
+        this.command = command;
     }
 
     @Override

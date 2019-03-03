@@ -8,13 +8,13 @@ package vip.ifmm.core.net.protocol;
  * ------> 1149062639@qq.com
  * created by 2019/03/03 19:44:19
  */
-public class Commad {
+public class Command {
 
     private String instruction = null;
     private String key = null;
     private String value = null;
 
-    public Commad() {}
+    public Command() {}
 
     public String getInstruction() {
         return instruction;
@@ -42,7 +42,7 @@ public class Commad {
 
     @Override
     public String toString() {
-        return "Commad{" +
+        return "Command{" +
                 "instruction='" + instruction + '\'' +
                 ", key='" + key + '\'' +
                 ", value='" + value + '\'' +
