@@ -1,5 +1,7 @@
 package vip.ifmm.core.net.protocol;
 
+import java.util.Arrays;
+
 /**
  * 一次命令
  * 包含具体执行的命令、保存数据的 key 和 value 值等
@@ -13,6 +15,9 @@ public class Command {
     private String instruction = null;
     private String key = null;
     private String value = null;
+
+    // 包括 key 和 value，这其实是为了方便协议的解析和方法的调用
+    private String[] allArgs = null;
 
     public Command() {}
 
@@ -40,12 +45,21 @@ public class Command {
         this.value = value;
     }
 
+    public String[] getAllArgs() {
+        return allArgs;
+    }
+
+    public void setAllArgs(String[] allArgs) {
+        this.allArgs = allArgs;
+    }
+
     @Override
     public String toString() {
         return "Command{" +
                 "instruction='" + instruction + '\'' +
                 ", key='" + key + '\'' +
                 ", value='" + value + '\'' +
+                ", allArgs=" + Arrays.toString(allArgs) +
                 '}';
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import vip.ifmm.annotation.MethodMapping;
 import vip.ifmm.core.support.NodeManageable;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -41,6 +42,7 @@ public class MappingHelper {
     }
 
     // 初始化
+    @PostConstruct
     public void init() {
         // 从节点实现类上读取对应注解，解析生成一个对应表
         Class nodeCLass = nodeManager.getNodeClass();

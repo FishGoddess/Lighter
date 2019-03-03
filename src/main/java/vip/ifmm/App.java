@@ -17,11 +17,18 @@ public class App {
         command.setInstruction("save");
         command.setKey("testKey");
         command.setValue("testValue");
+        command.setAllArgs(new String[]{
+                command.getKey(),
+                command.getValue()
+        });
         NodeDataEvent event = new NodeDataEvent("NodeDataEvent");
         event.setCommand(command);
         context.publishEvent(event);
 
         command.setInstruction("fetch");
+        command.setAllArgs(new String[]{
+                command.getKey()
+        });
         context.publishEvent(event);
     }
 }

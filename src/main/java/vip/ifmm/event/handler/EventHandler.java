@@ -1,6 +1,6 @@
 package vip.ifmm.event.handler;
 
-import vip.ifmm.event.NodeDataEvent;
+import vip.ifmm.selector.NodeSelector;
 
 /**
  * 节点数据事件处理器接口
@@ -11,6 +11,13 @@ import vip.ifmm.event.NodeDataEvent;
  * created by 2019/03/03 15:29:57
  */
 public interface EventHandler<T> {
+
+    /**
+     * 注入节点选择器
+     *
+     * @param nodeSelector 节点选择器
+     */
+    void setNodeSelector(NodeSelector nodeSelector);
 
     /**
      * 处理节点数据事件

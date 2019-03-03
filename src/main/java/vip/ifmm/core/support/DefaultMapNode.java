@@ -18,50 +18,50 @@ public class DefaultMapNode<K, V> implements Node<K, V> {
     private Map<K, V> node = new ConcurrentHashMap<>(32);
 
     @Override
-    @MethodMapping("save")
+    @MethodMapping(instruction = "save")
     public V save(K key, V value) {
         return save(key, value, -1);
     }
 
     @Override
-    @MethodMapping("saveExpire")
+    @MethodMapping(instruction = "saveExpire")
     public V save(K key, V value, int expire) {
         return node.put(key, value);
     }
 
     @Override
-    @MethodMapping("fetch")
+    @MethodMapping(instruction = "fetch")
     public V fetch(K key) {
         return node.get(key);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    @MethodMapping("keys")
+    @MethodMapping(instruction = "keys")
     public K[] keys() {
         return (K[]) node.keySet().toArray();
     }
 
     @Override
-    @MethodMapping("size")
+    @MethodMapping(instruction = "size")
     public int size() {
         return node.size();
     }
 
     @Override
-    @MethodMapping("exists")
+    @MethodMapping(instruction = "exists")
     public boolean exists(K key) {
         return node.containsKey(key);
     }
 
     @Override
-    @MethodMapping("remove")
+    @MethodMapping(instruction = "remove")
     public V remove(K key) {
         return node.remove(key);
     }
 
     @Override
-    @MethodMapping("removeAll")
+    @MethodMapping(instruction = "removeAll")
     public void removeAll() {
         node.clear();
     }

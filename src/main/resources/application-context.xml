@@ -20,6 +20,8 @@
 
     <!-- 配置节点数据事件处理器 -->
     <bean id="nodeDataEventHandler" class="${nodeDataEventHandler}">
-
+        <property name="nodeSelector">
+            <bean class="${nodeSelector}"/>
+        </property>
     </bean>
 </beans>
