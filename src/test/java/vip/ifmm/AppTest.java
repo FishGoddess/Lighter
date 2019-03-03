@@ -3,18 +3,18 @@ package vip.ifmm;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import vip.ifmm.helper.HashHelper;
+
+import java.util.UUID;
 
 /**
  * Unit test for simple App.
  */
 public class AppTest 
 {
-    /**
-     * Rigorous Test :-)
-     */
     @Test
-    public void shouldAnswerWithTrue()
+    public void testSimpleHash()
     {
-        assertTrue( true );
+        System.out.println(HashHelper.stringSimpleHash("", 16));
     }
 }
