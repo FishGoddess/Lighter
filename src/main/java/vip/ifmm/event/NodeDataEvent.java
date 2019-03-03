@@ -2,7 +2,7 @@ package vip.ifmm.event;
 
 import org.springframework.context.ApplicationEvent;
 import vip.ifmm.core.support.Node;
-import vip.ifmm.protocol.Commad;
+import vip.ifmm.core.net.protocol.Commad;
 
 import java.util.List;
 

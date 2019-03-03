@@ -3,7 +3,7 @@ package vip.ifmm;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import vip.ifmm.event.NodeDataEvent;
-import vip.ifmm.protocol.Commad;
+import vip.ifmm.core.net.protocol.Commad;
 
 /**
  * Hello world!

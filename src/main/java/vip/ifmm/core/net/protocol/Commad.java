@@ -1,4 +1,4 @@
-package vip.ifmm.protocol;
+package vip.ifmm.core.net.protocol;
 
 /**
  * 一次命令
