@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <!-- 控制台输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>UTF-8</charset>
+            <!-- 格式化输出：
+            %d 表示日期，
+            %thread 表示线程名，
+            %-5level 级别从左显示 5 个字符宽度，
+            %logger{50} 表示 logger 名字最长 50 个字符否则按照句点分割，
+            %L 表达打印行数，
+            %msg 日志消息，
+            %n 换行符 -->
+            <pattern>%d{HH:mm:ss} %-5level %logger{50}:%L - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- DEBUG 模式 -->
+    <!--<logger name="vip.ifmm" level="DEBUG"/>-->
+
+    <!-- 日志输出级别 -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

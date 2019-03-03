@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 配置文件加载 -->
+    <context:property-placeholder location="properties/*.properties"/>
+
+    <!-- 扫描包 -->
+    <context:component-scan base-package="vip.ifmm"/>
+
+    <!-- 配置节点管理器 -->
+    <bean id="nodeManager" class="${nodeManager}" init-method="init">
+        <property name="numberOfNodes" value="${numberOfNodes}"/>
+        <property name="nodeClassName" value="${nodeClassName}"/>
+        <property name="handler" ref="nodeDataEventHandler"/>
+    </bean>
+
+    <!-- 配置节点数据事件处理器 -->
+    <bean id="nodeDataEventHandler" class="${nodeDataEventHandler}">
+
+    </bean>
+</beans>
