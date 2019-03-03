@@ -1,5 +1,9 @@
 package vip.ifmm.selector;
 
+import vip.ifmm.core.support.Node;
+
+import java.util.List;
+
 /**
  * 节点选择器
  * 用于选择一个节点来存储
@@ -20,7 +24,15 @@ public interface NodeSelector {
      * @param args 额外的参数
      * @return 返回选择的节点索引数组
      */
-    int[] getNodeIndexs(String instruction, String key, String value, String... args);
+    int[] getSelectedNodeIndexs(String instruction, String key, String value, String... args);
 
+    /**
+     * 注入节点数据库
+     * <b>实现类应该使用一个成员变量来保存</b>
+     *
+     * @param nodes 所有的节点
+     */
+    void setNodes(List<Node<String, String>> nodes);
 
+    List<Node<String, String>> getSelectedNodes(String instruction, String key, String value, String... args);
 }
