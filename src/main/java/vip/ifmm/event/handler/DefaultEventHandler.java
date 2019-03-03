@@ -82,7 +82,7 @@ public class DefaultEventHandler implements EventHandler<NodeDataEvent> {
 
             // 调用方法
             result = (String) NodeDataHelper.invoke(node, method, command);
-            System.out.println(result);
+            System.out.println(result); // TODO 结果处理器
         }
 
         return true;
