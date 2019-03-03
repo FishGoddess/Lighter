@@ -3,7 +3,7 @@ package vip.ifmm.core.support;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vip.ifmm.event.NodeDataEvent;
-import vip.ifmm.event.NodeDataEventHandler;
+import vip.ifmm.event.handler.NodeDataEventHandler;
 
 import java.util.ArrayList;
 import java.util.List;

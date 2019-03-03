@@ -1,4 +1,6 @@
-package vip.ifmm.event;
+package vip.ifmm.event.handler;
+
+import vip.ifmm.event.NodeDataEvent;
 
 /**
  * 节点数据事件处理器

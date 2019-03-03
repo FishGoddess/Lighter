@@ -2,7 +2,7 @@ package vip.ifmm.core.support;
 
 import org.springframework.context.ApplicationListener;
 import vip.ifmm.event.NodeDataEvent;
-import vip.ifmm.event.NodeDataEventHandler;
+import vip.ifmm.event.handler.NodeDataEventHandler;
 
 /**
  * 可以管理节点的接口
