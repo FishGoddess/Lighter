@@ -10,5 +10,17 @@ package vip.ifmm.selector;
  */
 public interface NodeSelector {
 
-    int getNodeIndex();
+    /**
+     * 根据情况获取节点索引
+     * 如果不止一个，就返回多个索引
+     *
+     * @param instruction 协议传过来的指令
+     * @param key 数据的 key 值
+     * @param value 数据的 value 值
+     * @param args 额外的参数
+     * @return 返回选择的节点索引数组
+     */
+    int[] getNodeIndexs(String instruction, String key, String value, String... args);
+
+
 }
