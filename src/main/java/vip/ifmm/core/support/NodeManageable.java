@@ -2,7 +2,7 @@ package vip.ifmm.core.support;
 
 import org.springframework.context.ApplicationListener;
 import vip.ifmm.event.NodeDataEvent;
-import vip.ifmm.event.handler.NodeDataEventHandler;
+import vip.ifmm.event.handler.EventHandler;
 
 /**
  * 可以管理节点的接口
@@ -30,10 +30,10 @@ public interface NodeManageable extends ApplicationListener<NodeDataEvent> {
     void setNumberOfNodes(int numberOfNodes);
 
     // 节点数据事件处理器
-    NodeDataEventHandler getHandler();
+    EventHandler getHandler();
 
     // 节点数据事件处理器
-    void setHandler(NodeDataEventHandler handler);
+    void setHandler(EventHandler handler);
 
     // 初始化节点的实现类
     Class getNodeClass();

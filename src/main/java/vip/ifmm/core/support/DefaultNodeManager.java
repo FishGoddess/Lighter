@@ -3,7 +3,7 @@ package vip.ifmm.core.support;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import vip.ifmm.event.NodeDataEvent;
-import vip.ifmm.event.handler.NodeDataEventHandler;
+import vip.ifmm.event.handler.EventHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class DefaultNodeManager implements NodeManageable {
     private List<Node<String, String>> nodes = new ArrayList<>(numberOfNodes + 2);
 
     // 节点数据事件处理器
-    private NodeDataEventHandler handler = null;
+    private EventHandler handler = null;
 
     // 初始化节点的实现类
     private String nodeClassName = "vip.ifmm.core.support.DefaultMapNode";
@@ -77,11 +77,11 @@ public class DefaultNodeManager implements NodeManageable {
         this.numberOfNodes = numberOfNodes;
     }
 
-    public NodeDataEventHandler getHandler() {
+    public EventHandler getHandler() {
         return handler;
     }
 
-    public void setHandler(NodeDataEventHandler handler) {
+    public void setHandler(EventHandler handler) {
         this.handler = handler;
     }
 

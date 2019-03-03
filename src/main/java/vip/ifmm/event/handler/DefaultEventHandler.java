@@ -14,7 +14,7 @@ import java.util.List;
  * ------> 1149062639@qq.com
  * created by 2019/03/03 15:29:57
  */
-public class DefaultNodeDataEventHandler implements NodeDataEventHandler {
+public class DefaultEventHandler implements EventHandler<NodeDataEvent> {
 
     /**
      * 处理节点数据事件
