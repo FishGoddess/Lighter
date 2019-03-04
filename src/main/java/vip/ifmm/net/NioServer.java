@@ -9,6 +9,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+
 /**
  * NIO 服务器
  *
@@ -24,10 +28,35 @@ public class NioServer {
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
 
+    // 使用读写锁，因为读的次数比写的次数多得多，所以读的时候可以多个线程同时
+    private ReadWriteLock readyReadWriteLock = new ReentrantReadWriteLock();
+    private Lock readyReadLock = readyReadWriteLock.readLock();
+    private Lock readyWriteLock = readyReadWriteLock.writeLock();
+
+    // 是否准备好了
+    private volatile boolean ready = false;
+
+    /**
+     * 服务器是否已经准备好了
+     *
+     * @return true 准备好了，false 没有准备好
+     */
+    public boolean isReady() {
+
+        // 读操作上锁
+        readyReadLock.lock();
+        try {
+            return ready;
+        } finally {
+            // 必须保证读锁一定被释放
+            readyReadLock.unlock();
+        }
+    }
+
     /**
      * 打开服务器，占用端口
      *
-     * @param port 占用的端口
+     * @param port         占用的端口
      * @param childHandler 具体实现服务器的初始化处理器
      * @throws InterruptedException 中断异常
      */
@@ -42,6 +71,15 @@ public class NioServer {
 
         // 记录日志
         log.info("NioServer run on port: " + port);
+
+        // 服务器准备好了
+        readyWriteLock.lock();
+        try {
+            ready = true;
+        } finally {
+            // 必须保证写锁一定被释放
+            readyWriteLock.unlock();
+        }
 
         f.channel().closeFuture().sync();
     }

@@ -6,7 +6,8 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 配置文件加载 -->
-    <context:property-placeholder location="properties/*.properties"/>
+    <!-- 如果需要加载别的配置文件，就在这里设置 -->
+    <context:property-placeholder location="properties/config.properties"/>
 
     <!-- 扫描包 -->
     <context:component-scan base-package="vip.ifmm"/>
