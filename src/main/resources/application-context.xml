@@ -11,6 +11,14 @@
     <!-- 扫描包 -->
     <context:component-scan base-package="vip.ifmm"/>
 
+    <!-- 配置节点数据事件处理器 -->
+    <bean id="nodeDataEventHandler" class="${nodeDataEventHandler}">
+        <property name="mappingHelper" ref="mappingHelper"/>
+        <property name="nodeSelector">
+            <bean class="${nodeSelector}"/>
+        </property>
+    </bean>
+
     <!-- 配置节点管理器 -->
     <bean id="nodeManager" class="${nodeManager}" init-method="init">
         <property name="numberOfNodes" value="${numberOfNodes}"/>
@@ -18,10 +26,8 @@
         <property name="handler" ref="nodeDataEventHandler"/>
     </bean>
 
-    <!-- 配置节点数据事件处理器 -->
-    <bean id="nodeDataEventHandler" class="${nodeDataEventHandler}">
-        <property name="nodeSelector">
-            <bean class="${nodeSelector}"/>
-        </property>
+    <!-- 映射器工具类 -->
+    <bean id="mappingHelper" class="vip.ifmm.helper.MappingHelper" init-method="init">
+        <property name="nodeManager" ref="nodeManager"/>
     </bean>
 </beans>

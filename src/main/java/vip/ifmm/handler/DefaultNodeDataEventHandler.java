@@ -23,8 +23,7 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
 
     // 映射器
     private MappingHelper mappingHelper = null;
-
-    @Autowired
+    
     public void setMappingHelper(MappingHelper mappingHelper) {
         this.mappingHelper = mappingHelper;
     }
