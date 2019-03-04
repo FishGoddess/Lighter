@@ -1,12 +1,9 @@
-package vip.ifmm;
+package vip.ifmm.core;
 
 import io.netty.channel.ChannelHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import vip.ifmm.event.NodeDataEvent;
 import vip.ifmm.net.NioServer;
 import vip.ifmm.protocol.Command;
@@ -15,7 +12,12 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 /**
- * 应用程序入口
+ * 应用程序
+ * 个人认为这个类和 vip.ifmm.Startup 类写的不好。。。
+ *
+ * @author Fish
+ * ------> 1149062639@qq.com
+ * created by 2019/03/04 21:57:09
  */
 public class App {
 
@@ -25,10 +27,10 @@ public class App {
     // 通道处理器，具体服务器实现
     private ChannelHandler channelHandler = null;
 
-    @Value("${nioServerPort}")
+    // Nio 服务器端口
     private int nioServerPort = 6666;
 
-    @Value("${closeNioServerPort}")
+    // 关闭服务器的端口
     private int closeNioServerPort = 9999;
 
     // Spring 框架上下文
@@ -37,11 +39,24 @@ public class App {
     // 服务器
     private NioServer server = null;
 
-    // 关闭软件的参数指令
-    private static final String CLOSE_APPLICATION = "-stop";
-
     public void setChannelHandler(ChannelHandler channelHandler) {
         this.channelHandler = channelHandler;
+    }
+
+    public void setNioServerPort(int nioServerPort) {
+        this.nioServerPort = nioServerPort;
+    }
+
+    public void setCloseNioServerPort(int closeNioServerPort) {
+        this.closeNioServerPort = closeNioServerPort;
+    }
+
+    public int getNioServerPort() {
+        return nioServerPort;
+    }
+
+    public int getCloseNioServerPort() {
+        return closeNioServerPort;
     }
 
     /**
@@ -107,7 +122,7 @@ public class App {
             try {
                 ServerSocket closeServer = new ServerSocket(closeNioServerPort);
 
-                log.info("关闭服务器监听器，监听端口 {} 已经开启！", closeNioServerPort);
+                log.info("服务器关闭监听器正在监听端口 {} ！", closeNioServerPort);
 
                 // 这个方法会被阻塞，当有客户端连接到这个端口，就会放行，然后执行关闭服务器操作
                 closeServer.accept();

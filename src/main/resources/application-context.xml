@@ -13,10 +13,12 @@
     <context:component-scan base-package="vip.ifmm"/>
 
     <!-- App 应用启动入口 -->
-    <bean id="app" class="vip.ifmm.App">
+    <bean id="app" class="vip.ifmm.core.App">
         <property name="channelHandler">
             <bean class="${nioServer}"/>
         </property>
+        <property name="nioServerPort" value="${nioServerPort}"/>
+        <property name="closeNioServerPort" value="${closeNioServerPort}"/>
     </bean>
 
     <!-- 配置节点数据事件处理器 -->

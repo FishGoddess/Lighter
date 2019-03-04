@@ -9,6 +9,13 @@ package vip.ifmm.helper;
  */
 public class HashHelper {
 
+    /**
+     * 简单的字符串散列算法
+     *
+     * @param str 要被计算散列值的方法
+     * @param range 散列的范围
+     * @return 返回散列值
+     */
     public static int stringSimpleHash(String str, int range) {
 
         int hashCode = str.hashCode();
