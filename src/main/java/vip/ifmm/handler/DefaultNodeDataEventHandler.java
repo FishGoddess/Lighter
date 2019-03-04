@@ -3,7 +3,6 @@ package vip.ifmm.handler;
 import vip.ifmm.core.Node;
 import vip.ifmm.event.NodeDataEvent;
 import vip.ifmm.protocol.Command;
-import vip.ifmm.helper.MappingHelper;
 import vip.ifmm.helper.NodeDataHelper;
 import vip.ifmm.selector.NodeSelector;
 
@@ -21,7 +20,7 @@ import java.util.List;
 public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> {
 
     // 映射器
-    private MappingHelper mappingHelper = null;
+    private MappingHandler mappingHandler = null;
 
     // 节点选择器
     private NodeSelector<String, String, String> nodeSelector = null;
@@ -29,8 +28,8 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
     // 结果处理器
     private ResultHandler<String> resultHandler = null;
 
-    public void setMappingHelper(MappingHelper mappingHelper) {
-        this.mappingHelper = mappingHelper;
+    public void setMappingHandler(MappingHandler mappingHandler) {
+        this.mappingHandler = mappingHandler;
     }
 
     public NodeSelector getNodeSelector() {
@@ -90,7 +89,7 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
         for (Node<String, String> node : selectedNodes) {
 
             // 找到这个指令映射的方法
-            method = mappingHelper.mappingTo(command.getInstruction());
+            method = mappingHandler.mappingTo(command.getInstruction());
 
             // 调用方法
             result = (String) NodeDataHelper.invoke(node, method, command);

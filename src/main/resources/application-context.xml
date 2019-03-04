@@ -13,7 +13,7 @@
 
     <!-- 配置节点数据事件处理器 -->
     <bean id="nodeDataEventHandler" class="${nodeDataEventHandler}">
-        <property name="mappingHelper" ref="mappingHelper"/>
+        <property name="mappingHandler" ref="mappingHandler"/>
         <property name="nodeSelector">
             <bean class="${nodeSelector}"/>
         </property>
@@ -30,7 +30,7 @@
     </bean>
 
     <!-- 映射器工具类 -->
-    <bean id="mappingHelper" class="vip.ifmm.helper.MappingHelper" init-method="init">
+    <bean id="mappingHandler" class="${mappingHandler}" init-method="init">
         <property name="nodeManager" ref="nodeManager"/>
     </bean>
 </beans>

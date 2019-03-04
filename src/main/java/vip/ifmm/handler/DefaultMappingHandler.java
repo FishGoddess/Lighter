@@ -1,4 +1,4 @@
-package vip.ifmm.helper;
+package vip.ifmm.handler;
 
 //import org.springframework.stereotype.Component;
 import vip.ifmm.annotation.MethodMapping;
@@ -18,7 +18,7 @@ import java.util.Map;
  * created by 2019/03/03 20:34:34
  */
 //@Component // 统一在 xml 中配置
-public class MappingHelper {
+public class DefaultMappingHandler implements MappingHandler {
 
     // 节点管理器
     //@Resource(name = "nodeManager")
@@ -30,17 +30,19 @@ public class MappingHelper {
     // 映射注解
     private static final Class<MethodMapping> MAPPING_ANNOTATION = MethodMapping.class;
 
-    public MappingHelper() {}
+    public DefaultMappingHandler() {}
 
     public NodeManageable getNodeManager() {
         return nodeManager;
     }
 
+    @Override
     public void setNodeManager(NodeManageable nodeManager) {
         this.nodeManager = nodeManager;
     }
 
     // 初始化
+    @Override
     public void init() {
         // 从节点实现类上读取对应注解，解析生成一个对应表
         Class nodeCLass = nodeManager.getNodeClass();
@@ -72,6 +74,7 @@ public class MappingHelper {
      * @param instruction 指令
      * @return 返回映射的方法
      */
+    @Override
     public Method mappingTo(String instruction) {
         return mappingTable.get(instruction);
     }
