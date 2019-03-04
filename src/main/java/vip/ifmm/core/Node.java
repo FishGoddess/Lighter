@@ -1,4 +1,4 @@
-package vip.ifmm.core.support;
+package vip.ifmm.core;
 
 /**
  * 自己定义的一个节点的接口

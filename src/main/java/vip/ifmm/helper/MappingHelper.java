@@ -2,11 +2,10 @@ package vip.ifmm.helper;
 
 import org.springframework.stereotype.Component;
 import vip.ifmm.annotation.MethodMapping;
-import vip.ifmm.core.support.NodeManageable;
+import vip.ifmm.core.NodeManageable;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package vip.ifmm.core.support;
+package vip.ifmm.core;
 
 import vip.ifmm.annotation.MethodMapping;
 

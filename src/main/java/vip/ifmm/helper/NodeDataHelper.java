@@ -2,8 +2,8 @@ package vip.ifmm.helper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import vip.ifmm.core.net.protocol.Command;
-import vip.ifmm.core.support.Node;
+import vip.ifmm.protocol.Command;
+import vip.ifmm.core.Node;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

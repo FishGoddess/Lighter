@@ -1,8 +1,8 @@
 package vip.ifmm.event;
 
 import org.springframework.context.ApplicationEvent;
-import vip.ifmm.core.net.protocol.Command;
-import vip.ifmm.core.support.Node;
+import vip.ifmm.protocol.Command;
+import vip.ifmm.core.Node;
 
 import java.util.List;
 

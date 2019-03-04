@@ -1,4 +1,4 @@
-package vip.ifmm.core.net.protocol;
+package vip.ifmm.protocol;
 
 import java.util.Arrays;
 

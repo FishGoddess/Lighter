@@ -1,4 +1,4 @@
-package vip.ifmm.event.handler;
+package vip.ifmm.handler;
 
 import vip.ifmm.selector.NodeSelector;
 

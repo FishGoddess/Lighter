@@ -1,6 +1,6 @@
 package vip.ifmm.selector;
 
-import vip.ifmm.core.support.Node;
+import vip.ifmm.core.Node;
 import vip.ifmm.helper.HashHelper;
 
 import java.util.List;
