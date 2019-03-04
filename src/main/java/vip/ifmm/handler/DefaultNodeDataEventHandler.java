@@ -1,6 +1,5 @@
 package vip.ifmm.handler;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import vip.ifmm.core.Node;
 import vip.ifmm.event.NodeDataEvent;
 import vip.ifmm.protocol.Command;
@@ -23,13 +22,16 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
 
     // 映射器
     private MappingHelper mappingHelper = null;
-    
-    public void setMappingHelper(MappingHelper mappingHelper) {
-        this.mappingHelper = mappingHelper;
-    }
 
     // 节点选择器
     private NodeSelector<String, String, String> nodeSelector = null;
+
+    // 结果处理器
+    private ResultHandler<String> resultHandler = null;
+
+    public void setMappingHelper(MappingHelper mappingHelper) {
+        this.mappingHelper = mappingHelper;
+    }
 
     public NodeSelector getNodeSelector() {
         return nodeSelector;
@@ -39,6 +41,15 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
     @SuppressWarnings("unchecked")
     public void setNodeSelector(NodeSelector nodeSelector) {
         this.nodeSelector = nodeSelector;
+    }
+
+    public ResultHandler getResultHandler() {
+        return resultHandler;
+    }
+
+    @SuppressWarnings("unchecked")
+    public void setResultHandler(ResultHandler resultHandler) {
+        this.resultHandler = resultHandler;
     }
 
     /**
@@ -63,27 +74,32 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
         // 设置选择器的节点数据库
         nodeSelector.setNodes(event.getNodes());
 
-        Command command = event.getCommand();
-        String instruction = command.getInstruction();
-        String key = command.getKey();
-        String value = command.getValue();
+        // 执行这个指令
+        invokeCommand(event.getCommand());
+        return true;
+    }
 
-        // 由节点选择器来选择出一些节点
-        List<Node<String, String>> selectedNodes = nodeSelector.getSelectedNodes(instruction, key, value);
+    // 内部会获取所有需要执行指令的节点，然后执行
+    private void invokeCommand(Command command) {
 
-        // 每个节点都执行这个指令
+        // 选择出一些节点
+        List<Node<String, String>> selectedNodes = getSelectedNodes(command);
+
         Method method = null;
         String result = null;
         for (Node<String, String> node : selectedNodes) {
 
             // 找到这个指令映射的方法
-            method = mappingHelper.mappingTo(instruction);
+            method = mappingHelper.mappingTo(command.getInstruction());
 
             // 调用方法
             result = (String) NodeDataHelper.invoke(node, method, command);
-            System.out.println(result); // TODO 结果处理器
+            resultHandler.handle(result);
         }
+    }
 
-        return true;
+    // 由节点选择器来选择出一些节点
+    private List<Node<String, String>> getSelectedNodes(Command command) {
+        return nodeSelector.getSelectedNodes(command.getInstruction(), command.getKey(), command.getValue());
     }
 }

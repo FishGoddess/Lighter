@@ -17,6 +17,9 @@
         <property name="nodeSelector">
             <bean class="${nodeSelector}"/>
         </property>
+        <property name="resultHandler">
+            <bean class="${resultHandler}"/>
+        </property>
     </bean>
 
     <!-- 配置节点管理器 -->
