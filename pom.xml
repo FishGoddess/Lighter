@@ -26,6 +26,14 @@
             <version>${spring.version}</version>
         </dependency>
 
+        <!-- 网络模块 -->
+        <dependency>
+            <groupId>io.netty</groupId>
+            <artifactId>netty-all</artifactId>
+            <version>4.1.33.Final</version>
+        </dependency>
+
+
         <!-- 日志模块 -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
