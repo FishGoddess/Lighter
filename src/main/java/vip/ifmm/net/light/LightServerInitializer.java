@@ -1,4 +1,4 @@
-package vip.ifmm.net.websocket;
+package vip.ifmm.net.light;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
@@ -9,13 +9,13 @@ import io.netty.handler.stream.ChunkedWriteHandler;
 import vip.ifmm.handler.WebSocketServerHandler;
 
 /**
- * WebSocket 服务器初始化器
+ * Light 服务器初始化器
  *
  * @author Fish
  * ------> 1149062639@qq.com
  * created by 2019/1/8 13:30:27
  */
-public class WebSocketServerInitializer extends ChannelInitializer<SocketChannel> {
+public class LightServerInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {

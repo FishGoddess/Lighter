@@ -10,7 +10,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * WebSocket 服务器
+ * NIO 服务器
  *
  * @author Fish
  * ------> 1149062639@qq.com
@@ -24,13 +24,13 @@ public class NioServer {
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
 
-    // 是否准备好了
-    private volatile boolean ready = false;
-
-    public synchronized boolean isReady() {
-        return ready;
-    }
-
+    /**
+     * 打开服务器，占用端口
+     *
+     * @param port 占用的端口
+     * @param childHandler 具体实现服务器的初始化处理器
+     * @throws InterruptedException 中断异常
+     */
     public void open(int port, ChannelHandler childHandler) throws InterruptedException {
 
         ServerBootstrap server = new ServerBootstrap();
@@ -42,11 +42,6 @@ public class NioServer {
 
         // 记录日志
         log.info("NioServer run on port: " + port);
-
-        // 服务器准备好了
-        synchronized (this) {
-            ready = true;
-        }
 
         f.channel().closeFuture().sync();
     }

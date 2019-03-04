@@ -11,6 +11,13 @@
     <!-- 扫描包 -->
     <context:component-scan base-package="vip.ifmm"/>
 
+    <!-- App 应用启动入口 -->
+    <bean id="app" class="vip.ifmm.App">
+        <property name="channelHandler">
+            <bean class="${nioServer}"/>
+        </property>
+    </bean>
+
     <!-- 配置节点数据事件处理器 -->
     <bean id="nodeDataEventHandler" class="${nodeDataEventHandler}">
         <property name="mappingHandler" ref="mappingHandler"/>
