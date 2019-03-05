@@ -9,7 +9,7 @@ import io.netty.util.CharsetUtil;
 
 
 /**
- * 服务器处理器
+ * HTTP 服务器处理器
  *
  * @author Fish
  * ------> 1149062639@qq.com
@@ -23,7 +23,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
     // 接收到任何数据都返回首页
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception {
-
+        System.out.println("connected!");
         FullHttpResponse response = new DefaultFullHttpResponse(
                 HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK,

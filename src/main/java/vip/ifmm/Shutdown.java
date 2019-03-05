@@ -44,7 +44,7 @@ public class Shutdown {
             application.setContext(context);
 
             new Socket("127.0.0.1", application.getCloseNioServerPort());
-            log.info("服务器已经关闭！");
+            log.info("Lighter 服务器已经关闭！");
         } catch (Exception e) {
             // 当没有启动服务的时候就会发生这个异常
             e = new CloseServerException("服务未启动！", e);

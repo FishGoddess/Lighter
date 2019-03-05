@@ -7,7 +7,7 @@ import io.netty.handler.stream.ChunkedWriteHandler;
 import vip.ifmm.handler.HttpServerHandler;
 
 /**
- * 服务器初始化器
+ * HTTP 服务器初始化器
  *
  * @author Fish
  * ------> 1149062639@qq.com
