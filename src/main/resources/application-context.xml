@@ -25,12 +25,22 @@
 
     <!-- App 应用启动入口 -->
     <bean id="app" class="vip.ifmm.core.App">
-        <property name="channelHandler">
-            <bean class="${nioServer}"/>
-        </property>
+        <property name="channelHandler" ref="nioServer"/>
         <property name="nioServerPort" value="${nioServerPort}"/>
         <property name="closeNioServerPort" value="${closeNioServerPort}"/>
     </bean>
+
+    <!-- Nio 服务器 -->
+    <bean id="nioServer" class="${nioServerInitializer}">
+        <property name="channelHandler">
+            <bean class="${nioServerHandler}">
+                <property name="protocolParser" ref="protocolParser"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- 协议解析器 -->
+    <bean id="protocolParser" class="${protocolParser}"/>
 
     <!-- 配置节点数据事件处理器 -->
     <bean id="nodeDataEventHandler" class="${nodeDataEventHandler}">

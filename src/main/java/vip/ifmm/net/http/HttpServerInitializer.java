@@ -1,9 +1,11 @@
 package vip.ifmm.net.http;
 
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import vip.ifmm.handler.HttpServerHandler;
 
 /**
@@ -14,6 +16,13 @@ import vip.ifmm.handler.HttpServerHandler;
  * created by 2019/1/8 21:28:30
  */
 public class HttpServerInitializer extends ChannelInitializer<SocketChannel> {
+
+    // 通道处理器
+    private ChannelHandler channelHandler = null;
+
+    public void setChannelHandler(ChannelHandler channelHandler) {
+        this.channelHandler = channelHandler;
+    }
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {

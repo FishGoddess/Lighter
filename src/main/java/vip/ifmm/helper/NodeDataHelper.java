@@ -2,6 +2,7 @@ package vip.ifmm.helper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import vip.ifmm.event.NodeDataEvent;
 import vip.ifmm.protocol.Command;
 import vip.ifmm.core.Node;
 
@@ -30,5 +31,18 @@ public class NodeDataHelper {
     public static Object invoke(Node node, Method method, Command command) throws InvocationTargetException, IllegalAccessException {
         // 调用方法
         return method.invoke(node, (Object[]) command.getAllArgs());
+    }
+
+    /**
+     * 从指令对象中获取节点数据事件
+     *
+     * @param command 指令对象
+     * @return 返回节点数据事件
+     */
+    public static NodeDataEvent getEventFromCommand(Command command) {
+        NodeDataEvent event = new NodeDataEvent("NodeDataEvent");
+        event.setCommand(command);
+
+        return event;
     }
 }
