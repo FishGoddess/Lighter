@@ -4,9 +4,8 @@ import io.netty.channel.ChannelHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
-import vip.ifmm.event.NodeDataEvent;
+import org.springframework.context.ApplicationEvent;
 import vip.ifmm.net.NioServer;
-import vip.ifmm.protocol.Command;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -39,6 +38,12 @@ public class App {
     // 服务器
     private NioServer server = null;
 
+    // 初始化 Spring 框架上下文
+    public void setContext(ApplicationContext context) {
+        this.context = context;
+        log.info("Spring 容器初始化完成！");
+    }
+
     public void setChannelHandler(ChannelHandler channelHandler) {
         this.channelHandler = channelHandler;
     }
@@ -64,12 +69,7 @@ public class App {
      *
      * @param args 应用程序启动时传过来的参数
      */
-    public void startApplication(ApplicationContext context, String[] args) {
-
-        // 初始化 Spring 容器
-        this.context = context;
-
-        log.info("Spring 容器初始化完成！");
+    public void startApplication(String[] args) {
 
         // 在初始化服务器之前执行一些操作
         beforeInitServer();
@@ -88,26 +88,6 @@ public class App {
 
         // 启动监听线程
         startCloseServerListener();
-
-        // TODO 暂时是测试代码
-        Command command = new Command();
-        command.setInstruction("save");
-        command.setKey("testKey");
-        command.setValue("testValue");
-        command.setAllArgs(new String[]{
-                command.getKey(),
-                command.getValue()
-        });
-
-        NodeDataEvent event = new NodeDataEvent("NodeDataEvent");
-        event.setCommand(command);
-        context.publishEvent(event);
-
-        command.setInstruction("fetch");
-        command.setAllArgs(new String[]{
-                command.getKey()
-        });
-        context.publishEvent(event);
     }
 
     // 初始化服务器
@@ -127,9 +107,20 @@ public class App {
                 // 这个方法会被阻塞，当有客户端连接到这个端口，就会放行，然后执行关闭服务器操作
                 closeServer.accept();
                 server.closeGracefully();
+
+                log.info("Lighter 服务器已经关闭！");
             } catch (IOException e) {
                 log.error("关闭服务器监听端口 {} 已被占用！", closeNioServerPort, e);
             }
         }).start();
+    }
+
+    /**
+     * 发布事件
+     *
+     * @param event 要被发布的事件
+     */
+    public void publishEvent(ApplicationEvent event) {
+        context.publishEvent(event);
     }
 }

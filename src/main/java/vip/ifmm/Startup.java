@@ -1,12 +1,11 @@
 package vip.ifmm;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 import vip.ifmm.core.App;
+import vip.ifmm.event.NodeDataEvent;
 import vip.ifmm.helper.ArgsHelper;
-
-import java.net.Socket;
+import vip.ifmm.helper.SpringInitHelper;
+import vip.ifmm.protocol.Command;
 
 /**
  * 程序运行的主类
@@ -18,12 +17,6 @@ import java.net.Socket;
  */
 public class Startup {
 
-    // Spring 框架上下文
-    private static ApplicationContext context = null;
-
-    // 应用程序
-    public static App application = null;
-
     public static void main(String[] args) throws Exception {
 
         // 初始化参数帮助类
@@ -32,26 +25,37 @@ public class Startup {
         // 获取配置文件位置
         String xmlLocation = ArgsHelper.getXmlLocation();
 
-        // 默认从类路径加载 Spring 配置文件
-        initSpring(xmlLocation, xmlLocation.startsWith("classpath:"));
+        // 加载 Spring 配置文件
+        ApplicationContext context = SpringInitHelper.initSpring(xmlLocation);
 
         // 启动应用程序
-        application = context.getBean(App.class);
-        application.startApplication(context, args);
+        App application = context.getBean(App.class);
+        application.setContext(context);
+
+        test(application); // TODO 暂时是测试代码
+        application.startApplication(args);
     }
 
-    /**
-     * 初始化 Spring 容器
-     *
-     * @param xmlLocation   Spring 的 XML 配置文件位置
-     * @param fromClassPath 是否从类路径加载配置文件
-     */
-    private static void initSpring(String xmlLocation, boolean fromClassPath) {
-        if (fromClassPath) {
-            // 从类路径加载配置文件
-            context = new ClassPathXmlApplicationContext(xmlLocation);
-        } else {
-            context = new FileSystemXmlApplicationContext(xmlLocation);
-        }
+    // TODO 暂时是测试代码
+    private static void test(App app) {
+
+        Command command = new Command();
+        command.setInstruction("save");
+        command.setKey("testKey");
+        command.setValue("testValue");
+        command.setAllArgs(new String[]{
+                command.getKey(),
+                command.getValue()
+        });
+
+        NodeDataEvent event = new NodeDataEvent("NodeDataEvent");
+        event.setCommand(command);
+        app.publishEvent(event);
+
+        command.setInstruction("fetch");
+        command.setAllArgs(new String[]{
+                command.getKey()
+        });
+        app.publishEvent(event);
     }
 }
