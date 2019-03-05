@@ -69,9 +69,6 @@ public class NioServer {
 
         ChannelFuture f = server.bind(port).sync();
 
-        // 记录日志
-        log.info("NioServer run on port: " + port);
-
         // 服务器准备好了
         readyWriteLock.lock();
         try {
@@ -80,6 +77,9 @@ public class NioServer {
             // 必须保证写锁一定被释放
             readyWriteLock.unlock();
         }
+
+        // 记录日志
+        log.info("NioServer run on port: " + port);
 
         f.channel().closeFuture().sync();
     }

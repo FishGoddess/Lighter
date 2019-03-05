@@ -20,10 +20,14 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
     // 类加载时就缓存 HTML 页面
     private static final String HTML_OK = "Hello World!";
 
-    // 接收到任何数据都返回首页
+    // 接收到任何数据，并根据请求判断具体指令
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest msg) throws Exception {
-        System.out.println("connected!");
+
+        System.out.println("请求方法：" + msg.method());
+        System.out.println("请求路径：" + msg.uri());
+        System.out.println("请求体：" + msg.content().toString());
+
         FullHttpResponse response = new DefaultFullHttpResponse(
                 HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK,
