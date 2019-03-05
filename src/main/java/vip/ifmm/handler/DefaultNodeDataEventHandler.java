@@ -2,10 +2,12 @@ package vip.ifmm.handler;
 
 import vip.ifmm.core.Node;
 import vip.ifmm.event.NodeDataEvent;
+import vip.ifmm.exception.ArgumentException;
 import vip.ifmm.protocol.Command;
 import vip.ifmm.helper.NodeDataHelper;
 import vip.ifmm.selector.NodeSelector;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -92,8 +94,14 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
             method = mappingHandler.mappingTo(command.getInstruction());
 
             // 调用方法
-            result = (String) NodeDataHelper.invoke(node, method, command);
-            resultHandler.handle(result);
+            try {
+                result = (String) NodeDataHelper.invoke(node, method, command);
+                resultHandler.handle(result);
+            } catch (Exception e) {
+                e = new ArgumentException(command.getInstruction() +
+                        "指令参数不合法！具体信息：" + e.getMessage(), e);
+                resultHandler.handle(e.getMessage());
+            }
         }
     }
 

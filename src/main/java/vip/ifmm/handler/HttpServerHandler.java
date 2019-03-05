@@ -18,7 +18,7 @@ import io.netty.util.CharsetUtil;
 public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     // 类加载时就缓存 HTML 页面
-    private static final String HTML_OK = "Hello World!";
+    private static final String SERVER_OK = "Hello World!";
 
     // 接收到任何数据，并根据请求判断具体指令
     @Override
@@ -31,7 +31,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         FullHttpResponse response = new DefaultFullHttpResponse(
                 HttpVersion.HTTP_1_1,
                 HttpResponseStatus.OK,
-                Unpooled.copiedBuffer(HTML_OK, CharsetUtil.UTF_8)
+                Unpooled.copiedBuffer(SERVER_OK, CharsetUtil.UTF_8)
         );
 
         // 设置响应头
