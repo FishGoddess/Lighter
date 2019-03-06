@@ -1,6 +1,7 @@
 package vip.ifmm.handler;
 
 import vip.ifmm.core.Node;
+import vip.ifmm.core.Result;
 import vip.ifmm.event.NodeDataEvent;
 import vip.ifmm.exception.ArgumentException;
 import vip.ifmm.protocol.Command;
@@ -28,7 +29,7 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
     private NodeSelector<String, String, String> nodeSelector = null;
 
     // 结果处理器
-    private ResultHandler<String> resultHandler = null;
+    private ResultHandler<Result<String>> resultHandler = null;
 
     public void setMappingHandler(MappingHandler mappingHandler) {
         this.mappingHandler = mappingHandler;
@@ -76,12 +77,12 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
         nodeSelector.setNodes(event.getNodes());
 
         // 执行这个指令
-        invokeCommand(event.getCommand());
+        invokeCommand(event.getCommand(), event.getArgs());
         return true;
     }
 
     // 内部会获取所有需要执行指令的节点，然后执行
-    private void invokeCommand(Command command) {
+    private void invokeCommand(Command command, Object[] args) {
 
         // 选择出一些节点
         List<Node<String, String>> selectedNodes = getSelectedNodes(command);
@@ -96,11 +97,11 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
             // 调用方法
             try {
                 result = (String) NodeDataHelper.invoke(node, method, command);
-                resultHandler.handle(result);
+                resultHandler.handle(new Result<>(result, args));
             } catch (Exception e) {
                 e = new ArgumentException(command.getInstruction() +
                         "指令参数不合法！具体信息：" + e.getMessage(), e);
-                resultHandler.handle(e.getMessage());
+                resultHandler.handle(new Result<>(e.getMessage(), args));
             }
         }
     }

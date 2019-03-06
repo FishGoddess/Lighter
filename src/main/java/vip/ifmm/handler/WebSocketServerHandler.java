@@ -6,8 +6,13 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import vip.ifmm.core.App;
+import vip.ifmm.helper.NodeDataHelper;
+import vip.ifmm.protocol.Command;
 import vip.ifmm.protocol.ProtocolParser;
 import vip.ifmm.protocol.ProtocolParserKeeper;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -20,6 +25,9 @@ import vip.ifmm.protocol.ProtocolParserKeeper;
 public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         implements ProtocolParserKeeper {
 
+    // 将所有已连接上来的通道都保存起来
+    private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+
     // 协议解析器
     private ProtocolParser protocolParser = null;
 
@@ -28,35 +36,28 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebS
         this.protocolParser = protocolParser;
     }
 
-    // 将所有已连接上来的通道都保存起来
-    private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    // 应用程序实例
+    private App app = null;
+
+    @Resource
+    public void setApp(App app) {
+        this.app = app;
+    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
 
+        // 解析协议内容
+        Command command = protocolParser.parse(msg.text());
+
+        // 发布收到新指令事件
+        app.publishEvent(NodeDataHelper.getEventFromCommand(command, new Object[] {
+                ctx.channel() // 将这个通道传入事件内部当作额外参数，以方便在结果处理器中返回数据
+        }));
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        cause.printStackTrace();
         ctx.writeAndFlush(cause);
-        ctx.close();
-    }
-
-    @Override
-    public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
-        channels.add(ctx.channel());
-        System.out.println("added ==> " + channels.size());
-    }
-
-    @Override
-    public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-        channels.remove(ctx.channel()); // netty 会自动处理离开的通道，所以这里其实是可以省略的
-        System.out.println("removed ==> " + channels.size());
-    }
-
-    // 向所有连接上来的用户发送消息
-    private static void sendToAll(String line) {
-        channels.writeAndFlush(new TextWebSocketFrame(line));
     }
 }

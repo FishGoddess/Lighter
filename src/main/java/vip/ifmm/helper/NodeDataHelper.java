@@ -40,8 +40,20 @@ public class NodeDataHelper {
      * @return 返回节点数据事件
      */
     public static NodeDataEvent getEventFromCommand(Command command) {
+        return getEventFromCommand(command, null);
+    }
+
+    /**
+     * 从指令对象中获取节点数据事件
+     *
+     * @param command 指令对象
+     * @param args 额外的事件参数
+     * @return 返回节点数据事件
+     */
+    public static NodeDataEvent getEventFromCommand(Command command, Object[] args) {
         NodeDataEvent event = new NodeDataEvent("NodeDataEvent");
         event.setCommand(command);
+        event.setArgs(args);
 
         return event;
     }

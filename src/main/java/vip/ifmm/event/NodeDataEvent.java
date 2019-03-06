@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationEvent;
 import vip.ifmm.protocol.Command;
 import vip.ifmm.core.Node;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -20,6 +21,9 @@ public class NodeDataEvent extends ApplicationEvent {
 
     // 当前事件要执行的指令
     private Command command = null;
+
+    // 额外参数
+    private Object[] args = null;
 
     public NodeDataEvent(Object source) {
         super(source);
@@ -41,10 +45,20 @@ public class NodeDataEvent extends ApplicationEvent {
         this.command = command;
     }
 
+    public Object[] getArgs() {
+        return args;
+    }
+
+    public void setArgs(Object[] args) {
+        this.args = args;
+    }
+
     @Override
     public String toString() {
         return "NodeDataEvent{" +
                 "nodes=" + nodes +
+                ", command=" + command +
+                ", args=" + Arrays.toString(args) +
                 '}';
     }
 }
