@@ -4,6 +4,7 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
+import vip.ifmm.protocol.Command;
 
 /**
  * HTTP 响应帮助类
@@ -12,7 +13,7 @@ import io.netty.util.CharsetUtil;
  * ------> 1149062639@qq.com
  * created by 2019/03/05 20:40:39
  */
-public class HttpProtocolHelper {
+public class ProtocolHelper {
 
     // 支持的请求类型
     public static final String SERVER_SUPPORT_METHOD = "POST";
@@ -80,12 +81,47 @@ public class HttpProtocolHelper {
             // 如果请求体为空，返回错误信息
             String contentString = content.toString();
             if (contentString == null || "".equals(contentString.trim())) {
-                throw new RuntimeException(HttpProtocolHelper.CONTENT_IS_EMPTY);
+                throw new RuntimeException(ProtocolHelper.CONTENT_IS_EMPTY);
             }
         } catch (RuntimeException e) {
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * 检查请求指令
+     *
+     * @param command 请求指令
+     * @return true 请求指令符合协议规范，false 反之不符合
+     */
+    public static boolean checkContent(Command command) {
+        if (command == null) {
+            return false;
+        }
+
+        // 判断里面具体的值是否合法
+        // 这里判断的 value 只要不为 null 即可
+        // 而 key 则不可以为 null 或 "" 或 "   "
+        boolean isFieldBlank = isBlank(command.getKey()) ||
+                command.getValue() == null ||
+                isBlank(command.getInstruction());
+        if (isFieldBlank) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * 判断字符串是否为空
+     * null "" "   " 都视为空
+     *
+     * @param str 要被判断的字符串
+     * @return true 为空字符串，false 否则不为空
+     */
+    public static boolean isBlank(String str) {
+        return str == null || "".equals(str.trim());
     }
 }

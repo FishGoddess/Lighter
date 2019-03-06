@@ -40,9 +40,11 @@
 <h1 class="textCenter">WebSocket 服务器测试</h1>
 <hr style="margin: 0 50px 50px;"/>
 <div id="fromServerText" style="width: 80%;margin: 0 auto"></div>
-<textarea name="fromUser" id="fromUser" cols="30" rows="10"></textarea>
 <div class="textCenter" style="margin: 100px  auto">
-    <a class="btn" onclick="sendMsg('update');">更新并重新部署项目</a>
+    <textarea name="fromUser" id="fromUser" cols="90" rows="10"></textarea>
+</div>
+<div class="textCenter" style="margin: 100px  auto">
+    <a class="btn" onclick="sendMsg();">发送数据</a>
 </div>
 <script>
 
@@ -79,7 +81,7 @@
     function sendMsg(msg) {
         // 发送更新指令
         if (socket !== null && socket.readyState === WebSocket.OPEN) {
-            socket.send(msg);
+            socket.send(document.getElementById("fromUser").value);
             //fromServerText.innerHTML = fromServerText.innerHTML + "<br/>";
         }
     }

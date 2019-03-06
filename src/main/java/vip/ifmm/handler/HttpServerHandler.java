@@ -5,7 +5,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import vip.ifmm.core.App;
-import vip.ifmm.helper.HttpProtocolHelper;
+import vip.ifmm.helper.ProtocolHelper;
 import vip.ifmm.helper.NodeDataHelper;
 import vip.ifmm.protocol.Command;
 import vip.ifmm.protocol.ProtocolParser;
@@ -51,16 +51,16 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 
         HttpMethod method = msg.method();
         // 不支持的请求方法就直接返回
-        if (method == null || !method.name().toUpperCase().equals(HttpProtocolHelper.SERVER_SUPPORT_METHOD)) {
-            ctx.writeAndFlush(HttpProtocolHelper.responseHTML(HttpProtocolHelper.NOT_SUPPORT_METHOD))
+        if (method == null || !method.name().toUpperCase().equals(ProtocolHelper.SERVER_SUPPORT_METHOD)) {
+            ctx.writeAndFlush(ProtocolHelper.responseHTML(ProtocolHelper.NOT_SUPPORT_METHOD))
                     .addListener(ChannelFutureListener.CLOSE);
             return;
         }
 
         // 支持的请求方法
         // 检查请求是否合法
-        if (!HttpProtocolHelper.checkContent(msg.content())) {
-            ctx.writeAndFlush(HttpProtocolHelper.responseHTML(HttpProtocolHelper.CONTENT_IS_EMPTY))
+        if (!ProtocolHelper.checkContent(msg.content())) {
+            ctx.writeAndFlush(ProtocolHelper.responseHTML(ProtocolHelper.CONTENT_IS_EMPTY))
                     .addListener(ChannelFutureListener.CLOSE);
         }
 
@@ -69,17 +69,17 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
             Command command = protocolParser.parse(msg.content().toString());
             app.publishEvent(NodeDataHelper.getEventFromCommand(command));
 
-            ctx.writeAndFlush(HttpProtocolHelper.responseHTML(HttpProtocolHelper.SERVER_SUPPORT_METHOD))
+            ctx.writeAndFlush(ProtocolHelper.responseHTML(ProtocolHelper.SERVER_SUPPORT_METHOD))
                     .addListener(ChannelFutureListener.CLOSE);
         } catch (Exception e) {
-            ctx.writeAndFlush(HttpProtocolHelper.responseHTML(HttpProtocolHelper.CONTENT_IS_EMPTY))
+            ctx.writeAndFlush(ProtocolHelper.responseHTML(ProtocolHelper.CONTENT_IS_EMPTY))
                     .addListener(ChannelFutureListener.CLOSE);
         }
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        ctx.writeAndFlush(HttpProtocolHelper.PROTOCOL_PARSE_ERROR)
+        ctx.writeAndFlush(ProtocolHelper.PROTOCOL_PARSE_ERROR)
                 .addListener(ChannelFutureListener.CLOSE);
         //ctx.close();
     }

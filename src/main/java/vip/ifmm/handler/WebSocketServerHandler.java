@@ -3,11 +3,9 @@ package vip.ifmm.handler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.netty.util.concurrent.GlobalEventExecutor;
 import vip.ifmm.core.App;
+import vip.ifmm.helper.ProtocolHelper;
 import vip.ifmm.helper.NodeDataHelper;
 import vip.ifmm.protocol.Command;
 import vip.ifmm.protocol.ProtocolParser;
@@ -26,9 +24,6 @@ import javax.annotation.Resource;
 @ChannelHandler.Sharable
 public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
         implements ProtocolParserKeeper {
-
-    // 将所有已连接上来的通道都保存起来
-    private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     // 协议解析器
     private ProtocolParser protocolParser = null;
@@ -49,13 +44,24 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebS
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
 
-        // 解析协议内容
-        Command command = protocolParser.parse(msg.text());
+        System.out.println(msg.text());
 
-        // 发布收到新指令事件
-        app.publishEvent(NodeDataHelper.getEventFromCommand(command, new Object[] {
-                ctx.channel() // 将这个通道传入事件内部当作额外参数，以方便在结果处理器中返回数据
-        }));
+        // 解析协议内容，得到对应的指令对象
+        try {
+            Command command = protocolParser.parse(msg.text());
+
+            // 检查请求是否合法
+            if (!ProtocolHelper.checkContent(command)) {
+                ctx.writeAndFlush(new TextWebSocketFrame(ProtocolHelper.PROTOCOL_PARSE_ERROR));
+            }
+
+            // 发布收到新指令事件
+            app.publishEvent(NodeDataHelper.getEventFromCommand(command, new Object[]{
+                    ctx.channel() // 将这个通道传入事件内部当作额外参数，以方便在结果处理器中返回数据
+            }));
+        } catch (Exception e) {
+            ctx.writeAndFlush(new TextWebSocketFrame(ProtocolHelper.PROTOCOL_PARSE_ERROR));
+        }
     }
 
     @Override
