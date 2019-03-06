@@ -17,7 +17,7 @@ public class WebSocketResultHandler implements ResultHandler<Result<String>> {
 
         // 解析出这次传输的通道，第一个参数即为通道
         Object[] args = result.getArgs();
-        if (args.length > 0 && args[0] != null) {
+        if (args != null && args.length > 0 && args[0] != null) {
             ChannelOutboundInvoker channel = (ChannelOutboundInvoker)args[0];
             channel.writeAndFlush(result.getResult());
             return true;

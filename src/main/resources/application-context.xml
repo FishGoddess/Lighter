@@ -33,7 +33,7 @@
     <!-- Nio 服务器 -->
     <bean id="nioServer" class="${nioServerInitializer}">
         <property name="channelHandler">
-            <bean class="${nioServerHandler}">
+            <bean class="${nioServerHandler}" scope="prototype">
                 <property name="protocolParser" ref="protocolParser"/>
             </bean>
         </property>

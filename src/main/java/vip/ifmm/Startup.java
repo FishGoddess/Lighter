@@ -32,7 +32,7 @@ public class Startup {
         App application = context.getBean(App.class);
         application.setContext(context);
 
-        test(application); // TODO 暂时是测试代码
+        //test(application); // TODO 暂时是测试代码
         application.startApplication(args);
     }
 
