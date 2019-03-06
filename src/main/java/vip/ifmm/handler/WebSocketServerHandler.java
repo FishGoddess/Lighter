@@ -6,6 +6,8 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.util.concurrent.GlobalEventExecutor;
+import vip.ifmm.protocol.ProtocolParser;
+import vip.ifmm.protocol.ProtocolParserKeeper;
 
 
 /**
@@ -15,7 +17,16 @@ import io.netty.util.concurrent.GlobalEventExecutor;
  * ------> 1149062639@qq.com
  * created by 2019/1/8 13:29:27
  */
-public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebSocketFrame>
+        implements ProtocolParserKeeper {
+
+    // 协议解析器
+    private ProtocolParser protocolParser = null;
+
+    @Override
+    public void setProtocolParser(ProtocolParser protocolParser) {
+        this.protocolParser = protocolParser;
+    }
 
     // 将所有已连接上来的通道都保存起来
     private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);

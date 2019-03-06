@@ -1,28 +1,33 @@
 package vip.ifmm.handler;
 
-import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import vip.ifmm.core.App;
 import vip.ifmm.helper.HttpProtocolHelper;
 import vip.ifmm.helper.NodeDataHelper;
 import vip.ifmm.protocol.Command;
 import vip.ifmm.protocol.ProtocolParser;
+import vip.ifmm.protocol.ProtocolParserKeeper;
 
 import javax.annotation.Resource;
 
 
 /**
  * HTTP 服务器处理器
+ * 这个实现的不好，由于使用了观察者模式，所以没办法在发布事件时立刻返回数据
+ * 而 HTTP 不能由服务器发送数据，所以这里遇到了一个问题
+ *
+ * TODO 等找到解决办法再完成这个处理器
  *
  * @author Fish
  * ------> 1149062639@qq.com
  * created by 2019/1/8 21:35:30
  */
-public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
+@Deprecated
+public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest>
+        implements ProtocolParserKeeper {
 
     // 协议解析器
     private ProtocolParser protocolParser = null;
@@ -30,6 +35,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
     // 应用程序
     private App app = null;
 
+    @Override
     public void setProtocolParser(ProtocolParser protocolParser) {
         this.protocolParser = protocolParser;
     }
@@ -62,6 +68,9 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         try {
             Command command = protocolParser.parse(msg.content().toString());
             app.publishEvent(NodeDataHelper.getEventFromCommand(command));
+
+            ctx.writeAndFlush(HttpProtocolHelper.responseHTML(HttpProtocolHelper.SERVER_SUPPORT_METHOD))
+                    .addListener(ChannelFutureListener.CLOSE);
         } catch (Exception e) {
             ctx.writeAndFlush(HttpProtocolHelper.responseHTML(HttpProtocolHelper.CONTENT_IS_EMPTY))
                     .addListener(ChannelFutureListener.CLOSE);

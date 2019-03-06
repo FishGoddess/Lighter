@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSON;
  * ------> 1149062639@qq.com
  * created by 2019/03/05 23:11:56
  */
-public class HttpProtocolParser implements ProtocolParser {
+public class JsonProtocolParser implements ProtocolParser {
 
     @Override
     public Command parse(String content) {
