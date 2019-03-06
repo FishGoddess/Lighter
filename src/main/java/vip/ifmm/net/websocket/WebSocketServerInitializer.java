@@ -33,7 +33,7 @@ public class WebSocketServerInitializer extends ChannelInitializer<SocketChannel
         ch.pipeline().addLast(new HttpServerCodec())
                 .addLast(new ChunkedWriteHandler()) // 解决大码流的问题
                 .addLast(new HttpObjectAggregator(16 * 1024 * 1024)) // 聚合 http 请求
-                .addLast(new WebSocketServerProtocolHandler("/EAD_ws"))
+                .addLast(new WebSocketServerProtocolHandler("/lighter"))
                 .addLast(channelHandler);
     }
 }

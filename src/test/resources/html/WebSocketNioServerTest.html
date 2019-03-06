@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket 服务器测试网页</title>
+    <style>
+        h1 {
+            margin-top: 50px;
+        }
+
+        .textCenter {
+            text-align: center;
+        }
+
+        .btn {
+            text-decoration: none;
+            display: inline-block;
+            width: 220px;
+            height: 50px;
+            color: #000000;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 2px;
+            line-height: 50px;
+            border: 2px solid #000000;
+            transition: 100ms;
+            margin: 0 10px;
+            cursor: pointer;
+            background-color: transparent;
+            outline: none;
+            user-select: none;
+        }
+
+        .btn:hover {
+            border-radius: 16px;
+        }
+    </style>
+</head>
+<body>
+<h1 class="textCenter">WebSocket 服务器测试</h1>
+<hr style="margin: 0 50px 50px;"/>
+<div id="fromServerText" style="width: 80%;margin: 0 auto"></div>
+<div class="textCenter" style="margin: 100px  auto">
+    <a class="btn" onclick="sendMsg('init');">第一次下载部署项目</a>
+    <a class="btn" onclick="sendMsg('update');">更新并重新部署项目</a>
+</div>
+<script>
+
+    const fromServerText = document.getElementById("fromServerText");
+    let socket = null;
+    if (window.WebSocket) {
+        // 支持 WebSocket
+        socket = new WebSocket("ws://" + location.hostname + ":8888/lighter");
+
+        // 当有消息来了
+        socket.onmessage = (event) => {
+            fromServerText.innerHTML = fromServerText.innerHTML + "<h3>" + event.data + "</h3>";
+            scrollTo(0, document.body.offsetHeight); // 自动滚动页面以显示最新消息
+        };
+
+        socket.onopen = (event) => {
+            fromServerText.innerHTML = "<h3 class='textCenter'>连接 WebSocket 服务器成功！</h3>";
+        };
+
+        socket.onclose = (event) => {
+            fromServerText.innerHTML = fromServerText.innerHTML + "<h3 class='textCenter'>WebSocket 服务器连接已经关闭！</h3>";
+        };
+
+        socket.onerror = (event) => {
+            console.log(event);
+            fromServerText.innerHTML = "<h3 class='textCenter'>WebSocket 服务器发生错误！</h3>";
+        };
+
+    } else {
+        fromServerText.innerHTML = "<h3 class='textCenter'>浏览器不支持 WebSocket！</h3>";
+    }
+
+    // 为按键绑定事件
+    function sendMsg(msg) {
+        // 发送更新指令
+        if (socket !== null && socket.readyState === WebSocket.OPEN) {
+            socket.send(msg);
+            //fromServerText.innerHTML = fromServerText.innerHTML + "<br/>";
+        }
+    }
+</script>
+</body>
+</html>
