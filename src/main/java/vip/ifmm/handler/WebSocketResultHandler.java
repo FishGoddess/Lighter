@@ -19,7 +19,15 @@ public class WebSocketResultHandler implements ResultHandler<Result<String>> {
         Object[] args = result.getArgs();
         if (args != null && args.length > 0 && args[0] != null) {
             ChannelOutboundInvoker channel = (ChannelOutboundInvoker)args[0];
-            channel.writeAndFlush(result.getResult());
+
+            String resp = result.getResult();
+            if (resp == null) {
+                resp = "OK";
+            }
+
+            System.out.println(resp);
+
+            channel.writeAndFlush(resp);
             return true;
         }
 

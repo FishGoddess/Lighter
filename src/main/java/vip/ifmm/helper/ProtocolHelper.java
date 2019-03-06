@@ -106,7 +106,9 @@ public class ProtocolHelper {
         // 而 key 则不可以为 null 或 "" 或 "   "
         boolean isFieldBlank = isBlank(command.getKey()) ||
                 command.getValue() == null ||
-                isBlank(command.getInstruction());
+                isBlank(command.getInstruction()) ||
+                command.getAllArgs() == null ||
+                command.getAllArgs().length == 0;
         if (isFieldBlank) {
             return false;
         }
