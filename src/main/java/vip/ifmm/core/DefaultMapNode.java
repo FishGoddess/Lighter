@@ -26,7 +26,8 @@ public class DefaultMapNode<K, V> implements Node<K, V> {
     @Override
     @MethodMapping(instruction = "saveExpire")
     public V save(K key, V value, int expire) {
-        return node.put(key, value);
+        node.put(key, value);
+        return value;
     }
 
     @Override

@@ -12,7 +12,8 @@ import java.util.List;
  * ------> 1149062639@qq.com
  * created by 2019/03/03 22:55:25
  */
-public class ValueHashNodeSelector implements NodeSelector<String, String, String> {
+@Deprecated
+public class ValueHashNodeSelector implements NodeSelector<String, String> {
 
     // 所有节点
     private List<Node<String, String>> nodes = null;
@@ -23,15 +24,15 @@ public class ValueHashNodeSelector implements NodeSelector<String, String, Strin
     }
 
     @Override
-    public int[] getSelectedNodeIndexes(String instruction, String key, String value, String... args) {
+    public int[] getSelectedNodeIndexes(String instruction, Object[] args) {
         return new int[] {
-                HashHelper.stringSimpleHash(value, nodes.size())
+                HashHelper.stringSimpleHash((String) args[1], nodes.size())
         };
     }
 
     @Override
-    public List<Node<String, String>> getSelectedNodes(String instruction, String key, String value, String... args) {
-        int selectedIndex = getSelectedNodeIndexes(instruction, key, value, args)[0];
+    public List<Node<String, String>> getSelectedNodes(String instruction, Object[] args) {
+        int selectedIndex = getSelectedNodeIndexes(instruction, args)[0];
         return nodes.subList(selectedIndex, selectedIndex + 1);
     }
 }

@@ -45,6 +45,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebS
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
 
         System.out.println(msg.text());
+        ctx.channel().write(msg.text());
 
         // 解析协议内容，得到对应的指令对象
         try {

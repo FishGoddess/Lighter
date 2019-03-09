@@ -41,11 +41,9 @@ public class Startup {
 
         Command command = new Command();
         command.setInstruction("save");
-        command.setKey("testKey");
-        command.setValue("testValue");
         command.setAllArgs(new String[]{
-                command.getKey(),
-                command.getValue()
+                "testKey",
+                "testValue"
         });
 
         NodeDataEvent event = new NodeDataEvent("NodeDataEvent");
@@ -54,7 +52,7 @@ public class Startup {
 
         command.setInstruction("fetch");
         command.setAllArgs(new String[]{
-                command.getKey()
+                "testKey"
         });
         app.publishEvent(event);
     }

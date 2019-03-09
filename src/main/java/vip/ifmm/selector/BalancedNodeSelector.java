@@ -14,7 +14,7 @@ import java.util.List;
  * ------> 1149062639@qq.com
  * created by 2019/03/03 22:20:02
  */
-public class BalancedNodeSelector implements NodeSelector<String, String, String> {
+public class BalancedNodeSelector implements NodeSelector<String, String> {
 
     // 所有节点
     private List<Node<String, String>> nodes = null;
@@ -25,7 +25,7 @@ public class BalancedNodeSelector implements NodeSelector<String, String, String
     }
 
     @Override
-    public int[] getSelectedNodeIndexes(String instruction, String key, String value, String... args) {
+    public int[] getSelectedNodeIndexes(String instruction, Object[] args) {
 
         // 所有节点都要写入数据，以达到负载均衡的效果
         int numberOfNodes = nodes.size();
@@ -38,7 +38,7 @@ public class BalancedNodeSelector implements NodeSelector<String, String, String
     }
 
     @Override
-    public List<Node<String, String>> getSelectedNodes(String instruction, String key, String value, String... args) {
+    public List<Node<String, String>> getSelectedNodes(String instruction, Object[] args) {
         return nodes;
     }
 }

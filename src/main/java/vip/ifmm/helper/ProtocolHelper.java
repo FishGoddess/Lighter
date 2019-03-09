@@ -104,11 +104,7 @@ public class ProtocolHelper {
         // 判断里面具体的值是否合法
         // 这里判断的 value 只要不为 null 即可
         // 而 key 则不可以为 null 或 "" 或 "   "
-        boolean isFieldBlank = isBlank(command.getKey()) ||
-                command.getValue() == null ||
-                isBlank(command.getInstruction()) ||
-                command.getAllArgs() == null ||
-                command.getAllArgs().length == 0;
+        boolean isFieldBlank = isBlank(command.getInstruction());
         if (isFieldBlank) {
             return false;
         }

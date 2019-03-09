@@ -12,7 +12,7 @@ import java.util.List;
  * ------> 1149062639@qq.com
  * created by 2019/03/03 22:08:47
  */
-public interface NodeSelector<K, V, T> {
+public interface NodeSelector<K, V> {
 
     /**
      * 注入节点数据库
@@ -27,22 +27,18 @@ public interface NodeSelector<K, V, T> {
      * 如果不止一个，就返回多个索引
      *
      * @param instruction 协议传过来的指令
-     * @param key 数据的 key 值
-     * @param value 数据的 value 值
      * @param args 额外的参数
      * @return 返回选择的节点索引数组
      */
-    int[] getSelectedNodeIndexes(String instruction, K key, V value, T... args);
+    int[] getSelectedNodeIndexes(String instruction, Object[] args);
 
     /**
      * 根据情况获取节点
      * 如果不止一个，就返回多个索引
      *
      * @param instruction 协议传过来的指令
-     * @param key         数据的 key 值
-     * @param value       数据的 value 值
      * @param args        额外的参数
      * @return 返回选择的节点数组
      */
-    List<Node<K, V>> getSelectedNodes(String instruction, K key, V value, T... args);
+    List<Node<K, V>> getSelectedNodes(String instruction, Object[] args);
 }

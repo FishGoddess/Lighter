@@ -22,11 +22,10 @@ public class WebSocketResultHandler implements ResultHandler<Result<String>> {
 
             String resp = result.getResult();
             if (resp == null) {
-                resp = "OK";
+                resp = "result is null";
             }
 
             System.out.println(resp);
-
             channel.writeAndFlush(resp);
             return true;
         }

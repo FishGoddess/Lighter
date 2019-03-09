@@ -8,8 +8,10 @@ import vip.ifmm.protocol.Command;
 import vip.ifmm.helper.NodeDataHelper;
 import vip.ifmm.selector.NodeSelector;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -26,7 +28,7 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
     private MappingHandler mappingHandler = null;
 
     // 节点选择器
-    private NodeSelector<String, String, String> nodeSelector = null;
+    private NodeSelector<String, String> nodeSelector = null;
 
     // 结果处理器
     private ResultHandler<Result<String>> resultHandler = null;
@@ -96,7 +98,14 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
 
             // 调用方法
             try {
-                result = (String) NodeDataHelper.invoke(node, method, command);
+                Object resultObj = NodeDataHelper.invoke(node, method, command);
+
+                // 数组的话输出方式不一样
+                if (resultObj.getClass().isArray()) {
+                    result = Arrays.toString((Object[]) resultObj);
+                } else {
+                    result = String.valueOf(resultObj);
+                }
                 resultHandler.handle(new Result<>(result, args));
             } catch (Exception e) {
                 e = new ArgumentException(command.getInstruction() +
@@ -108,6 +117,6 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
 
     // 由节点选择器来选择出一些节点
     private List<Node<String, String>> getSelectedNodes(Command command) {
-        return nodeSelector.getSelectedNodes(command.getInstruction(), command.getKey(), command.getValue());
+        return nodeSelector.getSelectedNodes(command.getInstruction(), command.getAllArgs());
     }
 }
