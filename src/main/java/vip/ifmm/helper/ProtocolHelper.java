@@ -24,7 +24,11 @@ public class ProtocolHelper {
     // 请求体为空的返回信息
     public static final String CONTENT_IS_EMPTY = "{'response':'You must write a content!'";
 
+    // 协议解析异常
     public static final String PROTOCOL_PARSE_ERROR = "{'response':'Protocol parses error!'}";
+
+    // 指令执行异常
+    public static final String INVOKE_ERROR = "{'response':'Invoke eror!'}";
 
     /**
      * 返回响应信息给前台

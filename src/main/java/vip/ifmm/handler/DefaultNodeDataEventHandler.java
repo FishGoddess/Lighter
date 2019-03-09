@@ -107,6 +107,10 @@ public class DefaultNodeDataEventHandler implements EventHandler<NodeDataEvent> 
                     result = String.valueOf(resultObj);
                 }
                 resultHandler.handle(new Result<>(result, args));
+            }catch (NullPointerException e) {
+
+                // 当获取的结果为 null 时，会爆出这个异常
+                resultHandler.handle(new Result<>(result, args));
             } catch (Exception e) {
                 e = new ArgumentException(command.getInstruction() +
                         "指令参数不合法！具体信息：" + e.getMessage(), e);

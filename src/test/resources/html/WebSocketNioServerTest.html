@@ -56,7 +56,8 @@
 
         // 当有消息来了
         socket.onmessage = (event) => {
-            fromServerText.innerHTML = fromServerText.innerHTML + "<h3>" + event.data + "</h3>";
+            console.log(event);
+            fromServerText.innerHTML = fromServerText.innerHTML + "<h3 class='textCenter'>" + event.data + "</h3>";
             scrollTo(0, document.body.offsetHeight); // 自动滚动页面以显示最新消息
         };
 

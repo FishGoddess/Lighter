@@ -1,6 +1,7 @@
 package vip.ifmm.handler;
 
-import io.netty.channel.ChannelOutboundInvoker;
+import io.netty.channel.Channel;
+import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import vip.ifmm.core.Result;
 
 /**
@@ -18,15 +19,15 @@ public class WebSocketResultHandler implements ResultHandler<Result<String>> {
         // 解析出这次传输的通道，第一个参数即为通道
         Object[] args = result.getArgs();
         if (args != null && args.length > 0 && args[0] != null) {
-            ChannelOutboundInvoker channel = (ChannelOutboundInvoker)args[0];
+            Channel ch = (Channel) args[0];
 
             String resp = result.getResult();
             if (resp == null) {
                 resp = "result is null";
             }
 
-            System.out.println(resp);
-            channel.writeAndFlush(resp);
+            // 返回数据
+            ch.writeAndFlush(new TextWebSocketFrame(resp));
             return true;
         }
 

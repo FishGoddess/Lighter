@@ -3,7 +3,10 @@ package vip.ifmm.handler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.util.concurrent.GlobalEventExecutor;
 import vip.ifmm.core.App;
 import vip.ifmm.helper.ProtocolHelper;
 import vip.ifmm.helper.NodeDataHelper;
@@ -44,9 +47,6 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebS
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
 
-        System.out.println(msg.text());
-        ctx.channel().write(msg.text());
-
         // 解析协议内容，得到对应的指令对象
         try {
             Command command = protocolParser.parse(msg.text());
@@ -54,14 +54,15 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<TextWebS
             // 检查请求是否合法
             if (!ProtocolHelper.checkContent(command)) {
                 ctx.writeAndFlush(new TextWebSocketFrame(ProtocolHelper.PROTOCOL_PARSE_ERROR));
+                return;
             }
 
             // 发布收到新指令事件
             app.publishEvent(NodeDataHelper.getEventFromCommand(command, new Object[]{
-                    ctx.channel() // 将这个通道传入事件内部当作额外参数，以方便在结果处理器中返回数据
+                    ctx.channel(), // 将这个通道传入事件内部当作额外参数，以方便在结果处理器中返回数据
             }));
         } catch (Exception e) {
-            ctx.writeAndFlush(new TextWebSocketFrame(ProtocolHelper.PROTOCOL_PARSE_ERROR));
+            ctx.writeAndFlush(new TextWebSocketFrame(ProtocolHelper.INVOKE_ERROR));
         }
     }
 
