@@ -27,6 +27,9 @@ public class WebSocketResultHandler implements ResultHandler<Result<String>> {
             }
 
             // 返回数据
+            // 注意这边的 TextWebSocketFrame，必须发送这个信息，否则会报异常！！
+            // 第一次写这个类的时候漏了写这个，消息一直发送不回去，
+            // 然后调试了两天，最后发现居然是这里爆出了不支持信息类型的异常
             ch.writeAndFlush(new TextWebSocketFrame(resp));
             return true;
         }
