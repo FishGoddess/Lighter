@@ -24,7 +24,7 @@
     <context:component-scan base-package="vip.ifmm"/>
 
     <!-- App 应用启动入口 -->
-    <bean id="app" class="cn.com.fishin.core.App">
+    <bean id="app" class="cn.com.fishin.lighter.core.App">
         <property name="channelHandler" ref="nioServer"/>
         <property name="nioServerPort" value="${nioServerPort}"/>
         <property name="closeNioServerPort" value="${closeNioServerPort}"/>

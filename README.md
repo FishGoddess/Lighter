@@ -42,48 +42,48 @@
 #                                          2019-3-3   水不要鱼
 #############################################################
 
-cn.com.fishin.core
+cn.com.fishin.lighter.core
 #cn.com.fishin.corea.util.concurrent.ConcurrentHashMap
 # 你还可以自己定制一个真实存储在 redis 服务器上的 Map 实现类，从而实现 redis 负载均衡
 # 或者是让一台机器专门做分发器，将多个分发器分出多个 Lighter 服务器
 nodeClassName=vip.ifmm.core.DefaultMacn.com.fishin.core.fishin.core
 # 它实现了 Spring 的 Applicn.com.fishin.corer 接口，因此它可以接收到事件发生
-cn.com.fishin.core
+cn.com.fishin.lighter.core
 # 具体配置在 classpath:/application-context.xmcn.com.fishin.coreer=vip.ifmm.core.DefaultNodeManager
 
 # 节点数据事件处理器，专门用来处理节点数据事件的处理器
 # 实现 vip.ifmm.hancn.com.fishin.coredler 即可注册为事件处理器
 # 当发生事件时，这个处理器中的处理方法将会被调用
-nodeDataEventHandler=cn.com.fishin.handler.DefaultNodeDataEventHandler
+nodeDataEventHandler=cn.com.fishin.lighter.handler.DefaultNodeDataEventHandler
 
 # 节点选择器，这个处理器决定了如何根据指令来选择一个节点甚至是一些节点
 cn.com.fiscn.com.fishin.selector.NodeSelector节点选择的规则，比如可以配置一个 Lighter 或者是 redis 的负载均衡集群
-cn.com.fishin.selector.Bacn.com.fishin.selector.BalancedNodeSelector就意味着数据可能会重复存储多份，也实现了负载均衡的效果，
-cn.com.fishin.core
+cn.com.fishin.lighter.selector.Bacn.com.fishin.selector.BalancedNodeSelector就意味着数据可能会重复存储多份，也实现了负载均衡的效果，
+cn.com.fishin.lighter.core
 # 就会导致一台服务器上的内存被重复浪费，并且这个节点的集群并没有任何意义，因此，
 # 在 nodeSelector 配置为 vip.ifmm.selector.Bacn.com.fishin.coreector 的情况下，
-cn.com.fishin.core
+cn.com.fishin.lighter.core
 nodeSelector=vip.ifmm.selector.KeyHashNodeSelector
 
 # 指令调用结果处理器
 cn.com.fiscn.com.fishin.handler要的一步就cn.com.fishin.coren-context.xml 中将这个处理器注入到你的节点数据事件处理器中
 resultHandler=vip.ifmm.handler.WebSocketResucn.com.fishin.handler令和方法映射处理器
 cn.com.fishin.annotaticn.com.fishin.annotation 属性值来匹配相应的方法名，使用反射技术去执行对应的方法
-cn.com.fishin.handler
+cn.com.fishin.lighter.handler
 # 你甚至可以结合数据库或者是网络来cn.com.fishin.handler此来达到更复杂的业务需求
 mappingHandler=vip.ifmm.handler.DefaultMappingHandler
 
-cn.com.fishin.selector.BalancedNodeSelector
+cn.com.fishin.lighter.selector.BalancedNodeSelector
 # 那每一个节点都将收到相应的指令，也就意味着数据可能会重复存储多cn.com.fishin.selector.BalancedNodeSelector导致一台服务器上的内存被重复浪费，并且这个节点的集群并没有任何意义，因此，
-cn.com.fishin.selector.BalancedNodeSelector
-cn.com.fishin.core
+cn.com.fishin.lighter.selector.BalancedNodeSelector
+cn.com.fishin.lighter.core
 numberOfNodes=16
 
 # Nio 服cn.comcn.com.fishin.selector.BalancedNodeSelector废) / WebSocket / Light 三种对外公开 API 接口，
 # 其中，Light 是自己实现的协议接口，没有 HTTP 协议的冗余信息，
 # 直接使用 Netty 来做 NIO 的网络通信，类似于 RPC 远程调用，
 # 实现客户端只需简单的网cn.com.fishin.corecket 效率更高
-nioServerInitializer=cn.com.fishin.net.websocket.WebSocketServerInitializer
+nioServerInitializer=cn.com.fishin.lighter.net.websocket.WebSocketServerInitializer
 nioServerHandler=vip.ifmm.handler.WebSocketServerHandler
 
 # 上面那个 Nio 服务器占用的端口
@@ -95,7 +95,7 @@ closeNioServerPort=9999
 # 协议解析器，目前存在两种，分别是 Json 协议和 Light 协议，
 # 你可以改写这个协议解析器，从而实现自己的协议，
 # 推荐使用 Light 网络协议，更节省流量，而且更方便编写客户端
-protocolParser=cn.com.fishin.protocol.JsonProtocolParser
+protocolParser=cn.com.fishin.lighter.protocol.JsonProtocolParser
 ```
 
 ### 主要接口如下：
@@ -112,7 +112,7 @@ protocolParser=cn.com.fishin.protocol.JsonProtocolParser
 
 (6) vip.ifmm.cn.com.fiscn.com.fishin.handlerzer 服务器初始cn.com.fishin.core.ifmm.protocol.ProtocolParser 协议解析器
 
-(8) cn.com.fishin.protocol.ProtocolParserKeeper 协议解析器拥有者
+(8) cn.com.fishin.lighter.protocol.ProtocolParserKeeper 协议解析器拥有者
 
 (9) vip.ifmm.selectorcn.com.fishin.selector.NodeSelector分为解析和执行两步
 
