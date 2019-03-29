@@ -21,7 +21,7 @@
     <context:property-placeholder location="properties/config.properties"/>
 
     <!-- 扫描包 -->
-    <context:component-scan base-package="vip.ifmm"/>
+    <context:component-scan base-package="cn.com.fishin.lighter"/>
 
     <!-- App 应用启动入口 -->
     <bean id="app" class="cn.com.fishin.lighter.core.App">
