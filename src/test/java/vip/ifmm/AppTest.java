@@ -3,9 +3,7 @@ package vip.ifmm;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import vip.ifmm.helper.HashHelper;
-
-import java.util.UUID;
+import cn.com.fishin.helper.HashHelper;
 
 /**
  * Unit test for simple App.
