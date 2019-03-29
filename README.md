@@ -42,52 +42,67 @@
 #                                          2019-3-3   水不要鱼
 #############################################################
 
-cn.com.fishin.lighter.core
-#cn.com.fishin.corea.util.concurrent.ConcurrentHashMap
+# 节点使用的接口实现类，该类必须实现 cn.com.fishin.lighter.core.Node 接口
+# 默认内部存储使用 java.util.concurrent.ConcurrentHashMap
 # 你还可以自己定制一个真实存储在 redis 服务器上的 Map 实现类，从而实现 redis 负载均衡
 # 或者是让一台机器专门做分发器，将多个分发器分出多个 Lighter 服务器
-nodeClassName=vip.ifmm.core.DefaultMacn.com.fishin.core.fishin.core
-# 它实现了 Spring 的 Applicn.com.fishin.corer 接口，因此它可以接收到事件发生
-cn.com.fishin.lighter.core
-# 具体配置在 classpath:/application-context.xmcn.com.fishin.coreer=vip.ifmm.core.DefaultNodeManager
+nodeClassName=cn.com.fishin.lighter.core.DefaultMapNode
+
+# 节点管理器，该管理器必须实现 cn.com.fishin.lighter.core.NodeManageable 接口
+# 它实现了 Spring 的 ApplicationListener 接口，因此它可以接收到事件发生
+# 可以参考 cn.com.fishin.lighter.core.DefaultNodeManager 的默认实现
+# 具体配置在 classpath:/application-context.xml 中
+nodeManager=cn.com.fishin.lighter.core.DefaultNodeManager
 
 # 节点数据事件处理器，专门用来处理节点数据事件的处理器
-# 实现 vip.ifmm.hancn.com.fishin.coredler 即可注册为事件处理器
+# 实现 cn.com.fishin.lighter.handler.EventHandler 即可注册为事件处理器
 # 当发生事件时，这个处理器中的处理方法将会被调用
 nodeDataEventHandler=cn.com.fishin.lighter.handler.DefaultNodeDataEventHandler
 
 # 节点选择器，这个处理器决定了如何根据指令来选择一个节点甚至是一些节点
-cn.com.fiscn.com.fishin.selector.NodeSelector节点选择的规则，比如可以配置一个 Lighter 或者是 redis 的负载均衡集群
-cn.com.fishin.lighter.selector.Bacn.com.fishin.selector.BalancedNodeSelector就意味着数据可能会重复存储多份，也实现了负载均衡的效果，
-cn.com.fishin.lighter.core
+# 你可以自己实现 cn.com.fishin.lighter.selector.NodeSelector 接口，然后配置在这里，
+# 定制节点选择的规则，比如可以配置一个 Lighter 或者是 redis 的负载均衡集群
+# 注意：如果 nodeSelector 配置为 cn.com.fishin.lighter.selector.BalancedNodeSelector，
+# 那每一个节点都将收到相应的指令，也就意味着数据可能会重复存储多份，也实现了负载均衡的效果，
+# 但是，如果此时节点实现类仍然使用内置的 cn.com.fishin.lighter.core.DefaultMapNode 节点实现类，
 # 就会导致一台服务器上的内存被重复浪费，并且这个节点的集群并没有任何意义，因此，
-# 在 nodeSelector 配置为 vip.ifmm.selector.Bacn.com.fishin.coreector 的情况下，
-cn.com.fishin.lighter.core
-nodeSelector=vip.ifmm.selector.KeyHashNodeSelector
+# 在 nodeSelector 配置为 cn.com.fishin.lighter.selector.BalancedNodeSelector 的情况下，
+# 强烈建议你去重写一个节点的实现类！只需要实现 cn.com.fishin.lighter.core.Node 接口即可
+nodeSelector=cn.com.fishin.lighter.selector.KeyHashNodeSelector
 
 # 指令调用结果处理器
-cn.com.fiscn.com.fishin.handler要的一步就cn.com.fishin.coren-context.xml 中将这个处理器注入到你的节点数据事件处理器中
-resultHandler=vip.ifmm.handler.WebSocketResucn.com.fishin.handler令和方法映射处理器
-cn.com.fishin.annotaticn.com.fishin.annotation 属性值来匹配相应的方法名，使用反射技术去执行对应的方法
-cn.com.fishin.lighter.handler
-# 你甚至可以结合数据库或者是网络来cn.com.fishin.handler此来达到更复杂的业务需求
-mappingHandler=vip.ifmm.handler.DefaultMappingHandler
+# 你可以自己实现 cn.com.fishin.lighter.handler.ResultHandler 接口注册为结果处理器
+# 最重要的一步就是在 application-context.xml 中将这个处理器注入到你的节点数据事件处理器中
+resultHandler=cn.com.fishin.lighter.handler.WebSocketResultHandler
 
-cn.com.fishin.lighter.selector.BalancedNodeSelector
-# 那每一个节点都将收到相应的指令，也就意味着数据可能会重复存储多cn.com.fishin.selector.BalancedNodeSelector导致一台服务器上的内存被重复浪费，并且这个节点的集群并没有任何意义，因此，
-cn.com.fishin.lighter.selector.BalancedNodeSelector
-cn.com.fishin.lighter.core
+# 协议指令和方法映射处理器
+# 默认的映射处理器是根据节点实现类上的 @cn.com.fishin.lighter.annotation.MethodMapping 注解
+# 中的 instruction 属性值来匹配相应的方法名，使用反射技术去执行对应的方法
+# 你可以自己实现 cn.com.fishin.lighter.handler.MappingHandler 接口，然后重写自己的映射规则
+# 你甚至可以结合数据库或者是网络来定制一个动态变化的映射处理器，以此来达到更复杂的业务需求
+mappingHandler=cn.com.fishin.lighter.handler.DefaultMappingHandler
+
+# 初始化 Node 节点的个数，默认是 16 个
+# 注意：如果 nodeSelector 配置为 cn.com.fishin.lighter.selector.BalancedNodeSelector，
+# 那每一个节点都将收到相应的指令，也就意味着数据可能会重复存储多份，也实现了负载均衡的效果，
+# 但是，如果此时节点实现类仍然使用内置的 cn.com.fishin.lighter.core.DefaultMapNode 节点实现类，
+# 就会导致一台服务器上的内存被重复浪费，并且这个节点的集群并没有任何意义，因此，
+# 在 nodeSelector 配置为 cn.com.fishin.lighter.selector.BalancedNodeSelector 的情况下，
+# 强烈建议你去重写一个节点的实现类！只需要实现 cn.com.fishin.lighter.core.Node 接口即可
 numberOfNodes=16
 
-# Nio 服cn.comcn.com.fishin.selector.BalancedNodeSelector废) / WebSocket / Light 三种对外公开 API 接口，
+# Nio 服务器实现类，内部使用 Netty 实现
+# 目前实现了 HTTP (目前暂时报废) / WebSocket / Light 三种对外公开 API 接口，
 # 其中，Light 是自己实现的协议接口，没有 HTTP 协议的冗余信息，
 # 直接使用 Netty 来做 NIO 的网络通信，类似于 RPC 远程调用，
-# 实现客户端只需简单的网cn.com.fishin.corecket 效率更高
+# 实现客户端只需简单的网络编程即可，比 WebSocket 效率更高
 nioServerInitializer=cn.com.fishin.lighter.net.websocket.WebSocketServerInitializer
-nioServerHandler=vip.ifmm.handler.WebSocketServerHandler
+nioServerHandler=cn.com.fishin.lighter.handler.WebSocketServerHandler
 
 # 上面那个 Nio 服务器占用的端口
-nioScn.com.fishin.handler# 关闭服务器所占用的端口
+nioServerPort=8888
+
+# 关闭服务器所占用的端口
 # 当启动服务器之前，会开启一个监听线程，监听下面这个端口，
 # 当有客户端连接到这个端口时，即认为需要关闭服务器，就会执行关闭服务器的操作
 closeNioServerPort=9999
