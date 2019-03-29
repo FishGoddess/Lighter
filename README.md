@@ -115,21 +115,25 @@ protocolParser=cn.com.fishin.lighter.protocol.JsonProtocolParser
 
 ### 主要接口如下：
 
-(1) vip.ifmm.core.Node 节点接口类
+(1) cn.com.fishin.lighter.core.Node 节点接口类
 
-(2) vip.ifmm.core.NodeManageable 节点管理接口类
+(2) cn.com.fishin.lighter.core.NodeManageable 节点管理接口类
 
-(3) vip.ifmm.handler.EventHandler 事件处理器接口
+(3) cn.com.fishin.lighter.handler.EventHandler 事件处理器接口
 
-(4) vip.ifmm.handler.Mappicn.com.fishin.handler射处理器
+(4) cn.com.fishin.lighter.handler.MappingHandler 映射处理器
 
-(5) vip.ifmm.handler.cn.com.fishin.handler执行结果处理器
+(5) cn.com.fishin.lighter.handler.ResultHandler 执行结果处理器
 
-(6) vip.ifmm.cn.com.fiscn.com.fishin.handlerzer 服务器初始cn.com.fishin.core.ifmm.protocol.ProtocolParser 协议解析器
+(6) cn.com.fishin.lighter.net.NioServerInitializer 服务器初始器
+
+(7) cn.com.fishin.lighter.protocol.ProtocolParser 协议解析器
 
 (8) cn.com.fishin.lighter.protocol.ProtocolParserKeeper 协议解析器拥有者
 
-(9) vip.ifmm.selectorcn.com.fishin.selector.NodeSelector分为解析和执行两步
+(9) cn.com.fishin.lighter.selector.NodeSelector 节点选择器
+
+### 分为解析和执行两步
 
 #### 解析：
 1. 客户端通过网络通信传输协议内容
