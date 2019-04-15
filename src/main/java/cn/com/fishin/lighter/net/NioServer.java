@@ -2,13 +2,15 @@ package cn.com.fishin.lighter.net;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -57,17 +59,53 @@ public class NioServer {
      * 打开服务器，占用端口
      *
      * @param port         占用的端口
-     * @param childHandler 具体实现服务器的初始化处理器
+     * @param initializer 具体实现服务器的初始化处理器
      * @throws InterruptedException 中断异常
      */
-    public void open(int port, ChannelHandler childHandler) throws InterruptedException {
+    public void open(int port, int closeListenPort, ChannelInitializer initializer) throws Exception {
 
         ServerBootstrap server = new ServerBootstrap();
         server.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(childHandler);
-
+                .childHandler(initializer);
         ChannelFuture f = server.bind(port).sync();
+
+        // 准备阶段
+        waitForReady(port);
+        prepareCloseListener(closeListenPort);
+
+        f.channel().closeFuture().sync();
+    }
+
+    // 监听关闭端口
+    private void prepareCloseListener(int port) {
+        new Thread(() -> {
+
+            // 监听这个端口，如果有人连接上来，就关闭服务器
+            ServerSocket server = null;
+            try {
+                server = new ServerSocket(port);
+                server.accept();
+
+                // 关闭服务器
+                closeGracefully();
+            } catch (IOException e) {
+                // 关闭端口监听失败
+                log.error("Server listen close port failed! port: " + port, e);
+            } finally {
+                try {
+                    if (server != null) {
+                        server.close();
+                    }
+                } catch (IOException e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        }).start();
+    }
+
+    // 服务器准备阶段
+    private void waitForReady(int port) {
 
         // 服务器准备好了
         readyWriteLock.lock();
@@ -80,13 +118,14 @@ public class NioServer {
 
         // 记录日志
         log.info("NioServer run on port: " + port);
-
-        f.channel().closeFuture().sync();
     }
 
     // 关闭服务器释放资源
     public void closeGracefully() {
         bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
+
+        // 信息记录
+        log.info("Server closed! Have a good day :)");
     }
 }

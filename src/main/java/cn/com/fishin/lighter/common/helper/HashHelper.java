@@ -1,4 +1,4 @@
-package cn.com.fishin.lighter.helper;
+package cn.com.fishin.lighter.common.helper;
 
 /**
  * 散列帮助工具类

@@ -17,10 +17,10 @@
     </appender>
 
     <!-- DEBUG 模式 -->
-    <!--<logger name="cn.com.fishin" level="DEBUG"/>-->
+    <logger name="cn.com.fishin" level="DEBUG"/>
 
     <!-- 日志输出级别 -->
-    <root level="INFO">
+    <root level="WARN">
         <appender-ref ref="STDOUT"/>
     </root>
 </configuration>
