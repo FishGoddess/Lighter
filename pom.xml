@@ -6,9 +6,9 @@
 
     <groupId>cn.com.fishin</groupId>
     <artifactId>Lighter</artifactId>
-    <version>1.0-Beta</version>
+    <version>1.0.1-BETA</version>
 
-    <!-- 轻量级键值对缓存服务，可用于缓存、分布式锁、消息队列消息去重，甚至是 redis 的负载均衡等 -->
+    <!-- 轻量级对象缓存服务中间件 -->
     <name>Lighter</name>
 
     <properties>
