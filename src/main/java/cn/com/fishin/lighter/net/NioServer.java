@@ -6,11 +6,12 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -25,35 +26,10 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class NioServer {
 
     // 记录日志
-    private static final Log log = LogFactory.getLog(NioServer.class);
+    private static final Logger log = LoggerFactory.getLogger(NioServer.class);
 
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
-
-    // 使用读写锁，因为读的次数比写的次数多得多，所以读的时候可以多个线程同时
-    private ReadWriteLock readyReadWriteLock = new ReentrantReadWriteLock();
-    private Lock readyReadLock = readyReadWriteLock.readLock();
-    private Lock readyWriteLock = readyReadWriteLock.writeLock();
-
-    // 是否准备好了
-    private volatile boolean ready = false;
-
-    /**
-     * 服务器是否已经准备好了
-     *
-     * @return true 准备好了，false 没有准备好
-     */
-    public boolean isReady() {
-
-        // 读操作上锁
-        readyReadLock.lock();
-        try {
-            return ready;
-        } finally {
-            // 必须保证读锁一定被释放
-            readyReadLock.unlock();
-        }
-    }
 
     /**
      * 打开服务器，占用端口
@@ -62,7 +38,7 @@ public class NioServer {
      * @param initializer 具体实现服务器的初始化处理器
      * @throws InterruptedException 中断异常
      */
-    public void open(int port, int closeListenPort, ChannelInitializer initializer) throws Exception {
+    public void open(int port, int closeListenPort, ChannelInitializer initializer, ReadyHook hook) throws Exception {
 
         ServerBootstrap server = new ServerBootstrap();
         server.group(bossGroup, workerGroup)
@@ -70,15 +46,22 @@ public class NioServer {
                 .childHandler(initializer);
         ChannelFuture f = server.bind(port).sync();
 
-        // 准备阶段
-        waitForReady(port);
         prepareCloseListener(closeListenPort);
 
+        // 记录日志
+        log.info("NioServer run on port: " + port);
+
+        hook.hook();
         f.channel().closeFuture().sync();
     }
 
     // 监听关闭端口
     private void prepareCloseListener(int port) {
+
+        // 添加关闭服务器的钩子函数
+        //Runtime.getRuntime().addShutdownHook(new Thread(this::closeGracefully));
+
+        // 添加关闭服务器的监听器
         new Thread(() -> {
 
             // 监听这个端口，如果有人连接上来，就关闭服务器
@@ -104,22 +87,6 @@ public class NioServer {
         }).start();
     }
 
-    // 服务器准备阶段
-    private void waitForReady(int port) {
-
-        // 服务器准备好了
-        readyWriteLock.lock();
-        try {
-            ready = true;
-        } finally {
-            // 必须保证写锁一定被释放
-            readyWriteLock.unlock();
-        }
-
-        // 记录日志
-        log.info("NioServer run on port: " + port);
-    }
-
     // 关闭服务器释放资源
     public void closeGracefully() {
         bossGroup.shutdownGracefully();
@@ -127,5 +94,10 @@ public class NioServer {
 
         // 信息记录
         log.info("Server closed! Have a good day :)");
+    }
+
+    // 准备好之后会被调用的钩子函数
+    public interface ReadyHook {
+        void hook();
     }
 }

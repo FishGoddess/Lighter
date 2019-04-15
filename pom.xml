@@ -21,14 +21,15 @@
         <netty.version>4.1.33.Final</netty.version>
         <fastjson.version>1.2.56</fastjson.version>
         <logback.version>1.2.3</logback.version>
+        <tuz.version>0.6.0-FINAL</tuz.version>
     </properties>
 
     <dependencies>
-        <!-- spring 框架 -->
+        <!-- Tuz 框架 -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
+            <groupId>cn.com.fishin</groupId>
+            <artifactId>Tuz</artifactId>
+            <version>${tuz.version}</version>
         </dependency>
 
         <!-- 网络模块 -->

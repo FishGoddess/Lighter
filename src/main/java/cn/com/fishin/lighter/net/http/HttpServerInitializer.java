@@ -1,4 +1,4 @@
-package cn.com.fishin.lighter.net;
+package cn.com.fishin.lighter.net.http;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;

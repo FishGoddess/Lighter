@@ -127,7 +127,7 @@ protocolParser=cn.com.fishin.lighter.protocol.JsonProtocolParser
 
 (6) cn.com.fishin.lighter.net.NioServerInitializer 服务器初始器
 
-(7) cn.com.fishin.lighter.protocol.ProtocolParser 协议解析器
+(7) cn.com.fishin.lighter.protocol.RequestParser 协议解析器
 
 (8) cn.com.fishin.lighter.protocol.ProtocolParserKeeper 协议解析器拥有者
 
