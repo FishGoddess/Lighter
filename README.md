@@ -37,7 +37,7 @@
 具体配置详见 resources/properties/config.properties
 ```properties
 #############################################################
-# Lighter 服务配置文件 v1.0.5
+# Lighter 服务配置文件 v1.0.6
 # 下面的配置仅仅是为了定制化 Lighter 服务，如没有这个需求，请不要随便改动
 #                                          2019-4-15   水不要鱼
 #############################################################
@@ -86,6 +86,12 @@ keepAliveTime=10
 # 但是这个值不应该设置得太小，以免造成缓存雪崩和缓存穿透，需要结合系统性能来决定大小
 waitQueueSize=2048
 RejectedExecutionHandler=cn.com.fishin.lighter.core.DefaultRejectedExecutionHandler
+
+# 任务执行器
+# 这个执行器用于执行任务，通过解析任务对象来获得一次任务执行的指令和数据
+# 你可以自己定义任务处理器，来达到自己的解析业务，甚至是将任务再进行一次加工操作
+# 比如，对特定的任务进行特定的处理，存进数据库或者缓存系统等等
+TaskExecutor=cn.com.fishin.lighter.core.DefaultTaskExecutor
 ```
 
 ### 主要接口如下：

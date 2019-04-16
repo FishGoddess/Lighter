@@ -9,8 +9,8 @@ import cn.com.fishin.lighter.common.entity.Task;
  * <p>Email: fishinlove@163.com</p>
  * <p>created by 2019/04/16 20:56:55</p>
  */
-public interface TaskExecutor<Result> {
+public interface TaskExecutor {
 
     // 执行任务的方法
-    Result execute(Task task);
+    Object execute(Task task);
 }

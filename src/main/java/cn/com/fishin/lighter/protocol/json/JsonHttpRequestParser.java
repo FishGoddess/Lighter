@@ -36,37 +36,35 @@ public class JsonHttpRequestParser implements RequestParser<FullHttpRequest> {
 
         // GET 请求
         // 主要用来获取数据
-        GET(request -> Task.make(TaskAction.FETCH, request.uri())),
+        GET(request -> Task.make(TaskAction.FETCH, key(request.uri()))),
 
         // POST 请求
         // 主要用来新增数据
         POST(request -> Task.make(
                 TaskAction.SAVE,
-                request.uri(),
+                key(request.uri()),
                 request.content().toString(CharsetUtil.UTF_8))
                 .addArgument(
                         LighterArgument.EXPIRE_TIME_ARGUMENT,
-                        GracefulHelper.ifNull(request.headers().get(EXPIRE_TIME), "0")
-                )
+                        GracefulHelper.ifNull(request.headers().get(EXPIRE_TIME), "0"))
         ),
 
         // DELETE 请求
         // 主要用来删除数据
         DELETE(request -> Task.make(
                 TaskAction.REMOVE,
-                request.uri())
+                key(request.uri()))
         ),
 
         // PUT 请求
         // 主要用来修改数据
         PUT(request -> Task.make(
                 TaskAction.UPDATE,
-                request.uri(),
+                key(request.uri()),
                 request.content().toString(CharsetUtil.UTF_8))
                 .addArgument(
                         LighterArgument.EXPIRE_TIME_ARGUMENT,
-                        GracefulHelper.ifNull(request.headers().get(EXPIRE_TIME), "0")
-                )
+                        GracefulHelper.ifNull(request.headers().get(EXPIRE_TIME), "0"))
         );
 
         // 请求处理器
@@ -75,5 +73,10 @@ public class JsonHttpRequestParser implements RequestParser<FullHttpRequest> {
         HttpMethodMapping(RequestHandler<FullHttpRequest> handler) {
             this.handler = handler;
         }
+    }
+
+    // 将 uri 前面的 / 截掉
+    private static String key(String uri) {
+        return uri.substring(1);
     }
 }

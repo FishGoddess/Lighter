@@ -6,7 +6,7 @@
 
     <groupId>cn.com.fishin</groupId>
     <artifactId>Lighter</artifactId>
-    <version>1.0.5-develop</version>
+    <version>1.0.6-develop</version>
 
     <!-- 轻量级对象缓存服务中间件 -->
     <name>Lighter</name>

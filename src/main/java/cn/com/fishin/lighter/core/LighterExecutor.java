@@ -5,9 +5,6 @@ import cn.com.fishin.lighter.common.helper.LogHelper;
 import cn.com.fishin.tuz.core.Tuz;
 import cn.com.fishin.tuz.plugin.DiPlugin;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.concurrent.*;
 
 /**
@@ -19,17 +16,15 @@ import java.util.concurrent.*;
  */
 public class LighterExecutor {
 
+    // 任务处理器
+    private static final TaskExecutor executor = DiPlugin.useInstance(TaskExecutor.class);
+
     // 内置线程池，用来执行任务
     private static ThreadPoolExecutor threadPool;
 
     // 执行任务
-    public static Object execute(Task task) throws Exception {
-
-        // 提交任务
-        return threadPool.submit(() -> {
-            System.out.println(task);
-            return task;
-        }).get();
+    public static Object submit(Task task) throws Exception {
+        return threadPool.submit(() -> executor.execute(task)).get();
     }
 
     // 初始化执行器
@@ -52,6 +47,6 @@ public class LighterExecutor {
     public static void shutdown() {
         // 关闭线程池
         threadPool.shutdown();
-        LogHelper.info("Thread pool shutdown ===> " + (threadPool.isShutdown() ? "successfully!" : "failed!"));
+        LogHelper.info("Thread pool shutdown " + (threadPool.isShutdown() ? "successfully!" : "failed!"));
     }
 }

@@ -39,7 +39,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         // 提交任务执行，并返回数据
         ctx.writeAndFlush(ResponseHelper.wrap(
                 NetServerState.SUCCESS,
-                LighterExecutor.execute(requestParser.parse(request))
+                LighterExecutor.submit(requestParser.parse(request))
         )).addListener(ChannelFutureListener.CLOSE);
     }
 
