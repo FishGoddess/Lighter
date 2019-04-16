@@ -2,7 +2,6 @@ package cn.com.fishin.lighter.common.entity;
 
 import cn.com.fishin.lighter.common.enums.TaskAction;
 
-import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

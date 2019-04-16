@@ -8,7 +8,6 @@ import cn.com.fishin.lighter.core.LighterArgument;
 import cn.com.fishin.lighter.protocol.RequestHandler;
 import cn.com.fishin.lighter.protocol.RequestParser;
 import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.HttpRequest;
 import io.netty.util.CharsetUtil;
 
 /**

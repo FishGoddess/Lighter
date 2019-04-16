@@ -22,6 +22,7 @@ import io.netty.handler.codec.http.*;
  */
 public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
+    // 请求解析器
     @SuppressWarnings("unchecked")
     private static final RequestParser<FullHttpRequest> requestParser = DiPlugin.useInstance(RequestParser.class);
 
