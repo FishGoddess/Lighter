@@ -37,80 +37,55 @@
 具体配置详见 resources/properties/config.properties
 ```properties
 #############################################################
-# Lighter 服务配置文件 v1.0
+# Lighter 服务配置文件 v1.0.5
 # 下面的配置仅仅是为了定制化 Lighter 服务，如没有这个需求，请不要随便改动
-#                                          2019-3-3   水不要鱼
+#                                          2019-4-15   水不要鱼
 #############################################################
 
-# 节点使用的接口实现类，该类必须实现 cn.com.fishin.lighter.core.Node 接口
-# 默认内部存储使用 java.util.concurrent.ConcurrentHashMap
-# 你还可以自己定制一个真实存储在 redis 服务器上的 Map 实现类，从而实现 redis 负载均衡
-# 或者是让一台机器专门做分发器，将多个分发器分出多个 Lighter 服务器
-nodeClassName=cn.com.fishin.lighter.core.DefaultMapNode
+# 服务器监听端口
+# 这个端口是内置服务器使用的通信端口，默认是 Netty 实现的 Nio 服务器
+server.port=9669
 
-# 节点管理器，该管理器必须实现 cn.com.fishin.lighter.core.NodeManageable 接口
-# 它实现了 Spring 的 ApplicationListener 接口，因此它可以接收到事件发生
-# 可以参考 cn.com.fishin.lighter.core.DefaultNodeManager 的默认实现
-# 具体配置在 classpath:/application-context.xml 中
-nodeManager=cn.com.fishin.lighter.core.DefaultNodeManager
+# 服务器监听的关闭端口
+# 由于服务器是运行且阻塞等待的，所以需要使用网络通信来关闭服务器
+# 默认情况下会开启一个监听线程，只要监听到这个端口有客户端连接就关闭服务器
+server.closePort=9999
 
-# 节点数据事件处理器，专门用来处理节点数据事件的处理器
-# 实现 cn.com.fishin.lighter.handler.EventHandler 即可注册为事件处理器
-# 当发生事件时，这个处理器中的处理方法将会被调用
-nodeDataEventHandler=cn.com.fishin.lighter.handler.DefaultNodeDataEventHandler
+# 服务器初始化器
+# 这个服务器具体使用什么网络模式来进行和客户端的通信也是可以自定义的
+# 你可以增加一个你自己的服务器初始化器以实现你想要的通信方式，只需实现一些方法即可
+# 由于整个服务器使用的是 Netty 来通信的，所以如果你准备改写这个服务器初始化器
+# 你最好具备有 Netty 的编程经验，否则可能导致服务不可用的后果
+# 同时，由于默认使用的是 HTTP 协议，所以在请求时可能会产生大量的冗余信息
+# 这在高并发访问下会浪费大量的网络资源，我也注意到了这一点
+# 只是单从使用的角度上来说的话，HTTP 协议的确更加方便，同时可以跨平台跨语言以及高兼容性
+# 所以就选择了 HTTP 协议来作为默认的应用协议
+ChannelInitializer=cn.com.fishin.lighter.net.http.HttpServerInitializer
 
-# 节点选择器，这个处理器决定了如何根据指令来选择一个节点甚至是一些节点
-# 你可以自己实现 cn.com.fishin.lighter.selector.NodeSelector 接口，然后配置在这里，
-# 定制节点选择的规则，比如可以配置一个 Lighter 或者是 redis 的负载均衡集群
-# 注意：如果 nodeSelector 配置为 cn.com.fishin.lighter.selector.BalancedNodeSelector，
-# 那每一个节点都将收到相应的指令，也就意味着数据可能会重复存储多份，也实现了负载均衡的效果，
-# 但是，如果此时节点实现类仍然使用内置的 cn.com.fishin.lighter.core.DefaultMapNode 节点实现类，
-# 就会导致一台服务器上的内存被重复浪费，并且这个节点的集群并没有任何意义，因此，
-# 在 nodeSelector 配置为 cn.com.fishin.lighter.selector.BalancedNodeSelector 的情况下，
-# 强烈建议你去重写一个节点的实现类！只需要实现 cn.com.fishin.lighter.core.Node 接口即可
-nodeSelector=cn.com.fishin.lighter.selector.KeyHashNodeSelector
+# 协议解析器
+# 当接收到用户的请求时，需要解析成一个任务对象提供给任务执行器去执行
+# 你可以自定义协议解析器，以此来实现你的特殊业务解析或者实现你自己的协议
+# 你只需实现 cn.com.fishin.lighter.protocol.RequestParser 接口
+# 然后重写 parse 方法，将用户请求解析成一个任务对象返回即可
+RequestParser=cn.com.fishin.lighter.protocol.json.JsonHttpRequestParser
 
-# 指令调用结果处理器
-# 你可以自己实现 cn.com.fishin.lighter.handler.ResultHandler 接口注册为结果处理器
-# 最重要的一步就是在 application-context.xml 中将这个处理器注入到你的节点数据事件处理器中
-resultHandler=cn.com.fishin.lighter.handler.WebSocketResultHandler
-
-# 协议指令和方法映射处理器
-# 默认的映射处理器是根据节点实现类上的 @cn.com.fishin.lighter.annotation.MethodMapping 注解
-# 中的 instruction 属性值来匹配相应的方法名，使用反射技术去执行对应的方法
-# 你可以自己实现 cn.com.fishin.lighter.handler.MappingHandler 接口，然后重写自己的映射规则
-# 你甚至可以结合数据库或者是网络来定制一个动态变化的映射处理器，以此来达到更复杂的业务需求
-mappingHandler=cn.com.fishin.lighter.handler.DefaultMappingHandler
-
-# 初始化 Node 节点的个数，默认是 16 个
-# 注意：如果 nodeSelector 配置为 cn.com.fishin.lighter.selector.BalancedNodeSelector，
-# 那每一个节点都将收到相应的指令，也就意味着数据可能会重复存储多份，也实现了负载均衡的效果，
-# 但是，如果此时节点实现类仍然使用内置的 cn.com.fishin.lighter.core.DefaultMapNode 节点实现类，
-# 就会导致一台服务器上的内存被重复浪费，并且这个节点的集群并没有任何意义，因此，
-# 在 nodeSelector 配置为 cn.com.fishin.lighter.selector.BalancedNodeSelector 的情况下，
-# 强烈建议你去重写一个节点的实现类！只需要实现 cn.com.fishin.lighter.core.Node 接口即可
-numberOfNodes=16
-
-# Nio 服务器实现类，内部使用 Netty 实现
-# 目前实现了 HTTP (目前暂时报废) / WebSocket / Light 三种对外公开 API 接口，
-# 其中，Light 是自己实现的协议接口，没有 HTTP 协议的冗余信息，
-# 直接使用 Netty 来做 NIO 的网络通信，类似于 RPC 远程调用，
-# 实现客户端只需简单的网络编程即可，比 WebSocket 效率更高
-nioServerInitializer=cn.com.fishin.lighter.net.websocket.WebSocketServerInitializer
-nioServerHandler=cn.com.fishin.lighter.handler.WebSocketServerHandler
-
-# 上面那个 Nio 服务器占用的端口
-nioServerPort=8888
-
-# 关闭服务器所占用的端口
-# 当启动服务器之前，会开启一个监听线程，监听下面这个端口，
-# 当有客户端连接到这个端口时，即认为需要关闭服务器，就会执行关闭服务器的操作
-closeNioServerPort=9999
-
-# 协议解析器，目前存在两种，分别是 Json 协议和 Light 协议，
-# 你可以改写这个协议解析器，从而实现自己的协议，
-# 推荐使用 Light 网络协议，更节省流量，而且更方便编写客户端
-protocolParser=cn.com.fishin.lighter.protocol.JsonProtocolParser
+# 线程池属性
+# 属性包含：核心线程数 & 最大线程数 & 线程存活时间 & 等待队列大小 & 队列拒绝策略
+# 注意：以下属性需要对 JDK 中的线程池有一定的了解才可以更改，否则请保持默认设置
+# 具体可以参考 java.util.concurrent.ThreadPoolExecutor 线程池类
+# 底层执行器使用线程池来执行任务，你可以设置这个线程池的核心线程数以及最大线程数
+# 这两个值需要根据系统性能以及具体业务并发量而定，另外，一个系统也会对线程数量有限制
+# 在 JVM 中可以设置线程栈大小，这个大小对可以使用的线程数量有影响，详情参考 JVM 指令
+corePoolSize=512
+maximumPoolSize=1024
+# 线程存活时间的设置和一个任务执行的时间应该差不多，由于这个任务一般是短时间任务
+# 所以这个值不建议设置的太大，应该要设置为任务执行时间的 2 倍左右，这样可以复用大量线程
+keepAliveTime=10
+# 等待队列大小和队列拒绝策略一般会有关联，当队列满了就会开始新增线程，当最大线程数达到了
+# 这个线程池就会执行拒绝策略，由于 Lighter 是一个对象缓存服务，因此是允许缓存不命中的情况的
+# 但是这个值不应该设置得太小，以免造成缓存雪崩和缓存穿透，需要结合系统性能来决定大小
+waitQueueSize=2048
+RejectedExecutionHandler=cn.com.fishin.lighter.core.DefaultRejectedExecutionHandler
 ```
 
 ### 主要接口如下：
