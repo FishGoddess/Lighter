@@ -1,0 +1,437 @@
+GET http://localhost:9999
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/x-www-form-urlencoded
+
+key1=value1&
+key2=哈哈哈
+
+<> 2019-04-17T123534.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/x-www-form-urlencoded
+
+key1=value1&
+key2=value2
+
+<> 2019-04-17T123434.200.json
+
+###
+
+GET http://localhost:9999
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json;charset=utf-8
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-17T123041.200.json
+
+###
+
+GET http://localhost:9999
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json;charset=utf-8
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-17T122043.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-17T121932.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-17T121917.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+
+{
+  'key1': 'value1',
+  'key2': 'value2',
+  'key3': 'value3',
+  'key4': 'value4'
+}
+
+<> 2019-04-17T121702.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-17T121312.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-17T121252.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-17T121237.200.json
+
+###
+
+DELETE http://localhost:9669/testKey
+
+<> 2019-04-16T110519.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-16T110513.200.json
+
+###
+
+GET http://localhost:9669/testKey
+
+<> 2019-04-16T110505.200.json
+
+###
+
+GET http://localhost:9999
+
+###
+
+DELETE http://localhost:9669/testKey
+
+<> 2019-04-16T110141.200.json
+
+###
+
+GET http://localhost:9669/testKey
+
+<> 2019-04-16T110120.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-16T110105.200.json
+
+###
+
+GET http://localhost:9999
+
+###
+
+GET http://localhost:9999
+
+###
+
+GET http://localhost:9999
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-16T103606.200.json
+
+###
+
+GET http://localhost:9999
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-16T103358.200.json
+
+###
+
+GET http://localhost:9669/testKey
+
+<> 2019-04-16T103318.200.json
+
+###
+
+GET http://localhost:9999
+
+###
+
+GET http://localhost:9999
+
+###
+
+GET http://localhost:9999
+
+###
+
+GET http://localhost:9999
+
+###
+
+GET http://localhost:9999
+
+###
+
+GET http://localhost:9999
+
+###
+
+GET http://localhost:9999
+
+###
+
+GET http://localhost:9999
+
+###
+
+GET http://localhost:9999
+
+###
+
+GET http://localhost:9999
+
+###
+
+GET http://localhost:9999
+
+###
+
+DELETE http://localhost:9669/testKey
+
+<> 2019-04-16T010738.200.json
+
+###
+
+DELETE http://localhost:9669
+
+<> 2019-04-16T010717.400.json
+
+###
+
+DELETE http://localhost:9669/testKey
+
+<> 2019-04-16T010708.200.json
+
+###
+
+PUT http://localhost:9669/testKey
+Lighter-Expire-Time: 24
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2"
+}
+
+<> 2019-04-16T010630.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-16T010503.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-16T010321.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-16T010217.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-16T010116.200.json
+
+###
+
+POST http://localhost:9669/testKey
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-16T010001.200.json
+
+###
+
+POST http://localhost:9669
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+<> 2019-04-16T125949.400.json
+
+###
+
+GET http://localhost:9669/testKey
+Lighter-Expire-Time: 3600
+
+<> 2019-04-16T125940.200.json
+
+###
+
+GET http://localhost:9669
+Lighter-Expire-Time: 3600
+
+<> 2019-04-16T125931.400.json
+
+###
+

@@ -7,7 +7,7 @@ GET http://{{host}}/testKey
 ### 测试 POST 存储数据
 POST http://{{host}}/testKey
 Lighter-Expire-Time: 3600
-Content-Type: application/json
+Content-Type: application/json;charset=utf-8
 
 {
   "key1": "value1",
@@ -22,11 +22,19 @@ DELETE http://{{host}}/testKey
 ### 测试 PUT 修改数据
 PUT http://{{host}}/testKey
 Lighter-Expire-Time: 24
-Content-Type: application/json
+Content-Type: application/json;charset=utf-8
 
 {
   "key1": "value1",
   "key2": "value2"
 }
+
+### 测试 POST 存储表单数据
+POST http://{{host}}/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/x-www-form-urlencoded
+
+key1=value1&
+key2=哈哈哈
 
 ###
