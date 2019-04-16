@@ -39,7 +39,7 @@ public class NioServerTest {
                         e.printStackTrace();
                     }
                 }).start();
-            });
+            }, () -> {});
         } catch (Exception e) {
             e.printStackTrace();
         }

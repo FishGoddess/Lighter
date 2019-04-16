@@ -1,12 +1,12 @@
 package cn.com.fishin.lighter;
 
+import cn.com.fishin.lighter.core.LighterExecutor;
 import cn.com.fishin.lighter.net.NioServer;
 import cn.com.fishin.tuz.core.Tuz;
 import cn.com.fishin.tuz.loader.FileSystemPropertiesLoader;
 import cn.com.fishin.tuz.plugin.DiPlugin;
 import io.netty.channel.ChannelInitializer;
 
-import java.util.concurrent.TimeUnit;
 
 /**
  * 启动类
@@ -52,6 +52,11 @@ public class Startup {
                 Integer.valueOf(Tuz.use("server.port")),
                 Integer.valueOf(Tuz.use("server.closePort")),
                 DiPlugin.useInstance(ChannelInitializer.class),
-                Startup::printSymbol);
+                () -> {
+                    printSymbol(); // 打印图标
+                    LighterExecutor.init(); // 初始化执行器
+                },
+                LighterExecutor::shutdown
+        );
     }
 }

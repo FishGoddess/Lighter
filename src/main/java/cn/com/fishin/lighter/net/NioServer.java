@@ -34,7 +34,7 @@ public class NioServer {
      * @param initializer 具体实现服务器的初始化处理器
      * @throws InterruptedException 中断异常
      */
-    public void open(int port, int closeListenPort, ChannelInitializer initializer, ReadyHook hook) throws Exception {
+    public void open(int port, int closeListenPort, ChannelInitializer initializer, ReadyHook readyHook, ShutdownHook shutdownHook) throws Exception {
 
         ServerBootstrap server = new ServerBootstrap();
         server.group(bossGroup, workerGroup)
@@ -47,8 +47,9 @@ public class NioServer {
         // 记录日志
         log.info("NioServer run on port: " + port);
 
-        hook.hook();
+        readyHook.hook();
         f.channel().closeFuture().sync();
+        shutdownHook.hook();
     }
 
     // 监听关闭端口
@@ -92,8 +93,13 @@ public class NioServer {
         log.info("Server closed! Have a good day :)");
     }
 
-    // 准备好之后会被调用的钩子函数
+    // 服务器准备好之后会被调用的钩子函数
     public interface ReadyHook {
+        void hook();
+    }
+
+    // 销毁服务器之后会被调用的钩子函数
+    public interface ShutdownHook {
         void hook();
     }
 }

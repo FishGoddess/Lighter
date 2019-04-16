@@ -6,6 +6,7 @@ import cn.com.fishin.lighter.common.exception.RequestException;
 import cn.com.fishin.lighter.common.helper.HttpRequestHelper;
 import cn.com.fishin.lighter.common.helper.LogHelper;
 import cn.com.fishin.lighter.common.helper.ResponseHelper;
+import cn.com.fishin.lighter.core.LighterExecutor;
 import cn.com.fishin.lighter.protocol.RequestParser;
 import cn.com.fishin.tuz.plugin.DiPlugin;
 import io.netty.channel.ChannelFutureListener;
@@ -38,7 +39,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         // TODO 执行任务动作
         ctx.writeAndFlush(ResponseHelper.wrap(
                 NetServerState.SUCCESS,
-                requestParser.parse(request)
+                LighterExecutor.execute(requestParser.parse(request))
         )).addListener(ChannelFutureListener.CLOSE);
     }
 
