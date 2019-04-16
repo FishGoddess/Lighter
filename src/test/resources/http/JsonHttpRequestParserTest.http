@@ -1,0 +1,32 @@
+### 测试关闭服务器
+GET http://{{closeHost}}
+
+### 测试 GET 获取数据
+GET http://{{host}}/testKey
+
+### 测试 POST 存储数据
+POST http://{{host}}/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+### 测试 DELETE 删除数据
+DELETE http://{{host}}/testKey
+
+### 测试 PUT 修改数据
+PUT http://{{host}}/testKey
+Lighter-Expire-Time: 24
+Content-Type: application/json
+
+{
+  "key1": "value1",
+  "key2": "value2"
+}
+
+###

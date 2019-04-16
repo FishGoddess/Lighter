@@ -72,6 +72,10 @@ public class Task {
         return this;
     }
 
+    public Map<String, Object> getArgs() {
+        return args;
+    }
+
     public Object getArgument(String key) {
         return args.get(key);
     }

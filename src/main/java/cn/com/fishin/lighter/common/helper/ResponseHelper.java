@@ -54,6 +54,6 @@ public class ResponseHelper {
     private static HttpResponseStatus status(ServerResponse response) {
         return response.isSuccess() ?
                 HttpResponseStatus.OK :
-                HttpResponseStatus.INTERNAL_SERVER_ERROR;
+                HttpResponseStatus.BAD_REQUEST;
     }
 }
