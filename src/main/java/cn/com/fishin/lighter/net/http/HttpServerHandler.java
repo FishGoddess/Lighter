@@ -36,7 +36,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         // 检查请求是否合法
         checkRequest(request);
 
-        // TODO 执行任务动作
+        // 提交任务执行，并返回数据
         ctx.writeAndFlush(ResponseHelper.wrap(
                 NetServerState.SUCCESS,
                 LighterExecutor.execute(requestParser.parse(request))
