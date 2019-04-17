@@ -37,7 +37,7 @@
 具体配置详见 resources/properties/config.properties
 ```properties
 #############################################################
-# Lighter 服务配置文件 v1.0.7
+# Lighter 服务配置文件 v1.0.5
 # 下面的配置仅仅是为了定制化 Lighter 服务，如没有这个需求，请不要随便改动
 #                                          2019-4-15   水不要鱼
 #############################################################
@@ -91,7 +91,17 @@ RejectedExecutionHandler=cn.com.fishin.lighter.core.DefaultRejectedExecutionHand
 # 这个执行器用于执行任务，通过解析任务对象来获得一次任务执行的指令和数据
 # 你可以自己定义任务处理器，来达到自己的解析业务，甚至是将任务再进行一次加工操作
 # 比如，对特定的任务进行特定的处理，存进数据库或者缓存系统等等
-TaskExecutor=cn.com.fishin.lighter.core.DefaultTaskExecutor
+TaskExecutor=cn.com.fishin.lighter.core.executor.DefaultTaskExecutor
+
+# 节点个数
+# Lighter 服务器将支持多节点管理，每个节点可以是一个独立的服务器，甚至是集群
+# 这个节点数量不能设置的太大，应该要根据业务来定，如果业务需要较多节点，你可以设置大数量
+# 另外，Lighter 只提供默认的节点实现，这个节点实现很难满足高并发下的所有需求
+# 所以，我推荐自己实现一个节点，结合业务进行定制，让 Lighter 单纯作为缓存中间件也是可以的
+numberOfNodes=16
+
+# 节点实现类
+LighterNode=cn.com.fishin.lighter.core.DefaultLighterNode
 ```
 
 ### 主要接口如下：
@@ -112,7 +122,7 @@ TaskExecutor=cn.com.fishin.lighter.core.DefaultTaskExecutor
 
 (8) cn.com.fishin.lighter.protocol.ProtocolParserKeeper 协议解析器拥有者
 
-(9) cn.com.fishin.lighter.selector.NodeSelector 节点选择器
+(9) cn.com.fishin.lighter.core.selector.NodeSelector 节点选择器
 
 ### 分为解析和执行两步
 

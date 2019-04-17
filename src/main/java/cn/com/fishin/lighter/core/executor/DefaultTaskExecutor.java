@@ -1,4 +1,4 @@
-package cn.com.fishin.lighter.core;
+package cn.com.fishin.lighter.core.executor;
 
 import cn.com.fishin.lighter.common.entity.Task;
 

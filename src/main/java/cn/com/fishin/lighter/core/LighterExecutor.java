@@ -2,6 +2,7 @@ package cn.com.fishin.lighter.core;
 
 import cn.com.fishin.lighter.common.entity.Task;
 import cn.com.fishin.lighter.common.helper.LogHelper;
+import cn.com.fishin.lighter.core.executor.TaskExecutor;
 import cn.com.fishin.tuz.core.Tuz;
 import cn.com.fishin.tuz.plugin.DiPlugin;
 
