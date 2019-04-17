@@ -6,7 +6,7 @@
 
     <groupId>cn.com.fishin</groupId>
     <artifactId>Lighter</artifactId>
-    <version>1.0.8-develop</version>
+    <version>1.0.9-develop</version>
 
     <!-- 轻量级对象缓存服务中间件 -->
     <name>Lighter</name>
@@ -17,7 +17,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- 主要的核心依赖框架如下 -->
-        <spring.version>5.1.5.RELEASE</spring.version>
         <netty.version>4.1.33.Final</netty.version>
         <fastjson.version>1.2.56</fastjson.version>
         <logback.version>1.2.3</logback.version>
