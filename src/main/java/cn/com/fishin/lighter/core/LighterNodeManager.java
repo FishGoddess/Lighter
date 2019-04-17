@@ -1,6 +1,12 @@
 package cn.com.fishin.lighter.core;
 
+import cn.com.fishin.lighter.common.helper.LogHelper;
+import cn.com.fishin.lighter.core.node.Node;
+import cn.com.fishin.lighter.core.selector.NodeSelector;
 import cn.com.fishin.tuz.core.Tuz;
+import cn.com.fishin.tuz.plugin.DiPlugin;
+
+import java.util.Arrays;
 
 /**
  * 节点管理者
@@ -13,7 +19,13 @@ import cn.com.fishin.tuz.core.Tuz;
 public class LighterNodeManager {
 
     // 节点数量
-    private static final int NUMBER_OF_NODES = Integer.valueOf(Tuz.use("numberOfNodes", "16"));
+    public static final int NUMBER_OF_NODES = Integer.valueOf(Tuz.use("numberOfNodes", "16"));
+
+    // 节点容器
+    private static final Node[] NODES = new Node[NUMBER_OF_NODES];
+
+    // 节点选择器
+    private static final NodeSelector selector = DiPlugin.useInstance(NodeSelector.class);
 
     static {
         // 这边需要将 Tuz 的类锁定，防止有任何别人在操作，导致这边初始化出现问题
@@ -23,11 +35,22 @@ public class LighterNodeManager {
             boolean isSingleton = Tuz.getConfig().isSingleton();
             Tuz.getConfig().setSingleton(false);
 
-            // TODO 初始化节点
-
+            // 初始化节点
+            initNodes();
 
             // 设置回原来的实例生成方式
             Tuz.getConfig().setSingleton(isSingleton);
         }
+    }
+
+    // 初始化节点
+    private static void initNodes() {
+        for (int i = 0; i < NUMBER_OF_NODES; i++) {
+            NODES[i] = DiPlugin.useInstance(Node.class);
+        }
+
+        // 日志记录
+        LogHelper.info("Nodes are ready!");
+        LogHelper.debug("Nodes are " + Arrays.toString(NODES));
     }
 }

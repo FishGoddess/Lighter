@@ -1,4 +1,4 @@
-package cn.com.fishin.lighter.core;
+package cn.com.fishin.lighter.core.node;
 
 import cn.com.fishin.lighter.common.entity.Task;
 
@@ -9,7 +9,7 @@ import cn.com.fishin.lighter.common.entity.Task;
  * <p>Email: fishinlove@163.com</p>
  * <p>created by 2019/04/17 11:01:41</p>
  */
-public interface LighterNode {
+public interface Node {
 
     // 获取数据
     Object fetch(Task task);

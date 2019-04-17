@@ -7,8 +7,7 @@ import cn.com.fishin.lighter.common.helper.HttpRequestHelper;
 import cn.com.fishin.lighter.common.helper.LogHelper;
 import cn.com.fishin.lighter.common.helper.ResponseHelper;
 import cn.com.fishin.lighter.core.LighterExecutor;
-import cn.com.fishin.lighter.protocol.RequestParser;
-import cn.com.fishin.tuz.plugin.DiPlugin;
+import cn.com.fishin.lighter.core.LighterParser;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -23,10 +22,6 @@ import io.netty.handler.codec.http.*;
  */
 public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
-    // 请求解析器
-    @SuppressWarnings("unchecked")
-    private static final RequestParser<FullHttpRequest> requestParser = DiPlugin.useInstance(RequestParser.class);
-
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
 
@@ -39,7 +34,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         // 提交任务执行，并返回数据
         ctx.writeAndFlush(ResponseHelper.wrap(
                 NetServerState.SUCCESS,
-                LighterExecutor.submit(requestParser.parse(request))
+                LighterExecutor.submit(LighterParser.parseRequest(request))
         )).addListener(ChannelFutureListener.CLOSE);
     }
 

@@ -21,7 +21,7 @@
         <netty.version>4.1.33.Final</netty.version>
         <fastjson.version>1.2.56</fastjson.version>
         <logback.version>1.2.3</logback.version>
-        <tuz.version>0.6.0-FINAL</tuz.version>
+        <tuz.version>0.6.4-BETA</tuz.version>
     </properties>
 
     <dependencies>
