@@ -1,11 +1,11 @@
 package cn.com.fishin.lighter;
 
+import cn.com.fishin.lighter.common.helper.TuzHelper;
 import cn.com.fishin.lighter.core.LighterExecutor;
 import cn.com.fishin.lighter.core.LighterNodeManager;
 import cn.com.fishin.lighter.core.LighterParser;
 import cn.com.fishin.lighter.net.NioServer;
 import cn.com.fishin.tuz.core.Tuz;
-import cn.com.fishin.tuz.loader.FileSystemPropertiesLoader;
 import cn.com.fishin.tuz.plugin.DiPlugin;
 import io.netty.channel.ChannelInitializer;
 
@@ -44,8 +44,7 @@ public class Startup {
     public static void main(String[] args) throws Exception {
 
         // 初始化 Tuz 容器
-        // 从文件路径加载配置文件
-        Tuz.load(new FileSystemPropertiesLoader(args[0]));
+        TuzHelper.initTuz(args);
 
         // 初始化服务器
         // 同时会监听两个端口，一个用于正常服务通信，一个用于关闭服务器

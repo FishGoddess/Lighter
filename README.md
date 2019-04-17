@@ -1,40 +1,39 @@
 # Lighter 轻量级对象缓存服务中间件
-(目前正在重构！！如果需要使用，请切换到 master 分支！！)
-
-(而且目前的代码还有很多可以重构以及改善的，尤其是目前的架构，功能加多之后，有些跑偏了。。。)
 
 ### 1. 使用用途：
-主要用作于缓存中间件，带有默认的缓存实现，并且允许多个节点的缓存，这也实现了负载均衡和分布式缓存。
+主要用作于对象缓存，带有默认的缓存实现，并且允许多个节点的缓存，这也实现了负载均衡和分布式缓存。
 
-使用 Spring 做容器托管，并利用它的 IOC 技术和监听者模式。
+使用 Tuz 做容器托管，并利用它的 IOC 技术和拦截器技术做业务解耦。
 
-在网络通信方面使用的是 Netty，并且实现了两个网络协议，一个是 JSON 格式传输，一个是自定义的协议。
+在网络通信方面使用的是 Netty，并且实现了 HTTP 下的 JSON 格式传输协议。
 
-整个项目的所有组件都允许自定义，包括缓存实现、节点选择、协议解析和网络通信协议。
+整个项目的所有组件都允许自定义，包括缓存实现、节点选择、协议解析和网络通信协议，你只需要非常简单的实现一个接口即可。
 
 ### 2. 使用步骤：
-源码中分别带有两个脚本：Startup 和 Shutdown
+服务中带有一个启动脚本：Startup，可以加一个启动参数，就是配置文件的路径，
 
-启动 Startup 即可启动项目，默认占用 8888 和 9999 两个端口
+如果不指定路径，默认加载和 Startup 同级目录下的配置文件，
 
-如果需要关闭，执行 Shutdown 即可
+启动 Startup 即可启动项目，默认占用 9669 和 9999 两个端口，
+
+如果需要关闭服务，启动 Shutdown 脚本即可。
 
 ### 3. 使用到的依赖：
 ```xml
 <properties>
+    <tuz.version>0.6.4-BETA</tuz.version>
     <netty.version>4.1.33.Final</netty.version>
     <fastjson.version>1.2.56</fastjson.version>
     <logback.version>1.2.3</logback.version>
-    <tuz.version>0.6.4-BETA</tuz.version>
 </properties>
 ```
-#### i. Spring 作为整个项目的容器，使用到了它的 IOC 技术和监听器模式 
+#### i. Tuz 作为整个项目的容器，使用到了它的 IOC 技术和拦截器技术 
 #### ii. Netty 作为整个项目的网络通信模块，使用到了它的 NIO 网络通信服务
 #### iii. fastJson 作为协议解析器的一部分，是 Json 协议的解析库
 #### iiii. logBack 作为项目的日志模块，使用 SLF4J 接口对接
 
 ### 4. 项目架构：
-具体配置详见 resources/properties/config.properties
+具体配置详见 resources/config.properties
 ```properties
 #############################################################
 # Lighter 服务配置文件 v1.2.0
@@ -120,23 +119,15 @@ NodeSelector=cn.com.fishin.lighter.core.selector.KeyHashNodeSelector
 
 ### 主要接口如下：
 
-(1) cn.com.fishin.lighter.core.Node 节点接口类
+(1) cn.com.fishin.lighter.core.node.Node 节点接口类
 
-(2) cn.com.fishin.lighter.core.NodeManageable 节点管理接口类
+(2) cn.com.fishin.lighter.core.selector.NodeSelector 节点选择器
 
-(3) cn.com.fishin.lighter.handler.EventHandler 事件处理器接口
+(3) cn.com.fishin.lighter.core.executor.TaskExecutor 任务执行器
 
-(4) cn.com.fishin.lighter.handler.MappingHandler 映射处理器
+(4) cn.com.fishin.lighter.protocol.RequestParser 协议解析器
 
-(5) cn.com.fishin.lighter.handler.ResultHandler 执行结果处理器
-
-(6) cn.com.fishin.lighter.net.NioServerInitializer 服务器初始器
-
-(7) cn.com.fishin.lighter.protocol.RequestParser 协议解析器
-
-(8) cn.com.fishin.lighter.protocol.ProtocolParserKeeper 协议解析器拥有者
-
-(9) cn.com.fishin.lighter.core.selector.NodeSelector 节点选择器
+(5) cn.com.fishin.lighter.protocol.RequestHandler 辅助协议解析器
 
 ### 分为解析和执行两步
 
