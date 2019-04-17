@@ -17,6 +17,11 @@ public class LighterParser {
     // 请求解析器
     private static final RequestParser requestParser = DiPlugin.useInstance(RequestParser.class);
 
+    // 初始化
+    public static void init() {
+        // do nothing...
+    }
+
     // 解析请求为任务
     @SuppressWarnings("unchecked")
     public static Task parseRequest(Object request) {

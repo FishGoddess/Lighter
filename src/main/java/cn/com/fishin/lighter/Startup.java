@@ -1,6 +1,8 @@
 package cn.com.fishin.lighter;
 
 import cn.com.fishin.lighter.core.LighterExecutor;
+import cn.com.fishin.lighter.core.LighterNodeManager;
+import cn.com.fishin.lighter.core.LighterParser;
 import cn.com.fishin.lighter.net.NioServer;
 import cn.com.fishin.tuz.core.Tuz;
 import cn.com.fishin.tuz.loader.FileSystemPropertiesLoader;
@@ -53,8 +55,10 @@ public class Startup {
                 Integer.valueOf(Tuz.use("server.closePort")),
                 DiPlugin.useInstance(ChannelInitializer.class),
                 () -> {
-                    printSymbol(); // 打印图标
+                    LighterNodeManager.init(); // 初始化节点管理器
                     LighterExecutor.init(); // 初始化执行器
+                    LighterParser.init(); // 初始化解析器
+                    printSymbol(); // 打印图标
                 },
                 LighterExecutor::shutdown
         );

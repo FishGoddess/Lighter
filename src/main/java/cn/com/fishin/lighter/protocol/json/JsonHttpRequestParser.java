@@ -1,7 +1,7 @@
 package cn.com.fishin.lighter.protocol.json;
 
 import cn.com.fishin.lighter.common.entity.Task;
-import cn.com.fishin.lighter.common.enums.TaskAction;
+import cn.com.fishin.lighter.core.executor.TaskAction;
 import cn.com.fishin.lighter.common.helper.GracefulHelper;
 import cn.com.fishin.lighter.common.helper.HttpRequestHelper;
 import cn.com.fishin.lighter.core.LighterArgument;

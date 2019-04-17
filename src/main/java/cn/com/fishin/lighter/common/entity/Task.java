@@ -1,6 +1,6 @@
 package cn.com.fishin.lighter.common.entity;
 
-import cn.com.fishin.lighter.common.enums.TaskAction;
+import cn.com.fishin.lighter.core.executor.TaskAction;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
