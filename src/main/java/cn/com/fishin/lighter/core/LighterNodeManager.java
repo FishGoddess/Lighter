@@ -59,7 +59,6 @@ public class LighterNodeManager {
 
     // 提交任务
     static Object submit(Task task) {
-        // 选择要处理的节点
         return invokeAll(selector.select(task), task);
     }
 

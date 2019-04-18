@@ -37,12 +37,12 @@ public enum TaskAction {
     // 任务处理器
     // 这里进行了一层拦截，就是对任务执行来一层次要业务的处理
     TaskAction(TaskExecutor executor) {
-        /*this.executor = (TaskExecutor) ProxyFactory.wrap(
+        this.executor = (TaskExecutor) ProxyFactory.wrap(
                 executor,
-                new InterceptorInvocationHandler(executor, new Interceptor[] {
-                        new TaskExecutorInterceptor() // 任务执行拦截器
-                })
-        );*/
+                new Interceptor[] {
+                        new TaskExecutorInterceptor()
+                }
+        );
         this.executor = executor;
     }
 

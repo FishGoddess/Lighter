@@ -21,7 +21,7 @@
 ### 3. 使用到的依赖：
 ```xml
 <properties>
-    <tuz.version>0.6.4-BETA</tuz.version>
+    <tuz.version>0.6.6-FINAL</tuz.version>
     <netty.version>4.1.33.Final</netty.version>
     <fastjson.version>1.2.56</fastjson.version>
     <logback.version>1.2.3</logback.version>
@@ -33,10 +33,26 @@
 #### iiii. logBack 作为项目的日志模块，使用 SLF4J 接口对接
 
 ### 4. 项目架构：
-具体配置详见 resources/config.properties
++ 性能测试
+    + 计算机硬件：
+    
+    ![firstTest.png](./images/pc.png)
+    + 单次操作，2000 个线程，10 万个请求，吞吐量：平均 11000 次/秒
+    
+    ![firstTest.png](./images/SecondTest.png)
+        
+    ![firstTest.png](./images/ThirdTest_60s.png)
+            
+    + 混合操作，四种基本操作同时进行，4000 个线程，10 万个请求，平均 8400 次/秒
+    
+    ![firstTest.png](./images/FourthTest_60s_mixed_request.png)
+            
+具体测试文件在 images 下，为 Lighter.jmx，是一个 JMeter 的测试计划
+
++ 具体配置文件详见 resources/config.properties
 ```properties
 #############################################################
-# Lighter 服务配置文件 v1.2.1
+# Lighter 服务配置文件 v1.2.2
 # 下面的配置仅仅是为了定制化 Lighter 服务，如没有这个需求，请不要随便改动
 #                                          2019-4-15   水不要鱼
 #############################################################
