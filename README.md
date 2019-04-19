@@ -1,4 +1,5 @@
 # Lighter 轻量级对象缓存服务中间件 [![License](./license.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
+(目前主分支是 rebuild，如果在代码设计和风格统一上存在问题，请在评论区留言)
 
 ### 1. 使用用途：
 主要用作于对象缓存，带有默认的缓存实现，并且允许多个节点的缓存，这也实现了负载均衡和分布式缓存。
@@ -8,6 +9,12 @@
 在网络通信方面使用的是 Netty，并且实现了 HTTP 下的 JSON 格式传输协议。
 
 整个项目的所有组件都允许自定义，包括缓存实现、节点选择、协议解析和网络通信协议，你只需要非常简单的实现一个接口即可。
+
++ #### 留言网站：[https://www.fishin.com.cn](https://www.fishin.com.cn)
+
++ #### 联系方式：fishinlove@163.com
+
++ #### 开源协议：[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ### 2. 使用步骤：
 服务中带有一个启动脚本：cn.com.fishin.lighter.Startup，可以加一个启动参数，就是配置文件的路径，

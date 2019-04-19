@@ -59,7 +59,9 @@ public class Startup {
                     LighterParser.init(); // 初始化解析器
                     printSymbol(); // 打印图标
                 },
-                LighterExecutor::shutdown
+                () -> {
+                    LighterExecutor.shutdown(); // 关闭执行器
+                }
         );
     }
 }
