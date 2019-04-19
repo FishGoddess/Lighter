@@ -23,7 +23,7 @@ public class NioServerTest {
     public void testNioServer() {
 
         try {
-            Tuz.load(new ClasspathPropertiesLoader("config.properties"));
+            Tuz.load(new ClasspathPropertiesLoader("config/config.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
