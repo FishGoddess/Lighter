@@ -16,6 +16,20 @@
         </encoder>
     </appender>
 
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>logs/Lighter.out.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <!-- 追加日志 -->
+        <append>true</append>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>%d{HH:mm:ss} %-5level %logger{50}:%L - %msg %n</pattern>
+        </encoder>
+    </appender>
+
     <!-- DEBUG 模式 -->
     <logger name="cn.com.fishin" level="INFO"/>
 
