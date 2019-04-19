@@ -19,7 +19,7 @@
 ### 2. 使用步骤：
 服务中带有一个启动脚本：cn.com.fishin.lighter.Startup，可以加一个启动参数，就是配置文件的路径，
 
-如果不指定路径，默认加载目录下的配置文件 config.properties，
+如果不指定路径，默认加载目录下的配置文件 config/config.properties，
 
 启动 cn.com.fishin.lighter.Startup 即可启动项目，默认占用 9669 和 9999 两个端口，
 
