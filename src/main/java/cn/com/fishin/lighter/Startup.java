@@ -1,5 +1,6 @@
 package cn.com.fishin.lighter;
 
+import cn.com.fishin.lighter.common.helper.LogHelper;
 import cn.com.fishin.lighter.common.helper.TuzHelper;
 import cn.com.fishin.lighter.core.LighterExecutor;
 import cn.com.fishin.lighter.core.LighterNodeManager;
@@ -43,6 +44,9 @@ public class Startup {
 
     public static void main(String[] args) throws Exception {
 
+        // 开始启动时间
+        long startTime = System.currentTimeMillis();
+
         // 初始化 Tuz 容器
         TuzHelper.initTuz(args);
 
@@ -58,6 +62,7 @@ public class Startup {
                     LighterExecutor.init(); // 初始化执行器
                     LighterParser.init(); // 初始化解析器
                     printSymbol(); // 打印图标
+                    LogHelper.info("Server startup in " + (System.currentTimeMillis() - startTime) + " ms!  (^_^)");
                 },
                 () -> {
                     LighterExecutor.shutdown(); // 关闭执行器
