@@ -1,89 +1,84 @@
 # Lighter 服务器 Json 协议
 
-### 注意：下面的所有指令仅仅针对于默认的节点实现类！！
 ### 例子：
-#### 1. save 指令：
-保存数据，类似于 java.util.Map 中的 put。
+```http request
+### 测试关闭服务器
+GET http://{{closeHost}}
 
-需要两个参数，一个是 key 值，一个是 value 值
-```json
+### 测试 GET 获取数据
+GET http://{{host}}/testKey
+
+### 测试 POST 存储数据
+POST http://{{host}}/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json;charset=utf-8
+
 {
-  "instruction":"save",
-  "allArgs":[
-    "test", 
-    "value"
-  ]
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
 }
+
+### 测试 DELETE 删除数据
+DELETE http://{{host}}/testKey
+
+### 测试 PUT 修改数据
+PUT http://{{host}}/testKey
+Lighter-Expire-Time: 24
+Content-Type: application/json;charset=utf-8
+
+{
+  "key1": "value1",
+  "key2": "value2"
+}
+
+### 测试 POST 存储表单数据
+POST http://{{host}}/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/x-www-form-urlencoded
+
+key1=value1&
+key2=哈哈哈
+
+###
 ```
 
-#### 2. fetch 指令：
-获取数据，类似于 java.util.Map 中的 get
+这个协议目前实现的是 HTTP 请求，符合 Restful 的风格：
+1. GET 请求，获取一个对象:
+    + 例子：http://127.0.0.1:9669/testKey
+    + testKey 为对象的 key 值
+    + 注意：返回值是一个 json 对象数组
+    
+2. POST 请求，保存一个对象:
+    + 例子：http://127.0.0.1:9669/testKey
+    + testKey 为对象的 key 值
+    + 如果 key 值已经存在则直接返回
+    + 建议使用 Content-Type: application/json;charset=utf-8
+    ```json
+    {
+        "key1": "value1",
+        "key2": "value2",
+        "key3": "value3",
+        "key4": "value4"
+    }
+    ```
 
-需要一个参数，key 值
-```json
-{
-  "instruction":"fetch",
-  "allArgs":[
-    "ndfbndf5435"
-  ]
-}
-```
-
-#### 3. keys 指令：
-获取当前服务器上所有的 key 键值，类似于 java.util.Map 中的 keys
-
-不需要参数
-```json
-{
-  "instruction":"keys",
-  "allArgs":[]
-}
-```
-
-#### 4. size 指令：
-获取当前服务器上的 key 个数，类似于 java.util.Map 中的 size
-
-不需要参数
-```json
-{
-  "instruction":"size",
-  "allArgs":[]
-}
-```
-
-#### 5. exists 指令：
-是否存在某个 key 键值，类似于 java.util.Map 中的 exists
-
-需要一个参数，key 值
-```json
-{
-  "instruction":"exists",
-  "allArgs":[
-    "test"
-  ]
-}
-```
-
-#### 6. remove 指令：
-移除某个数据，类似于 java.util.Map 中的 remove
-
-需要一个参数，key 值
-```json
-{
-  "instruction":"remove",
-  "allArgs":[
-    "test"
-  ]
-}
-```
-
-#### 7. removeAll 指令：
-移除所有数据，类似于 java.util.Map 中的 removeAll
-
-不需要参数
-```json
-{
-  "instruction":"removeAll",
-  "allArgs":[]
-}
-```
+3. PUT 请求，修改一个对象:
+    + 例子：http://127.0.0.1:9669/testKey
+    + testKey 为对象的 key 值
+    + 如果 key 值不存在则直接插入
+    + 建议使用 Content-Type: application/json;charset=utf-8
+    ```json
+    {
+        "key1": "value1",
+        "key2": "value2",
+        "key3": "value3"
+    }
+    ```
+    
+4. DELETE 请求，删除一个对象:
+    + 例子：http://127.0.0.1:9669/testKey
+    + testKey 为对象的 key 值
+    + 返回删除的这个对象
+    

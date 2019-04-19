@@ -18,6 +18,88 @@
 
 如果需要关闭服务，启动 Shutdown 脚本即可。
 
+### 例子：
+HTTP 协议请求，符合 Restful 风格，返回 json 对象，前端可以直接使用
+```json
+{
+  "development": {
+    "host": "localhost:9669",
+    "closeHost": "localhost:9999"
+  }
+}
+```
+```http request
+### 测试关闭服务器
+GET http://{{closeHost}}
+
+### 测试 GET 获取数据
+GET http://{{host}}/testKey
+
+### 测试 POST 存储数据
+POST http://{{host}}/testKey
+Lighter-Expire-Time: 3600
+Content-Type: application/json;charset=utf-8
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "key3": "value3",
+  "key4": "value4"
+}
+
+### 测试 DELETE 删除数据
+DELETE http://{{host}}/testKey
+
+### 测试 PUT 修改数据
+PUT http://{{host}}/testKey
+Lighter-Expire-Time: 24
+Content-Type: application/json;charset=utf-8
+
+{
+  "key1": "value1",
+  "key2": "value2"
+}
+```
+
+这个协议目前实现的是 HTTP 请求，符合 Restful 的风格：
+1. GET 请求，获取一个对象:
+    + 例子：http://127.0.0.1:9669/testKey
+    + testKey 为对象的 key 值
+    + 注意：返回值是一个 json 对象数组
+    
+2. POST 请求，保存一个对象:
+    + 例子：http://127.0.0.1:9669/testKey
+    + testKey 为对象的 key 值
+    + 如果 key 值已经存在则直接返回
+    + 建议使用 Content-Type: application/json;charset=utf-8
+    ```json
+    {
+        "key1": "value1",
+        "key2": "value2",
+        "key3": "value3",
+        "key4": "value4"
+    }
+    ```
+
+3. PUT 请求，修改一个对象:
+    + 例子：http://127.0.0.1:9669/testKey
+    + testKey 为对象的 key 值
+    + 如果 key 值不存在则直接插入
+    + 建议使用 Content-Type: application/json;charset=utf-8
+    ```json
+    {
+        "key1": "value1",
+        "key2": "value2",
+        "key3": "value3"
+    }
+    ```
+    
+4. DELETE 请求，删除一个对象:
+    + 例子：http://127.0.0.1:9669/testKey
+    + testKey 为对象的 key 值
+    + 返回删除的这个对象
+
+
 ### 3. 使用到的依赖：
 ```xml
 <properties>
@@ -149,9 +231,9 @@ NodeSelector=cn.com.fishin.lighter.core.selector.KeyHashNodeSelector
 
 #### 解析：
 1. 客户端通过网络通信传输协议内容
-2. 协议解析器拥有者通过协议解析器解析出当前指令，通过发布事件来结束解析阶段
+2. 协议解析器将协议解析为一个任务对象，交给任务执行器执行
 
 #### 执行：
-1. 事件处理器接收到事件的发生，通过节点选择器选择要执行指令的节点，通过映射器选择要执行的方法出来
-2. 将具体要执行的指令和参数交给节点处理
+1. 任务执行器将任务交给线程池执行，这个任务将被封装成一个 FutureTask 执行
+2. 节点管理器将任务分配到具体的一个节点或者一些节点执行，得到结果返回
 
