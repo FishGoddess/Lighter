@@ -22,4 +22,7 @@ public interface Node {
 
     // 移除数据
     Object remove(Task task);
+
+    // 返回当前节点 key 个数
+    int numberOfKeys();
 }

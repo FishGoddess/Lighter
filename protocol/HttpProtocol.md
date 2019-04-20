@@ -50,11 +50,50 @@
     任意字符串
     ```
     
-4. DELETE 请求，删除一个对象:
+4. remove 动作，删除一个对象:
     + 例子：http://127.0.0.1:9669/remove/testKey
     + testKey 为对象的 key 值
     + **建议使用 `DELETE 请求`**
     + 返回删除的这个对象
+    
+5. lighter 动作，获取 Lighter 服务运行的信息
+    + 例子：http://127.0.0.1:9669/lighter/info
+    + info 为系统信息，目前只有这个值
+    + **建议使用 `GET 请求`**
+    + 返回系统运行信息
+    ```json
+    {
+      "code": 0,
+      "data": [
+        {
+          "numberOfKeys": {
+            "total": 11,
+            "details": {
+              "node_15": 0,
+              "node_14": 1,
+              "node_0": 1,
+              "node_1": 0,
+              "node_2": 1,
+              "node_3": 0,
+              "node_4": 2,
+              "node_5": 1,
+              "node_13": 0,
+              "node_6": 1,
+              "node_12": 1,
+              "node_7": 1,
+              "node_11": 0,
+              "node_8": 1,
+              "node_10": 0,
+              "node_9": 1
+            }
+          },
+          "numberOfNodes": 16
+        }
+      ],
+      "msg": "Done",
+      "success": true
+    }
+    ```
 
 
 ### 例子：

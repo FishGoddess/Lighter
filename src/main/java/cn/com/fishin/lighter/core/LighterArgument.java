@@ -11,4 +11,7 @@ public interface LighterArgument {
 
     // 存活周期时间，默认为 0，即永不过期
     String EXPIRE_TIME_ARGUMENT = "Lighter-Expire-Time";
+
+    String NUMBER_OF_KEYS = "numberOfKeys";
+    String NUMBER_OF_NODES = "numberOfNodes";
 }

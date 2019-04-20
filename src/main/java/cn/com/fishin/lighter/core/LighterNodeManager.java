@@ -9,6 +9,8 @@ import cn.com.fishin.tuz.core.Tuz;
 import cn.com.fishin.tuz.plugin.DiPlugin;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 节点管理者
@@ -67,8 +69,46 @@ public class LighterNodeManager {
         // 所有选择的节点都执行任务
         Object[] results = new Object[nodeIndexes.length];
         for (int i = 0; i < nodeIndexes.length; i++) {
-            results[i] = TaskAction.action(NODES[i], task);
+            results[i] = TaskAction.action(NODES[nodeIndexes[i]], task);
         }
         return results;
+    }
+
+    // 返回当前系统存储的 key 的个数
+    // 这个方法并不保证强一致性！！也就是说如果在执行时，个数被修改，它不会有所感知
+    // 这么做是因为防止次要的系统功能占用过多 CPU 时间，导致业务不可用
+    private static Map<String, Object> numberOfKeys() {
+
+        Map<String, Object> result = new HashMap<>(4);
+        Map<String, Object> details = new HashMap<>(NUMBER_OF_NODES << 2);
+        int sum = 0;
+        for (int i = 0; i < NUMBER_OF_NODES; i++) {
+            int number = NODES[i].numberOfKeys();
+
+            // 统计总和
+            sum = sum + number;
+
+            // 每一个节点的个数
+            details.put("node_" + i, number);
+        }
+
+        result.put("total", sum);
+        result.put("details", details);
+        return result;
+    }
+
+    // 返回当前系统节点个数
+    private static int numberOfNodes() {
+        return NUMBER_OF_NODES;
+    }
+
+    // 返回系统信息
+    public static Map<String, Object> systemInfo() {
+
+        // 组装系统信息
+        Map<String, Object> result = new HashMap<>();
+        result.put(LighterArgument.NUMBER_OF_KEYS, numberOfKeys());
+        result.put(LighterArgument.NUMBER_OF_NODES, numberOfNodes());
+        return result;
     }
 }

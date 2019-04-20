@@ -3,11 +3,16 @@ package cn.com.fishin.lighter.core.executor;
 import cn.com.fishin.lighter.common.entity.Task;
 import cn.com.fishin.lighter.common.exception.ActionException;
 import cn.com.fishin.lighter.common.helper.LogHelper;
+import cn.com.fishin.lighter.core.LighterArgument;
+import cn.com.fishin.lighter.core.LighterNodeManager;
 import cn.com.fishin.lighter.core.node.Node;
 import cn.com.fishin.tuz.entity.InterceptedMethod;
 import cn.com.fishin.tuz.factory.ProxyFactory;
 import cn.com.fishin.tuz.interceptor.DefaultInterceptor;
 import cn.com.fishin.tuz.interceptor.Interceptor;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 任务指令枚举类
@@ -28,7 +33,10 @@ public enum TaskAction {
     SET_ABSENT(Node::setAbsent),
 
     // 移除数据动作
-    REMOVE(Node::remove);
+    REMOVE(Node::remove),
+
+    // Lighter 系统服务
+    LIGHTER((node, task) -> LighterNodeManager.systemInfo());
 
     // 动作执行器
     private TaskExecutor executor = null;
@@ -38,7 +46,7 @@ public enum TaskAction {
     TaskAction(TaskExecutor executor) {
         this.executor = (TaskExecutor) ProxyFactory.wrap(
                 executor,
-                new Interceptor[] {
+                new Interceptor[]{
                         new TaskExecutorInterceptor()
                 }
         );

@@ -40,4 +40,9 @@ public class DefaultNode implements Node {
     public Object remove(Task task) {
         return map.remove(task.getKey());
     }
+
+    @Override
+    public int numberOfKeys() {
+        return map.size();
+    }
 }

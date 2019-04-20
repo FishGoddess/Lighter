@@ -57,7 +57,13 @@ public class HttpRequestParser implements RequestParser<FullHttpRequest> {
         remove(request -> Task.make(
                 TaskAction.REMOVE,
                 key(request))
-        );
+        ),
+
+        // 提供系统服务功能
+        lighter(request -> Task.make(
+                TaskAction.LIGHTER,
+                key(request)
+        ));
 
         // 请求处理器
         private RequestHandler<FullHttpRequest> handler = null;

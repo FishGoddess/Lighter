@@ -17,7 +17,7 @@ Content-Type: application/json;charset=utf-8
 }
 
 ### 如果不存在才插入
-POST http://{{host}}/setAbsent/testKey
+POST http://{{host}}/setAbsent/tehjhs
 Lighter-Expire-Time: 24
 Content-Type: application/json;charset=utf-8
 
@@ -51,5 +51,8 @@ Content-Disposition: form-data; name="field-name"; file-name="无标题.png"
 
 < Z:/无标题.png
 --LighterBoundary--
+
+### 测试 Lighter 系统服务
+GET http://{{host}}/lighter/info
 
 ###
