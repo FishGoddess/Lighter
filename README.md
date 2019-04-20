@@ -17,7 +17,7 @@
 + #### 开源协议：[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ### 2. 使用步骤：
-详细请参考 [`HowToUse.md`](./HowToUse.md) 文件
+详细请参考 [HowToUse.md](./HowToUse.md) 文件
 1. 首先下载 Lighter 的压缩包
     + 压缩包下载地址： 
         + [码云地址](https://gitee.com/FishGoddess/Lighter/releases)

@@ -8,7 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 默认的节点实现类
- * 使用 java.util.
+ * 使用 java.util.ConcurrentHashMap
  *
  * @author Fish
  * <p>Email: fishinlove@163.com</p>
@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DefaultNode implements Node {
 
     // 存储数据的容器
-    // 注意这里针对初始值进行了调整，由于线程数肯定是根据业务量来定的，所以这里取线程数的一半作为初始值
+    // 注意这里针对初始值进行了调整，由于线程数肯定是根据业务量来定的，所以这里取线程数的两倍作为初始值
     private static final int INITIAL_CAPACITY = (Integer.valueOf(Tuz.use("corePoolSize")) << 2);
     private Map<String, Object> map = new ConcurrentHashMap<>(INITIAL_CAPACITY);
 
@@ -28,7 +28,6 @@ public class DefaultNode implements Node {
 
     @Override
     public Object set(Task task) {
-        // 这里不能更新数据
         return map.put(task.getKey(), task.getValue());
     }
 
