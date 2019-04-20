@@ -30,11 +30,26 @@ Content-Type: application/json;charset=utf-8
 }
 
 ### 测试 POST 存储表单数据
-POST http://{{host}}/testKey
+POST http://{{host}}/testKey2
 Lighter-Expire-Time: 3600
 Content-Type: application/x-www-form-urlencoded
 
 key1=value1&
 key2=哈哈哈
+
+### 测试 POST 存储二进制数据
+POST http://{{host}}/testKey3
+Lighter-Expire-Time: 16
+Content-Type: multipart/form-data;boundary=LighterBoundary
+
+--LighterBoundary
+Content-Disposition: form-data; name="field-name"
+
+key-value
+--LighterBoundary
+Content-Disposition: form-data; name="field-name"; file-name="无标题.png"
+
+< Z:/无标题.png
+--LighterBoundary--
 
 ###

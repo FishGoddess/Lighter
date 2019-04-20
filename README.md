@@ -155,7 +155,7 @@ HTTP 协议请求，符合 Restful 风格，返回 json 对象，前端可以直
 + 具体配置文件详见 resources/config.properties
 ```properties
 #############################################################
-# Lighter 服务配置文件 v1.2.2
+# Lighter 服务配置文件 v1.2.5
 # 下面的配置仅仅是为了定制化 Lighter 服务，如没有这个需求，请不要随便改动
 #                                          2019-4-15   水不要鱼
 #############################################################
@@ -185,7 +185,7 @@ ChannelInitializer=cn.com.fishin.lighter.net.http.HttpServerInitializer
 # 你可以自定义协议解析器，以此来实现你的特殊业务解析或者实现你自己的协议
 # 你只需实现 cn.com.fishin.lighter.protocol.RequestParser 接口
 # 然后重写 parse 方法，将用户请求解析成一个任务对象返回即可
-RequestParser=cn.com.fishin.lighter.protocol.json.JsonHttpRequestParser
+RequestParser=cn.com.fishin.lighter.protocol.http.HttpRequestParser
 
 # 线程池属性
 # 属性包含：核心线程数 & 最大线程数 & 线程存活时间 & 等待队列大小 & 队列拒绝策略
@@ -200,11 +200,11 @@ corePoolSize=16
 maximumPoolSize=64
 # 线程存活时间的设置和一个任务执行的时间应该差不多，由于这个任务一般是短时间任务
 # 所以这个值不建议设置的太大，应该要设置为任务执行时间的 2 倍左右，这样可以复用大量线程
-keepAliveTime=10
+keepAliveTime=60
 # 等待队列大小和队列拒绝策略一般会有关联，当队列满了就会开始新增线程，当最大线程数达到了
 # 这个线程池就会执行拒绝策略，由于 Lighter 是一个对象缓存服务，因此是允许缓存不命中的情况的
 # 但是这个值不应该设置得太小，以免造成缓存雪崩和缓存穿透，需要结合系统性能来决定大小
-waitQueueSize=512
+waitQueueSize=4096
 RejectedExecutionHandler=cn.com.fishin.lighter.core.DefaultRejectedExecutionHandler
 
 # 节点个数
@@ -234,6 +234,12 @@ Node=cn.com.fishin.lighter.core.node.DefaultNode
 # 在默认节点实现下，这个崩溃的可能性几乎不存在，但如果是自定义的节点实现，比如 redis 节点实现
 # 就有可能因为机器故障而导致节点写入失败等操作问题，此时将失去这个哈希的范围，也就是缓存命中失败
 NodeSelector=cn.com.fishin.lighter.core.selector.KeyHashNodeSelector
+
+# 允许访问服务的主机域名
+# 由于跨域需要设置这个 HTTP 响应头，只有在这个响应头列表内的才可以访问服务
+# 设置 * 将允许所有主机访问，这在一定程度不安全，但如果你是打算做一个公开的服务
+# 这个选项就需要设置为 * 以便允许所有主机访问
+AccessControlAllowOrigin=*
 ```
 
 ### 主要接口如下：

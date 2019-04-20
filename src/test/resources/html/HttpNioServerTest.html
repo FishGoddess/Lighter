@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试 HTTP 协议</title>
+</head>
+<body>
+
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.min.js"></script>
+<script>
+    $.ajax({
+        url: "http://localhost:9669/me",
+        type: "PUT",
+        contentType: "application/json;charset=utf-8",
+        data: JSON.stringify({
+            "name":"哈哈哈",
+            "age":21
+        }),
+        success: (resp) => {
+            console.log(resp);
+        },
+        error: () => {
+            console.log("网络错误");
+        }
+    });
+</script>
+</html>

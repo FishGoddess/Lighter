@@ -1,14 +1,8 @@
 package cn.com.fishin.lighter.core;
 
-import cn.com.fishin.lighter.common.entity.Task;
 import cn.com.fishin.lighter.common.helper.LogHelper;
-import cn.com.fishin.lighter.core.executor.TaskExecutor;
 import cn.com.fishin.tuz.core.Tuz;
-import cn.com.fishin.tuz.entity.InterceptedMethod;
-import cn.com.fishin.tuz.interceptor.DefaultInterceptor;
-import cn.com.fishin.tuz.interceptor.Interceptor;
 import cn.com.fishin.tuz.plugin.DiPlugin;
-import cn.com.fishin.tuz.plugin.ProxyPlugin;
 
 import java.util.concurrent.*;
 
@@ -25,8 +19,8 @@ public class LighterExecutor {
     private static ThreadPoolExecutor threadPool;
 
     // 执行任务
-    public static Object submit(Task task) throws Exception {
-        return threadPool.submit(() -> LighterNodeManager.submit(task)).get();
+    public static Object submit(Object task) throws Exception {
+        return threadPool.submit(() -> LighterNodeManager.submit(LighterParser.parseRequest(task))).get();
     }
 
     // 初始化执行器

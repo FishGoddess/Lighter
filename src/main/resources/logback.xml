@@ -32,7 +32,7 @@
 
     <!-- DEBUG 模式 -->
     <!-- 这个模式建议选择 INFO，否则每一次都输出信息，会损耗一些性能 -->
-    <logger name="cn.com.fishin" level="DEBUG"/>
+    <logger name="cn.com.fishin" level="INFO"/>
 
     <!-- 日志输出级别 -->
     <root level="WARN">

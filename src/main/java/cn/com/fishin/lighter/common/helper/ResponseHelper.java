@@ -2,6 +2,7 @@ package cn.com.fishin.lighter.common.helper;
 
 import cn.com.fishin.lighter.common.entity.ServerResponse;
 import cn.com.fishin.lighter.common.enums.ServerState;
+import cn.com.fishin.tuz.core.Tuz;
 import com.alibaba.fastjson.JSON;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -42,6 +43,11 @@ public class ResponseHelper {
     private static FullHttpResponse wrapHeaders(FullHttpResponse response) {
         response.headers().set(HttpHeaderNames.CONTENT_TYPE, "application/json;charset=UTF-8");
         response.headers().set(HttpHeaderNames.CONTENT_LENGTH, response.content().readableBytes());
+
+        // 跨域需要访问这两个请求头
+        response.headers().set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, Tuz.useGracefully("AccessControlAllowOrigin", "*"));
+        response.headers().set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_HEADERS, "*");
+        response.headers().set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_METHODS, "*");
         return response;
     }
 

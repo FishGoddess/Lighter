@@ -1,10 +1,10 @@
-package cn.com.fishin.lighter.protocol.json;
+package cn.com.fishin.lighter.protocol.http;
 
 import cn.com.fishin.lighter.common.entity.Task;
-import cn.com.fishin.lighter.core.executor.TaskAction;
 import cn.com.fishin.lighter.common.helper.GracefulHelper;
 import cn.com.fishin.lighter.common.helper.HttpRequestHelper;
 import cn.com.fishin.lighter.core.LighterArgument;
+import cn.com.fishin.lighter.core.executor.TaskAction;
 import cn.com.fishin.lighter.protocol.RequestHandler;
 import cn.com.fishin.lighter.protocol.RequestParser;
 import io.netty.handler.codec.http.FullHttpRequest;
@@ -17,10 +17,7 @@ import io.netty.util.CharsetUtil;
  * <p>Email: fishinlove@163.com</p>
  * <p>created by 2019/04/15 22:27:04</p>
  */
-public class JsonHttpRequestParser implements RequestParser<FullHttpRequest> {
-
-    // 服务器存活周期时间，从请求头中获取时用到的名字
-    private static final String EXPIRE_TIME = "Lighter-Expire-Time";
+public class HttpRequestParser implements RequestParser<FullHttpRequest> {
 
     @Override
     public Task parse(FullHttpRequest request) {
@@ -40,13 +37,13 @@ public class JsonHttpRequestParser implements RequestParser<FullHttpRequest> {
 
         // POST 请求
         // 主要用来新增数据
-        POST(request -> Task.make(
-                TaskAction.SAVE,
-                key(request),
-                value(request))
-                .addArgument(
-                        LighterArgument.EXPIRE_TIME_ARGUMENT,
-                        GracefulHelper.ifNull(request.headers().get(EXPIRE_TIME), "0"))
+        POST(request -> filledWithParameter(
+                request,
+                Task.make(
+                        TaskAction.SAVE,
+                        key(request),
+                        value(request)
+                ))
         ),
 
         // DELETE 请求
@@ -58,13 +55,13 @@ public class JsonHttpRequestParser implements RequestParser<FullHttpRequest> {
 
         // PUT 请求
         // 主要用来修改数据
-        PUT(request -> Task.make(
-                TaskAction.UPDATE,
-                key(request),
-                value(request))
-                .addArgument(
-                        LighterArgument.EXPIRE_TIME_ARGUMENT,
-                        GracefulHelper.ifNull(request.headers().get(EXPIRE_TIME), "0"))
+        PUT(request -> filledWithParameter(
+                request,
+                Task.make(
+                        TaskAction.UPDATE,
+                        key(request),
+                        value(request)
+                ))
         );
 
         // 请求处理器
@@ -93,5 +90,24 @@ public class JsonHttpRequestParser implements RequestParser<FullHttpRequest> {
             return str;
         }
         return str.replaceAll("\r", "").replaceAll("\n", "");
+    }
+
+    // 获取存活时间
+    private static String expiredTime(FullHttpRequest request) {
+        return request.headers().get(LighterArgument.EXPIRE_TIME_ARGUMENT);
+    }
+
+    // 添加参数
+    private static Task filledWithParameter(FullHttpRequest request, Task task) {
+        // 设置存活时间
+        if (GracefulHelper.isNotNull(expiredTime(request))) {
+            task.addArgument(
+                    LighterArgument.EXPIRE_TIME_ARGUMENT,
+                    expiredTime(request)
+            );
+        }
+
+        // 返回任务
+        return task;
     }
 }

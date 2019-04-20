@@ -6,7 +6,6 @@ import cn.com.fishin.lighter.common.helper.LogHelper;
 import cn.com.fishin.lighter.core.node.Node;
 import cn.com.fishin.tuz.entity.InterceptedMethod;
 import cn.com.fishin.tuz.factory.ProxyFactory;
-import cn.com.fishin.tuz.handler.InterceptorInvocationHandler;
 import cn.com.fishin.tuz.interceptor.DefaultInterceptor;
 import cn.com.fishin.tuz.interceptor.Interceptor;
 
@@ -65,7 +64,7 @@ public enum TaskAction {
 
         @Override
         public boolean after(InterceptedMethod method) {
-            // TODO 进行任务持久化操作
+            // TODO 持久化操作
             return true;
         }
 

@@ -10,5 +10,5 @@ package cn.com.fishin.lighter.core;
 public interface LighterArgument {
 
     // 存活周期时间，默认为 0，即永不过期
-    String EXPIRE_TIME_ARGUMENT = "EXPIRE_TIME";
+    String EXPIRE_TIME_ARGUMENT = "Lighter-Expire-Time";
 }

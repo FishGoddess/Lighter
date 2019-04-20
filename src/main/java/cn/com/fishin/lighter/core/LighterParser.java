@@ -24,7 +24,7 @@ public class LighterParser {
 
     // 解析请求为任务
     @SuppressWarnings("unchecked")
-    public static Task parseRequest(Object request) {
+    static Task parseRequest(Object request) {
         return requestParser.parse(request);
     }
 }

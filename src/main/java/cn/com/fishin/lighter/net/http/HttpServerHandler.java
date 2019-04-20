@@ -28,13 +28,22 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         // 调试记录
         LogHelper.debug("One client connected! ===> " + request.uri());
 
+        // 如果是 OPTIONS 请求，说明是跨域访问请求
+        if (HttpRequestHelper.isOptions(request)) {
+            ctx.writeAndFlush(ResponseHelper.wrap(
+                    NetServerState.SUCCESS,
+                    null
+            )).addListener(ChannelFutureListener.CLOSE);
+            return;
+        }
+
         // 检查请求是否合法
         checkRequest(request);
 
         // 提交任务执行，并返回数据
         ctx.writeAndFlush(ResponseHelper.wrap(
                 NetServerState.SUCCESS,
-                LighterExecutor.submit(LighterParser.parseRequest(request))
+                LighterExecutor.submit(request)
         )).addListener(ChannelFutureListener.CLOSE);
     }
 

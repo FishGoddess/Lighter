@@ -31,8 +31,20 @@ public class HttpRequestHelper {
         return "PUT".equals(method(request));
     }
 
+    // 判断是否是 OPTIONS 请求
+    public static boolean isOptions(HttpRequest request) {
+        return "OPTIONS".equals(method(request));
+    }
+
     // 获得 request 的请求方法
     public static String method(HttpRequest request) {
         return request.method().name().toUpperCase();
+    }
+
+    // 获得请求 uri 数组
+    // 比如，/fetch/key  ===> [fetch, key]
+    public static String[] uris(HttpRequest request) {
+        // 先去掉开头的 / ，也就是 /fetch/key ===> fetch/key，然后使用 / 分割
+        return request.uri().substring(1).split("/");
     }
 }
