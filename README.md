@@ -17,56 +17,70 @@
 + #### 开源协议：[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
 
 ### 2. 使用步骤：
-服务中带有一个启动脚本：cn.com.fishin.lighter.Startup，可以加一个启动参数，就是配置文件的路径，
+详细请参考 `HowToUse.md` 文件
+1. 首先下载 Lighter 的压缩包
+    + 压缩包下载地址： 
+        + [码云地址](https://gitee.com/FishGoddess/Lighter/releases)
+        + [GitHub](https://github.com/FishGoddess/Lighter/releases)
 
-如果不指定路径，默认加载目录下的配置文件 config/config.properties，
+2. 当你下载好压缩包之后，就成功了一大半啦！
+    + 在 Linux 系统上如何启动 Lighter 服务？
+        
+        a. 使用 ls 命令查看下载好的文件
 
-启动 cn.com.fishin.lighter.Startup 即可启动项目，默认占用 9669 和 9999 两个端口，
+        ![linux_tar_gz_1.png](./images/HowToUse/linux_tar_gz_1.png)
+        
+        b. 使用 tar 命令解压文件
+        
+        ![linux_tar_gz_2.png](./images/HowToUse/linux_tar_gz_2.png)
+        
+        c. 解压之后得到一个目录，使用 cd 命令进入目录，进去之后可以看到三个目录
+        
+        + 首先来看 bin 目录，这是二进制文件所在的目录，运行服务和关闭服务的脚本都在这个目录下
+        + 让我们来启动服务吧！！
+        + 执行 ./startup.sh 即可启动，当然，我们建议你使用后台启动方式，如图中：
+        
+        ![linux_chmod.png](./images/HowToUse/linux_startup_1.png)
+        
+        + 你或许会担心以后台形式启动会看不到日志，不用担心，后面后提到日志在哪
+        
+        + 如果你足够幸运，就可以看到下面这个 Lighter 图标：
+        
+        ![linux_startup_2.png](./images/HowToUse/linux_startup_2.png)
+        
+        + 到这里，服务就完全启动啦！！
+        
+        + 注意：由于运行需要权限，如果你发现运行时显示`没有权限`，就先使用 chmod 赋予权限
+                
+        ![linux_chmod.png](./images/HowToUse/linux_chmod.png)
+        
+        + 如果你需要关闭服务，当然，我们不建议你这么做哈哈，但如果你坚持要这么做，可以执行 shutdown.sh 脚本
+        
+        ![linux_shutdown_1.png](./images/HowToUse/linux_shutdown_1.png)
+        
+        ![linux_shutdown_2.png](./images/HowToUse/linux_shutdown_2.png)
+        
+    + 在 Windows 系统上如何启动 Lighter 服务？
+    
+        a. 同样需要下载到 Lighter 的压缩包，这里就不赘述了，解压到一个目录下
+        b. 进入到这个目录，同样有三个目录，进入到 bin 目录下，双击 startup.bat 即可启动
+        c. 如果需要关闭服务，双击 shutdown.bat 即可
 
-如果需要关闭服务，启动 cn.com.fishin.lighter.Shutdown 脚本即可。
+3. 服务运行中，日志在哪？
+    
+    在得到的目录中，有三个目录，`bin` / `conf` / `logs`
+    
+    我想聪明的你已经猜到了，日志就是存放在 logs 目录，它以时间进行分割日志文件，一天一个日志文件
+    
+    ![direction.png](./images/HowToUse/direction.png)
+    
+    如果你需要配置服务，进入 conf 目录，打开 config.properties 文件进行配置即可
+    
 
-### 例子：
+### 请求例子：
 HTTP 协议请求，符合 Restful 风格，返回 json 对象，前端可以直接使用
-```json
-{
-  "development": {
-    "host": "localhost:9669",
-    "closeHost": "localhost:9999"
-  }
-}
-```
-```http request
-### 测试关闭服务器
-GET http://{{closeHost}}
 
-### 测试 GET 获取数据
-GET http://{{host}}/testKey
-
-### 测试 POST 存储数据
-POST http://{{host}}/testKey
-Lighter-Expire-Time: 3600
-Content-Type: application/json;charset=utf-8
-
-{
-  "key1": "value1",
-  "key2": "value2",
-  "key3": "value3",
-  "key4": "value4"
-}
-
-### 测试 DELETE 删除数据
-DELETE http://{{host}}/testKey
-
-### 测试 PUT 修改数据
-PUT http://{{host}}/testKey
-Lighter-Expire-Time: 24
-Content-Type: application/json;charset=utf-8
-
-{
-  "key1": "value1",
-  "key2": "value2"
-}
-```
+**注意：这个协议有可能会进行更改，目前在斟酌协议的使用细节！！**
 
 这个协议目前实现的是 HTTP 请求，符合 Restful 的风格：
 1. GET 请求，获取一个对象:

@@ -23,7 +23,7 @@ public class TuzHelper {
             Tuz.load(new FileSystemPropertiesLoader(args[0]));
         } else {
             // 从类路径加载配置文件
-            Tuz.load(new ClasspathPropertiesLoader("config/config.properties"));
+            Tuz.load(new ClasspathPropertiesLoader("conf/config.properties"));
         }
     }
 }
