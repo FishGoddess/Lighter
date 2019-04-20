@@ -19,16 +19,16 @@ import cn.com.fishin.tuz.interceptor.Interceptor;
 public enum TaskAction {
 
     // 获取数据动作
-    FETCH(Node::fetch),
+    GET(Node::get),
 
     // 保存数据动作
-    SAVE(Node::save),
+    SET(Node::set),
+
+    // 如果不存在这个 key 值，就插入，否则直接返回
+    SET_ABSENT(Node::setAbsent),
 
     // 移除数据动作
-    REMOVE(Node::remove),
-
-    // 更新数据动作
-    UPDATE(Node::update);
+    REMOVE(Node::remove);
 
     // 动作执行器
     private TaskExecutor executor = null;

@@ -78,21 +78,21 @@
     
 
 ### 请求例子：
-HTTP 协议请求，符合 Restful 风格，返回 json 对象，前端可以直接使用
-
-**注意：这个协议有可能会进行更改，目前在斟酌协议的使用细节！！**
-
-这个协议目前实现的是 HTTP 请求，符合 Restful 的风格：
-1. GET 请求，获取一个对象:
-    + 例子：http://127.0.0.1:9669/testKey
+这个协议目前实现的是 HTTP 请求，建议使用 Restful 的风格发送请求：
+1. get 动作，获取一个对象:
+    + 例子：http://127.0.0.1:9669/get/testKey
     + testKey 为对象的 key 值
+    + **建议使用 `GET 请求`**
     + 注意：返回值是一个 json 对象数组
     
-2. POST 请求，保存一个对象:
-    + 例子：http://127.0.0.1:9669/testKey
+2. set 动作，保存一个对象:
+    + 例子：http://127.0.0.1:9669/set/testKey
     + testKey 为对象的 key 值
-    + 如果 key 值已经存在则直接返回
-    + 建议使用 Content-Type: application/json;charset=utf-8
+    + **建议使用 `POST 请求`**
+    + **建议使用 Content-Type: application/json;charset=utf-8**
+    + 注意：返回值是一个 json 对象数组
+    
+    请求体：
     ```json
     {
         "key1": "value1",
@@ -101,23 +101,37 @@ HTTP 协议请求，符合 Restful 风格，返回 json 对象，前端可以直
         "key4": "value4"
     }
     ```
+    或者是：
+    ```text
+    任意字符串
+    ```
 
-3. PUT 请求，修改一个对象:
-    + 例子：http://127.0.0.1:9669/testKey
+3. setAbsent 动作，如果对象键值不存在才保存:
+    + 例子：http://127.0.0.1:9669/setAbsent/testKey
     + testKey 为对象的 key 值
-    + 如果 key 值不存在则直接插入
-    + 建议使用 Content-Type: application/json;charset=utf-8
+    + 如果 key 值不存在才保存
+    + **建议使用 `POST 请求`**
+    + **建议使用 Content-Type: application/json;charset=utf-8**
+    + 注意：返回值是一个 json 对象数组
+        
+    请求体：
     ```json
     {
-        "key1": "value1",
-        "key2": "value2",
-        "key3": "value3"
+       "key1": "value1",
+       "key2": "value2",
+       "key3": "value3",
+       "key4": "value4"
     }
+    ```
+    或者是：
+    ```text
+    任意字符串
     ```
     
 4. DELETE 请求，删除一个对象:
-    + 例子：http://127.0.0.1:9669/testKey
+    + 例子：http://127.0.0.1:9669/remove/testKey
     + testKey 为对象的 key 值
+    + **建议使用 `DELETE 请求`**
     + 返回删除的这个对象
 
 
@@ -146,7 +160,7 @@ HTTP 协议请求，符合 Restful 风格，返回 json 对象，前端可以直
         
     ![firstTest.png](./images/ThirdTest_60s.png)
             
-    + 混合操作，四种基本操作同时进行，4000 个线程，10 万个请求，平均 8400 次/秒
+    + 混合操作，四种基本操作同时进行，4000 个线程，10 万个请求，平均 8000 次/秒
     
     ![firstTest.png](./images/FourthTest_60s_mixed_request.png)
             
@@ -155,7 +169,7 @@ HTTP 协议请求，符合 Restful 风格，返回 json 对象，前端可以直
 + 具体配置文件详见 resources/config.properties
 ```properties
 #############################################################
-# Lighter 服务配置文件 v1.2.5
+# Lighter 服务配置文件 v1.2.6
 # 下面的配置仅仅是为了定制化 Lighter 服务，如没有这个需求，请不要随便改动
 #                                          2019-4-15   水不要鱼
 #############################################################

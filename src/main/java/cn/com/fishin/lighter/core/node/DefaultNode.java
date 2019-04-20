@@ -22,23 +22,23 @@ public class DefaultNode implements Node {
     private Map<String, Object> map = new ConcurrentHashMap<>(INITIAL_CAPACITY);
 
     @Override
-    public Object fetch(Task task) {
+    public Object get(Task task) {
         return map.get(task.getKey());
     }
 
     @Override
-    public Object save(Task task) {
+    public Object set(Task task) {
         // 这里不能更新数据
+        return map.put(task.getKey(), task.getValue());
+    }
+
+    @Override
+    public Object setAbsent(Task task) {
         return map.putIfAbsent(task.getKey(), task.getValue());
     }
 
     @Override
     public Object remove(Task task) {
         return map.remove(task.getKey());
-    }
-
-    @Override
-    public Object update(Task task) {
-        return map.put(task.getKey(), task.getValue());
     }
 }

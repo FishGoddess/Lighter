@@ -58,8 +58,9 @@ public class ResponseHelper {
 
     // 获取响应状态
     private static HttpResponseStatus status(ServerResponse response) {
-        return response.isSuccess() ?
+        return HttpResponseStatus.OK;
+        /*return response.isSuccess() ?
                 HttpResponseStatus.OK :
-                HttpResponseStatus.BAD_REQUEST;
+                HttpResponseStatus.BAD_REQUEST;*/
     }
 }

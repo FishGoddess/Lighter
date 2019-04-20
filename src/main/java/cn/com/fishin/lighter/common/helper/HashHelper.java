@@ -18,6 +18,12 @@ public class HashHelper {
      */
     public static int stringSimpleHash(String str, int range) {
 
+        // 如果是 null 则返回 0
+        if (GracefulHelper.isNull(str)) {
+            return 0;
+        }
+
+        // 不是 null 就直接返回 hashCode()
         int hashCode = str.hashCode();
         if (hashCode < 0) {
             hashCode = -hashCode;

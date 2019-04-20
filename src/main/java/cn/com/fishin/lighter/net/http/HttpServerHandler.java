@@ -77,8 +77,9 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
 
     // 检查 uri 是否为空
     private static void checkRequestUri(FullHttpRequest request) {
-        if ("".equals(request.uri()) || "/".equals(request.uri())) {
-            throw new RequestException("The uri of request must be not empty!");
+        if ("".equals(request.uri()) || "/".equals(request.uri())
+                || HttpRequestHelper.uris(request).length < 2) {
+            throw new RequestException("The uri of request is illegal!");
         }
     }
 

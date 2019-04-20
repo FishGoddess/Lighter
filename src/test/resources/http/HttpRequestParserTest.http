@@ -1,11 +1,11 @@
 ### 测试关闭服务器
 GET http://{{closeHost}}
 
-### 测试 GET 获取数据
-GET http://{{host}}/testKey
+### 获取数据
+GET http://{{host}}/get/testKey
 
-### 测试 POST 存储数据
-POST http://{{host}}/testKey
+### 保存数据
+POST http://{{host}}/set/testKey
 Lighter-Expire-Time: 3600
 Content-Type: application/json;charset=utf-8
 
@@ -16,11 +16,8 @@ Content-Type: application/json;charset=utf-8
   "key4": "value4"
 }
 
-### 测试 DELETE 删除数据
-DELETE http://{{host}}/testKey
-
-### 测试 PUT 修改数据
-PUT http://{{host}}/testKey
+### 如果不存在才插入
+POST http://{{host}}/setAbsent/testKey
 Lighter-Expire-Time: 24
 Content-Type: application/json;charset=utf-8
 
@@ -29,8 +26,11 @@ Content-Type: application/json;charset=utf-8
   "key2": "value2"
 }
 
+### 测试 DELETE 删除数据
+DELETE http://{{host}}/remove/testKey
+
 ### 测试 POST 存储表单数据
-POST http://{{host}}/testKey2
+POST http://{{host}}/set/testKey2
 Lighter-Expire-Time: 3600
 Content-Type: application/x-www-form-urlencoded
 
@@ -38,7 +38,7 @@ key1=value1&
 key2=哈哈哈
 
 ### 测试 POST 存储二进制数据
-POST http://{{host}}/testKey3
+POST http://{{host}}/set/testKey3
 Lighter-Expire-Time: 16
 Content-Type: multipart/form-data;boundary=LighterBoundary
 

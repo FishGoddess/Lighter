@@ -12,14 +12,14 @@ import cn.com.fishin.lighter.common.entity.Task;
 public interface Node {
 
     // 获取数据
-    Object fetch(Task task);
+    Object get(Task task);
 
     // 保存数据
-    Object save(Task task);
+    Object set(Task task);
+
+    // 不存在才保存
+    Object setAbsent(Task task);
 
     // 移除数据
     Object remove(Task task);
-
-    // 更新数据
-    Object update(Task task);
 }

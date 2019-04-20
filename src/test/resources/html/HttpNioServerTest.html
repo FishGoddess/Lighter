@@ -10,12 +10,13 @@
 <script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.min.js"></script>
 <script>
     $.ajax({
-        url: "http://localhost:9669/me",
-        type: "PUT",
+        url: "http://localhost:9669/get/testKey3",
+        type: "POST",
         contentType: "application/json;charset=utf-8",
         data: JSON.stringify({
             "name":"哈哈哈",
-            "age":21
+            "age":21,
+            "new": true
         }),
         success: (resp) => {
             console.log(resp);
