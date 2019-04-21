@@ -59,6 +59,12 @@ public class HttpRequestParser implements RequestParser<FullHttpRequest> {
                 key(request))
         ),
 
+        // 判断 key 值是否存在
+        exists(request -> Task.make(
+                TaskAction.EXISTS,
+                key(request)
+        )),
+
         // 提供系统服务功能
         lighter(request -> Task.make(
                 TaskAction.LIGHTER,

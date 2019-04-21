@@ -56,9 +56,16 @@
     + **建议使用 `DELETE 请求`**
     + 返回删除的这个对象
     
-5. lighter 动作，获取 Lighter 服务运行的信息
+5. exists 动作，判断一个对象 key 是否存在:
+    + 例子：http://127.0.0.1:9669/exists/testKey
+    + testKey 为对象的 key 值
+    + **建议使用 `GET 请求`**
+    + 返回 true 如果这个 key 存在
+    
+6. lighter 动作，获取 Lighter 服务运行的信息
     + 例子：http://127.0.0.1:9669/lighter/info
-    + info 为系统信息，目前只有这个值
+    + 目前支持 keys、values、numberOfKeys、info 等动作
+    + info 为系统运行所有信息，包含上面几个系统动作的功能
     + **建议使用 `GET 请求`**
     + 返回系统运行信息
     ```json
@@ -66,23 +73,87 @@
       "code": 0,
       "data": [
         {
+          "keys": {
+            "node_15": [],
+            "node_14": [],
+            "node_0": [],
+            "node_1": [],
+            "node_2": [
+              "tehjhs"
+            ],
+            "node_3": [
+              "bsdf"
+            ],
+            "node_4": [],
+            "node_5": [],
+            "node_13": [
+              "gdsgas"
+            ],
+            "node_6": [
+              "%E5%B9%BF%E6%B3%9B%E7%9A%84%E5%99%B6"
+            ],
+            "node_12": [
+              "tyret"
+            ],
+            "node_7": [],
+            "node_11": [
+              "gdsa"
+            ],
+            "node_8": [],
+            "node_10": [],
+            "node_9": [
+              "ghfdhfd"
+            ]
+          },
+          "values": {
+            "node_15": [],
+            "node_14": [],
+            "node_0": [],
+            "node_1": [],
+            "node_2": [
+              "{  \"key1\": \"value1\",  \"key2\": \"value2\"}"
+            ],
+            "node_3": [
+              "{  \"key1\": \"value1\",  \"key2\": \"value2\"}"
+            ],
+            "node_4": [],
+            "node_5": [],
+            "node_13": [
+              "{  \"gsda\": \"gsdfga\",  \"风格的yrtruhjm放大\": \"gdfgad灌水广\"}"
+            ],
+            "node_6": [
+              "{  \"key1\": \"value1\",  \"key2\": \"value2\"}"
+            ],
+            "node_12": [
+              "{  \"key1\": \"value1\",  \"key2\": \"value2\"}"
+            ],
+            "node_7": [],
+            "node_11": [
+              "{  \"key1\": \"value1\",  \"风格的放大\": \"gdfgad灌水广\"}"
+            ],
+            "node_8": [],
+            "node_10": [],
+            "node_9": [
+              "{  \"key1\": \"value1\",  \"key2\": \"value2\"}"
+            ]
+          },
           "numberOfKeys": {
-            "total": 11,
+            "total": 7,
             "details": {
               "node_15": 0,
-              "node_14": 1,
-              "node_0": 1,
+              "node_14": 0,
+              "node_0": 0,
               "node_1": 0,
               "node_2": 1,
-              "node_3": 0,
-              "node_4": 2,
-              "node_5": 1,
-              "node_13": 0,
+              "node_3": 1,
+              "node_4": 0,
+              "node_5": 0,
+              "node_13": 1,
               "node_6": 1,
               "node_12": 1,
-              "node_7": 1,
-              "node_11": 0,
-              "node_8": 1,
+              "node_7": 0,
+              "node_11": 1,
+              "node_8": 0,
               "node_10": 0,
               "node_9": 1
             }

@@ -77,7 +77,7 @@ public class LighterNodeManager {
     // 返回当前系统存储的 key 的个数
     // 这个方法并不保证强一致性！！也就是说如果在执行时，个数被修改，它不会有所感知
     // 这么做是因为防止次要的系统功能占用过多 CPU 时间，导致业务不可用
-    private static Map<String, Object> numberOfKeys() {
+    public static Map<String, Object> numberOfKeys() {
 
         Map<String, Object> result = new HashMap<>(4);
         Map<String, Object> details = new HashMap<>(NUMBER_OF_NODES << 2);
@@ -97,18 +97,37 @@ public class LighterNodeManager {
         return result;
     }
 
-    // 返回当前系统节点个数
-    private static int numberOfNodes() {
-        return NUMBER_OF_NODES;
-    }
-
     // 返回系统信息
     public static Map<String, Object> systemInfo() {
 
         // 组装系统信息
         Map<String, Object> result = new HashMap<>();
         result.put(LighterArgument.NUMBER_OF_KEYS, numberOfKeys());
-        result.put(LighterArgument.NUMBER_OF_NODES, numberOfNodes());
+        result.put(LighterArgument.KEYS, keys());
+        result.put(LighterArgument.VALUES, values());
+        result.put("numberOfNodes", NUMBER_OF_NODES);
+        return result;
+    }
+
+    // 返回所有节点上的所有的 key
+    public static Map<String, Object> keys() {
+        Map<String, Object> result = new HashMap<>(NUMBER_OF_NODES << 2);
+        for (int i = 0; i < NUMBER_OF_NODES; i++) {
+            result.put("node_" + i, NODES[i].keys());
+        }
+
+        // 返回结果
+        return result;
+    }
+
+    // 返回所有节点上的所有的 value
+    public static Map<String, Object> values() {
+        Map<String, Object> result = new HashMap<>(NUMBER_OF_NODES << 2);
+        for (int i = 0; i < NUMBER_OF_NODES; i++) {
+            result.put("node_" + i, NODES[i].values());
+        }
+
+        // 返回结果
         return result;
     }
 }

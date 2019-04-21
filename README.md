@@ -63,7 +63,9 @@
     + 在 Windows 系统上如何启动 Lighter 服务？
     
         a. 同样需要下载到 Lighter 的压缩包，这里就不赘述了，解压到一个目录下
+        
         b. 进入到这个目录，同样有三个目录，进入到 bin 目录下，双击 startup.bat 即可启动
+        
         c. 如果需要关闭服务，双击 shutdown.bat 即可
 
 3. 服务运行中，日志在哪？
@@ -74,10 +76,14 @@
     
     ![direction.png](./images/HowToUse/direction.png)
     
-    如果你需要配置服务，进入 conf 目录，打开 config.properties 文件进行配置即可
+    如果你需要配置服务，进入 `conf` 目录，打开 `config.properties` 文件进行配置即可
+
+    如果你需要配置日志信息，进入 `bin` / `classes` 目录，打开 `logback.xml` 文件进行配置即可
     
 
 ### 请求例子：
+下面这个协议完整版请点击：[Lighter 使用的 Http 协议](./protocol/HttpProtocol.md)。
+
 这个协议目前实现的是 HTTP 请求，建议使用 Restful 的风格发送请求：
 1. get 动作，获取一个对象:
     + 例子：http://127.0.0.1:9669/get/testKey
@@ -134,9 +140,16 @@
     + **建议使用 `DELETE 请求`**
     + 返回删除的这个对象
     
-5. lighter 动作，获取 Lighter 服务运行的信息
+5. exists 动作，判断一个对象 key 是否存在:
+    + 例子：http://127.0.0.1:9669/exists/testKey
+    + testKey 为对象的 key 值
+    + **建议使用 `GET 请求`**
+    + 返回 true 如果这个 key 存在
+    
+6. lighter 动作，获取 Lighter 服务运行的信息
     + 例子：http://127.0.0.1:9669/lighter/info
-    + info 为系统信息，目前只有这个值
+    + 目前支持 keys、values、numberOfKeys、info 等动作
+    + info 为系统运行所有信息，包含上面几个系统动作的功能
     + **建议使用 `GET 请求`**
     + 返回系统运行信息
     ```json
@@ -144,23 +157,87 @@
       "code": 0,
       "data": [
         {
+          "keys": {
+            "node_15": [],
+            "node_14": [],
+            "node_0": [],
+            "node_1": [],
+            "node_2": [
+              "tehjhs"
+            ],
+            "node_3": [
+              "bsdf"
+            ],
+            "node_4": [],
+            "node_5": [],
+            "node_13": [
+              "gdsgas"
+            ],
+            "node_6": [
+              "%E5%B9%BF%E6%B3%9B%E7%9A%84%E5%99%B6"
+            ],
+            "node_12": [
+              "tyret"
+            ],
+            "node_7": [],
+            "node_11": [
+              "gdsa"
+            ],
+            "node_8": [],
+            "node_10": [],
+            "node_9": [
+              "ghfdhfd"
+            ]
+          },
+          "values": {
+            "node_15": [],
+            "node_14": [],
+            "node_0": [],
+            "node_1": [],
+            "node_2": [
+              "{  \"key1\": \"value1\",  \"key2\": \"value2\"}"
+            ],
+            "node_3": [
+              "{  \"key1\": \"value1\",  \"key2\": \"value2\"}"
+            ],
+            "node_4": [],
+            "node_5": [],
+            "node_13": [
+              "{  \"gsda\": \"gsdfga\",  \"风格的yrtruhjm放大\": \"gdfgad灌水广\"}"
+            ],
+            "node_6": [
+              "{  \"key1\": \"value1\",  \"key2\": \"value2\"}"
+            ],
+            "node_12": [
+              "{  \"key1\": \"value1\",  \"key2\": \"value2\"}"
+            ],
+            "node_7": [],
+            "node_11": [
+              "{  \"key1\": \"value1\",  \"风格的放大\": \"gdfgad灌水广\"}"
+            ],
+            "node_8": [],
+            "node_10": [],
+            "node_9": [
+              "{  \"key1\": \"value1\",  \"key2\": \"value2\"}"
+            ]
+          },
           "numberOfKeys": {
-            "total": 11,
+            "total": 7,
             "details": {
               "node_15": 0,
-              "node_14": 1,
-              "node_0": 1,
+              "node_14": 0,
+              "node_0": 0,
               "node_1": 0,
               "node_2": 1,
-              "node_3": 0,
-              "node_4": 2,
-              "node_5": 1,
-              "node_13": 0,
+              "node_3": 1,
+              "node_4": 0,
+              "node_5": 0,
+              "node_13": 1,
               "node_6": 1,
               "node_12": 1,
-              "node_7": 1,
-              "node_11": 0,
-              "node_8": 1,
+              "node_7": 0,
+              "node_11": 1,
+              "node_8": 0,
               "node_10": 0,
               "node_9": 1
             }
@@ -193,19 +270,19 @@
     + 计算机硬件：
     
     ![firstTest.png](./images/pc.png)
-    + 单次操作，2000 个线程，10 万个请求，吞吐量：平均 11000 次/秒
+    + 单次操作，1000 个线程，10 万个请求，吞吐量：平均 11000 次/秒
     
     ![firstTest.png](./images/SecondTest.png)
         
     ![firstTest.png](./images/ThirdTest_60s.png)
             
-    + 混合操作，四种基本操作同时进行，4000 个线程，10 万个请求，平均 8000 次/秒
+    + 混合操作，几种基本操作同时进行，1000 个线程，10 万个请求，平均 10000 次/秒
     
     ![firstTest.png](./images/FourthTest_60s_mixed_request.png)
             
 具体测试文件在 images 下，为 Lighter.jmx，是一个 JMeter 的测试计划
 
-+ 具体配置文件详见 resources/config.properties
++ 具体配置文件详见 resources/conf/config.properties
 ```properties
 #############################################################
 # Lighter 服务配置文件 v1.3.0

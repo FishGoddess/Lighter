@@ -23,6 +23,15 @@ public interface Node {
     // 移除数据
     Object remove(Task task);
 
+    // key 是否已经存在
+    boolean exists(Task task);
+
     // 返回当前节点 key 个数
     int numberOfKeys();
+
+    // 返回当前节点上所有的 key
+    String[] keys();
+
+    // 返回当前节点上所有的 value
+    Object[] values();
 }
