@@ -7,13 +7,13 @@
 + 默认节点具备懒回收和哨兵回收两种过期回收机制
 
 ### 1. 使用用途：
-主要用作于对象缓存，带有默认的缓存实现，并且允许多个节点的缓存，这也实现了负载均衡和分布式缓存。
+1) 主要用作于对象缓存，带有默认的缓存实现，并且允许多个节点的缓存，这也实现了负载均衡和分布式缓存。
 
-使用 `Tuz` 做容器托管（`Tuz` 是我写的另外一个开源项目：[Tuz 资源容器](https://gitee.com/FishGoddess/Tuz)，已发布到 [maven 中心仓库](https://mvnrepository.com/artifact/cn.com.fishin/Tuz)），并利用它的 IOC 技术和拦截器技术做业务解耦。
+2) 使用 `Tuz` 做容器托管（`Tuz` 是我写的另外一个开源项目：[Tuz 资源容器](https://gitee.com/FishGoddess/Tuz)，已发布到 [maven 中心仓库](https://mvnrepository.com/artifact/cn.com.fishin/Tuz)），并利用它的 IOC 技术和拦截器技术做业务解耦。
 
-在网络通信方面使用的是 `Netty`，并且实现了 `HTTP` 下的传输协议。
+3) 在网络通信方面使用的是 `Netty`，并且实现了 `HTTP` 下的传输协议。
 
-整个项目的所有组件都允许自定义，包括缓存实现、节点选择、协议解析和网络通信协议，你只需要非常简单的实现一个接口即可。
+4) 整个项目的所有组件都允许自定义，包括缓存实现、节点选择、协议解析和网络通信协议，你只需要非常简单的实现一个接口即可。
 
 + #### 留言网站：[https://www.fishin.com.cn](https://www.fishin.com.cn)
 
