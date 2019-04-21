@@ -26,6 +26,9 @@ public interface Node {
     // key 是否已经存在
     boolean exists(Task task);
 
+    // 这个 key 值数据存活时间
+    long expiredTime(Task task);
+
     // 返回当前节点 key 个数
     int numberOfKeys();
 

@@ -36,6 +36,9 @@ public enum TaskAction {
     // 判断是否 key 存在
     EXISTS(Node::exists),
 
+    // 获取键值过期时间
+    EXPIRED_TIME(Node::expiredTime),
+
     // Lighter 系统服务
     LIGHTER((node, task) -> systemAction(task.getKey()));
 

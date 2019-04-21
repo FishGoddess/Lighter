@@ -62,7 +62,16 @@
     + **建议使用 `GET 请求`**
     + 返回 true 如果这个 key 存在
     
-6. lighter 动作，获取 Lighter 服务运行的信息
+6. expiredTime 动作，判断一个对象 key 的存活时间:
+    + 例子：http://127.0.0.1:9669/expiredTime/testKey
+    + testKey 为对象的 key 值
+    + **建议使用 `GET 请求`**
+    + 返回值的意义：
+        + -2：这个 key 值不存在或者已经过期
+        + -1：这个 key 永不过期
+        + 正数：这个 key 的存活时间，大于 0 的一个数，等这个值变成 0，就意味着这个值已经过期
+    
+7. lighter 动作，获取 Lighter 服务运行的信息
     + 例子：http://127.0.0.1:9669/lighter/info
     + 目前支持 keys、values、numberOfKeys、info 等动作
     + info 为系统运行所有信息，包含上面几个系统动作的功能

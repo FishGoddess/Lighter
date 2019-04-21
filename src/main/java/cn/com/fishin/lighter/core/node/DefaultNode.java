@@ -51,11 +51,13 @@ public class DefaultNode implements Node {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                LogHelper.info("Begins to cleanup the dead key! Current size of deadline queue ===> " + deadlineQueue.size());
+                LogHelper.debug("Begin to cleanup the dead key! Current size of deadline queue ===> " + deadlineQueue.size());
                 cleanupDeadlineQueue();
-                LogHelper.info("Finished one task! Current size of deadline queue ===> " + deadlineQueue.size());
+                LogHelper.info("Finished one cleanup! Current size of deadline queue ===> " + deadlineQueue.size());
             }
-        }, new Date(), GC_PER_SECOND * 1000);
+
+            // 延迟开始任务的时间，应该要在一次时间间隔之后才开始定时任务
+        }, new Date(System.currentTimeMillis() + GC_PER_SECOND * 1000), GC_PER_SECOND * 1000);
     }
 
     @Override
@@ -114,6 +116,29 @@ public class DefaultNode implements Node {
             @Override
             public Boolean doInLockBlock() {
                 return getByKey(task.getKey()) != null;
+            }
+        }.executeSafely(readLock);
+    }
+
+    @Override
+    public long expiredTime(Task task) {
+        return new LockTemplate<Long>() {
+            @Override
+            public Long doInLockBlock() {
+                Value value = map.get(task.getKey());
+                // 如果键值不存在或者是已经过期
+                if (value == null || (value.willBeDead() && value.hasDead())) {
+                    map.remove(task.getKey());
+                    return -2L;
+                }
+
+                // 键值永不过期，返回 -1
+                if (!value.willBeDead()) {
+                    return -1L;
+                }
+
+                // 将未来的死亡时间减去当前时间就是这个数据能存活的时间，毫秒化成秒
+                return (value.deadline - System.currentTimeMillis()) / 1000;
             }
         }.executeSafely(readLock);
     }

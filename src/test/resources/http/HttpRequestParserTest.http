@@ -2,11 +2,11 @@
 GET http://{{closeHost}}
 
 ### 获取数据
-GET http://{{host}}/get/testKey4
+GET http://{{host}}/get/testKey
 
 ### 保存数据
-POST http://{{host}}/set/testKey4
-Lighter-Expire-Time: 20
+POST http://{{host}}/set/testKey
+Lighter-Expire-Time: 90
 Content-Type: application/json;charset=utf-8
 
 {
@@ -63,5 +63,8 @@ GET http://{{host}}/lighter/values
 
 ### 测试一个 key 是否存在
 GET http://{{host}}/exists/testKey
+
+### 测试一个 key 的存活时间
+GET http://{{host}}/expiredTime/testKey
 
 ###

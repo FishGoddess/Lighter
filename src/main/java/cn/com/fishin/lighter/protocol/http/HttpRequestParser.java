@@ -65,6 +65,12 @@ public class HttpRequestParser implements RequestParser<FullHttpRequest> {
                 key(request)
         )),
 
+        // 获取键值过期时间
+        expiredTime(request -> Task.make(
+                TaskAction.EXPIRED_TIME,
+                key(request)
+        )),
+
         // 提供系统服务功能
         lighter(request -> Task.make(
                 TaskAction.LIGHTER,
