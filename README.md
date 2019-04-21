@@ -287,7 +287,7 @@
         
     ![firstTest.png](./images/ThirdTest_60s.png)
             
-    + 混合操作，几种基本操作同时进行，1000 个线程，10 万个请求，平均 10000 次/秒
+    + 混合操作，几种基本操作同时进行，1000 个线程，10 万个请求，平均 8000 次/秒
     
     ![firstTest.png](./images/FourthTest_60s_mixed_request.png)
             
