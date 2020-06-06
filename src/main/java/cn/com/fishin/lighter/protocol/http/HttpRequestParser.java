@@ -14,7 +14,7 @@ import io.netty.util.CharsetUtil;
  * HTTP 协议解析器
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/20 19:27:04</p>
  */
 public class HttpRequestParser implements RequestParser<FullHttpRequest> {

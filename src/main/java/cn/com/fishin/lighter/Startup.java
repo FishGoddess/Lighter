@@ -15,7 +15,7 @@ import io.netty.channel.ChannelInitializer;
  * 启动类
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/15 23:01:25</p>
  */
 public class Startup {

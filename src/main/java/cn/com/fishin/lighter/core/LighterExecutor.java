@@ -10,7 +10,7 @@ import java.util.concurrent.*;
  * 任务执行器
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/16 21:09:28</p>
  */
 public class LighterExecutor {

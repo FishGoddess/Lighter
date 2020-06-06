@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * 测试网络模块
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/15 20:50:27</p>
  */
 public class NioServerTest {

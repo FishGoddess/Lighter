@@ -4,7 +4,7 @@ package cn.com.fishin.lighter.common.exception;
  * 动作执行异常
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/17 20:16:21</p>
  */
 public class ActionException extends RuntimeException {

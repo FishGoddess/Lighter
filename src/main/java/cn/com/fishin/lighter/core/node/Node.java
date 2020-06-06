@@ -6,7 +6,7 @@ import cn.com.fishin.lighter.common.entity.Task;
  * 节点接口
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/17 11:01:41</p>
  */
 public interface Node {

@@ -10,7 +10,7 @@ import java.util.Arrays;
  * 负载均衡选择的节点选择器
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/17 12:59:47</p>
  */
 public class BalancedNodeSelector implements NodeSelector {

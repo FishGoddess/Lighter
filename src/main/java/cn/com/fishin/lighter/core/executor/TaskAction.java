@@ -16,7 +16,7 @@ import cn.com.fishin.tuz.interceptor.Interceptor;
  * 任务指令枚举类
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/16 10:38:57</p>
  */
 public enum TaskAction {

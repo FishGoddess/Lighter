@@ -17,7 +17,7 @@
 
 + #### 留言网站：[https://www.fishin.com.cn](https://www.fishin.com.cn)
 
-+ #### 联系方式：fishinlove@163.com
++ #### 联系方式：fishgoddess@qq.com
 
 + #### 开源协议：[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0.html)
 

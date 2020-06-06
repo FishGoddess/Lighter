@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * 默认的队列拒绝策略处理器
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/16 21:45:37</p>
  */
 public class DefaultRejectedExecutionHandler implements RejectedExecutionHandler {

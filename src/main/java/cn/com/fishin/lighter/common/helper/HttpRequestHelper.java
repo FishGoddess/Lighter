@@ -6,7 +6,7 @@ import io.netty.handler.codec.http.HttpRequest;
  * HTTP 请求帮助类
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/16 12:41:27</p>
  */
 public class HttpRequestHelper {

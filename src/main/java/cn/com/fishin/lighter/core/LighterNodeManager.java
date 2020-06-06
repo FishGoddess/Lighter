@@ -17,7 +17,7 @@ import java.util.Map;
  * 这也是 Lighter 服务的核心功能提供者
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/17 10:31:50</p>
  */
 public class LighterNodeManager {

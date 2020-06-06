@@ -19,7 +19,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  * 但是这样也会导致这个过期时间是一种假过期，内存依旧被占用着，造成浪费
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/17 11:06:56</p>
  */
 public class DefaultNode implements Node {

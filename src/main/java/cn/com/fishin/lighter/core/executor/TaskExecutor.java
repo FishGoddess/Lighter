@@ -10,7 +10,7 @@ import cn.com.fishin.lighter.core.node.Node;
  * 比如，对特定的任务进行特定的处理，存进数据库或者缓存系统等等
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/16 20:56:55</p>
  */
 public interface TaskExecutor {

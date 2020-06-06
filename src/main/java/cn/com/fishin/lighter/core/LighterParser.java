@@ -9,7 +9,7 @@ import cn.com.fishin.tuz.plugin.DiPlugin;
  * 包括协议解析等解析器
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/17 12:16:03</p>
  */
 public class LighterParser {

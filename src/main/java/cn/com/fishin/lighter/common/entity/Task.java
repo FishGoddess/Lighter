@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * 包含一次请求的任务信息
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/15 22:25:37</p>
  */
 public class Task {

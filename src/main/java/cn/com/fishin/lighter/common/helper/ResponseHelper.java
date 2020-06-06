@@ -13,7 +13,7 @@ import io.netty.util.CharsetUtil;
  * 服务器响应帮助类
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/15 20:27:16</p>
  */
 public class ResponseHelper {

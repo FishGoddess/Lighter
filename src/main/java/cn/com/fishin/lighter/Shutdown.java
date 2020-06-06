@@ -9,7 +9,7 @@ import java.net.Socket;
  * 关闭服务脚本
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/17 21:27:32</p>
  */
 public class Shutdown {

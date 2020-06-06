@@ -4,7 +4,7 @@ package cn.com.fishin.lighter.core;
  * Lighter 参数
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/16 11:13:28</p>
  */
 public interface LighterArgument {

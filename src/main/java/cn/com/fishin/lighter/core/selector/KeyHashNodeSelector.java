@@ -8,7 +8,7 @@ import cn.com.fishin.lighter.core.LighterNodeManager;
  * 根据 key 值哈希选择的节点选择器
  *
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/17 12:56:03</p>
  */
 public class KeyHashNodeSelector implements NodeSelector {

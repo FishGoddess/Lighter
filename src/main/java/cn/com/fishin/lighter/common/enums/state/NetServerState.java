@@ -4,7 +4,7 @@ import cn.com.fishin.lighter.common.enums.ServerState;
 
 /**
  * @author Fish
- * <p>Email: fishinlove@163.com</p>
+ * <p>Email: fishgoddess@qq.com</p>
  * <p>created by 2019/04/15 20:22:14</p>
  */
 public enum NetServerState implements ServerState {
