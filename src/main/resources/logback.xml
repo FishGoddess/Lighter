@@ -12,15 +12,31 @@
             %L 表达打印行数，
             %msg 日志消息，
             %n 换行符 -->
-            <pattern>%d{HH:mm:ss} %-5level %logger{50}:%L - %msg %n</pattern>
+            <pattern>[%thread] %d{yyyy-MM-dd HH:mm:ss} %-5level %logger{50}:%L - %msg %n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>../logs/Lighter.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+
+        <!-- 追加日志 -->
+        <append>true</append>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>[%thread] %d{yyyy-MM-dd HH:mm:ss} %-5level %logger{50}:%L - %msg %n</pattern>
         </encoder>
     </appender>
 
     <!-- DEBUG 模式 -->
-    <!--<logger name="cn.com.fishin" level="DEBUG"/>-->
+    <!-- 这个模式建议选择 INFO，否则每一次都输出信息，会损耗一些性能 -->
+    <logger name="cn.com.fishin" level="INFO"/>
 
     <!-- 日志输出级别 -->
-    <root level="INFO">
+    <root level="WARN">
         <appender-ref ref="STDOUT"/>
+        <appender-ref ref="FILE"/>
     </root>
 </configuration>

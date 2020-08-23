@@ -1,59 +1,72 @@
 package cn.com.fishin.lighter;
 
-import org.springframework.context.ApplicationContext;
-import cn.com.fishin.lighter.core.App;
-import cn.com.fishin.lighter.event.NodeDataEvent;
-import cn.com.fishin.lighter.helper.ArgsHelper;
-import cn.com.fishin.lighter.helper.SpringInitHelper;
-import cn.com.fishin.lighter.protocol.Command;
+import cn.com.fishin.lighter.common.helper.LogHelper;
+import cn.com.fishin.lighter.common.helper.TuzHelper;
+import cn.com.fishin.lighter.core.LighterExecutor;
+import cn.com.fishin.lighter.core.LighterNodeManager;
+import cn.com.fishin.lighter.core.LighterParser;
+import cn.com.fishin.lighter.net.NioServer;
+import cn.com.fishin.tuz.core.Tuz;
+import cn.com.fishin.tuz.plugin.DiPlugin;
+import io.netty.channel.ChannelInitializer;
+
 
 /**
- * 程序运行的主类
- * 个人认为这个类和 cn.com.fishin.lighter.core.App 类写的不好。。。
+ * 启动类
  *
  * @author Fish
- * ------> 1149062639@qq.com
- * created by 2019/03/04 21:57:09
+ * <p>Email: fishgoddess@qq.com</p>
+ * <p>created by 2019/04/15 23:01:25</p>
  */
 public class Startup {
 
-    public static void main(String[] args) throws Exception {
-
-        // 初始化参数帮助类
-        ArgsHelper.init(args);
-
-        // 获取配置文件位置
-        String xmlLocation = ArgsHelper.getXmlLocation();
-
-        // 加载 Spring 配置文件
-        ApplicationContext context = SpringInitHelper.initSpring(xmlLocation);
-
-        // 启动应用程序
-        App application = context.getBean(App.class);
-        application.setContext(context);
-
-        //test(application); // TODO 暂时是测试代码
-        application.startApplication(args);
+    // 打印启动标志
+    private static void printSymbol() {
+        System.out.println();
+        System.out.println("         **");
+        System.out.println("        *  *");
+        System.out.println("       *    *               |          ..");
+        System.out.println("      *      *              |__        ||");
+        System.out.println("      ********");
+        System.out.println("       ******                __");
+        System.out.println("        ****                | _       |__|");
+        System.out.println("     ___________            |__|      |  |");
+        System.out.println("    |           |");
+        System.out.println("    |           |                ____");
+        System.out.println("    |    ^_^    |                 ||");
+        System.out.println("    |           |");
+        System.out.println("    |           |          www.fishin.com.cn");
+        System.out.println("    |    ^_^    |");
+        System.out.println("    |           |        Startup successfully...");
+        System.out.println("    |___________|            Enjoy yourself!");
+        System.out.println();
     }
 
-    // TODO 暂时是测试代码
-    private static void test(App app) {
+    public static void main(String[] args) throws Exception {
 
-        Command command = new Command();
-        command.setInstruction("save");
-        command.setAllArgs(new String[]{
-                "testKey",
-                "testValue"
-        });
+        // 开始启动时间
+        long startTime = System.currentTimeMillis();
 
-        NodeDataEvent event = new NodeDataEvent("NodeDataEvent");
-        event.setCommand(command);
-        app.publishEvent(event);
+        // 初始化 Tuz 容器
+        TuzHelper.initTuz(args);
 
-        command.setInstruction("fetch");
-        command.setAllArgs(new String[]{
-                "testKey"
-        });
-        app.publishEvent(event);
+        // 初始化服务器
+        // 同时会监听两个端口，一个用于正常服务通信，一个用于关闭服务器
+        NioServer server = new NioServer();
+        server.open(
+                Integer.valueOf(Tuz.use("server.port")),
+                Integer.valueOf(Tuz.use("server.closePort")),
+                DiPlugin.useInstance(ChannelInitializer.class),
+                () -> {
+                    LighterNodeManager.init(); // 初始化节点管理器
+                    LighterExecutor.init(); // 初始化执行器
+                    LighterParser.init(); // 初始化解析器
+                    printSymbol(); // 打印图标
+                    LogHelper.info("Server startup in " + (System.currentTimeMillis() - startTime) + " ms!  (^_^)");
+                },
+                () -> {
+                    LighterExecutor.shutdown(); // 关闭执行器
+                }
+        );
     }
 }

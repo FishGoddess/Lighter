@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
 
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.com.fishin</groupId>
     <artifactId>Lighter</artifactId>
-    <version>1.0-Beta</version>
+    <version>1.3.3-BETA</version>
 
-    <!-- 轻量级键值对缓存服务，可用于缓存、分布式锁、消息队列消息去重，甚至是 redis 的负载均衡等 -->
+    <!-- 轻量级对象缓存服务中间件 -->
     <name>Lighter</name>
 
     <properties>
@@ -17,18 +34,18 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <!-- 主要的核心依赖框架如下 -->
-        <spring.version>5.1.5.RELEASE</spring.version>
+        <tuz.version>0.6.6-FINAL</tuz.version>
         <netty.version>4.1.33.Final</netty.version>
         <fastjson.version>1.2.56</fastjson.version>
         <logback.version>1.2.3</logback.version>
     </properties>
 
     <dependencies>
-        <!-- spring 框架 -->
+        <!-- Tuz 框架 -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
+            <groupId>cn.com.fishin</groupId>
+            <artifactId>Tuz</artifactId>
+            <version>${tuz.version}</version>
         </dependency>
 
         <!-- 网络模块 -->
@@ -102,6 +119,16 @@
                 <plugin>
                     <artifactId>maven-project-info-reports-plugin</artifactId>
                     <version>3.0.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.5.5</version>
+                    <configuration>
+                        <descriptorRefs>
+                            <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>

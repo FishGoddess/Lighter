@@ -26,6 +26,7 @@ tmp/
 
 # IntelliJ
 .idea/
+.idea/*
 *.iml
 
 ## File-based project format
@@ -36,6 +37,7 @@ tmp/
 *.class
 
 ## Log file
+logs/
 *.log
 *.log.*
 

@@ -1,0 +1,70 @@
+### 测试关闭服务器
+GET http://{{closeHost}}
+
+### 获取数据
+GET http://{{host}}/get/testKey
+
+### 保存数据
+POST http://{{host}}/set/testKey
+Lighter-Expire-Time: 90
+Content-Type: application/json;charset=utf-8
+
+{
+  "key1": "value1",
+  "key2": "value2",
+  "fdsbf": "fdsjnfgdj"
+}
+
+### 如果不存在才插入
+POST http://{{host}}/setAbsent/testKey
+Lighter-Expire-Time: 24
+Content-Type: application/json;charset=utf-8
+
+{
+  "gsda": "gsdfga",
+  "风格的yrtruhjm放大": "gdfgad灌水广"
+}
+
+### 测试 DELETE 删除数据
+DELETE http://{{host}}/remove/testKey
+
+### 测试 POST 存储表单数据
+POST http://{{host}}/set/testKey2
+Lighter-Expire-Time: 20
+Content-Type: application/x-www-form-urlencoded
+
+key1=value1&
+key2=哈哈哈
+
+### 测试 POST 存储二进制数据
+POST http://{{host}}/set/testKey3
+Lighter-Expire-Time: 16
+Content-Type: multipart/form-data;boundary=LighterBoundary
+
+--LighterBoundary
+Content-Disposition: form-data; name="field-name"
+
+key-value
+--LighterBoundary
+Content-Disposition: form-data; name="field-name"; file-name="无标题.png"
+
+< Z:/无标题.png
+--LighterBoundary--
+
+### 测试 Lighter 系统服务
+GET http://{{host}}/lighter/info
+
+### 测试所有节点数量服务
+GET http://{{host}}/lighter/numberOfKeys
+
+### 测试所有节点上的所有 key 和 value
+#GET http://{{host}}/lighter/keys
+GET http://{{host}}/lighter/values
+
+### 测试一个 key 是否存在
+GET http://{{host}}/exists/testKey
+
+### 测试一个 key 的存活时间
+GET http://{{host}}/expiredTime/testKey
+
+###

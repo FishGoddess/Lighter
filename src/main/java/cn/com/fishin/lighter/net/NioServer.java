@@ -2,16 +2,15 @@ package cn.com.fishin.lighter.net;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelInitializer;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.io.IOException;
+import java.net.ServerSocket;
 
 /**
  * NIO 服务器
@@ -23,70 +22,84 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 public class NioServer {
 
     // 记录日志
-    private static final Log log = LogFactory.getLog(NioServer.class);
+    private static final Logger log = LoggerFactory.getLogger(NioServer.class);
 
     private EventLoopGroup bossGroup = new NioEventLoopGroup();
     private EventLoopGroup workerGroup = new NioEventLoopGroup();
-
-    // 使用读写锁，因为读的次数比写的次数多得多，所以读的时候可以多个线程同时
-    private ReadWriteLock readyReadWriteLock = new ReentrantReadWriteLock();
-    private Lock readyReadLock = readyReadWriteLock.readLock();
-    private Lock readyWriteLock = readyReadWriteLock.writeLock();
-
-    // 是否准备好了
-    private volatile boolean ready = false;
-
-    /**
-     * 服务器是否已经准备好了
-     *
-     * @return true 准备好了，false 没有准备好
-     */
-    public boolean isReady() {
-
-        // 读操作上锁
-        readyReadLock.lock();
-        try {
-            return ready;
-        } finally {
-            // 必须保证读锁一定被释放
-            readyReadLock.unlock();
-        }
-    }
 
     /**
      * 打开服务器，占用端口
      *
      * @param port         占用的端口
-     * @param childHandler 具体实现服务器的初始化处理器
+     * @param initializer 具体实现服务器的初始化处理器
      * @throws InterruptedException 中断异常
      */
-    public void open(int port, ChannelHandler childHandler) throws InterruptedException {
+    public void open(int port, int closeListenPort, ChannelInitializer initializer, ReadyHook readyHook, ShutdownHook shutdownHook) throws Exception {
 
         ServerBootstrap server = new ServerBootstrap();
         server.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .childHandler(childHandler);
-
+                .childHandler(initializer);
         ChannelFuture f = server.bind(port).sync();
 
-        // 服务器准备好了
-        readyWriteLock.lock();
-        try {
-            ready = true;
-        } finally {
-            // 必须保证写锁一定被释放
-            readyWriteLock.unlock();
-        }
+        prepareCloseListener(closeListenPort);
 
         // 记录日志
         log.info("NioServer run on port: " + port);
 
+        readyHook.hook();
         f.channel().closeFuture().sync();
+        shutdownHook.hook();
+    }
+
+    // 监听关闭端口
+    private void prepareCloseListener(int port) {
+
+        // 添加关闭服务器的钩子函数
+        //Runtime.getRuntime().addShutdownHook(new Thread(this::closeGracefully));
+
+        // 添加关闭服务器的监听器
+        new Thread(() -> {
+
+            // 监听这个端口，如果有人连接上来，就关闭服务器
+            ServerSocket server = null;
+            try {
+                server = new ServerSocket(port);
+                server.accept();
+
+                // 关闭服务器
+                closeGracefully();
+            } catch (IOException e) {
+                // 关闭端口监听失败
+                log.error("Server listen close port failed! port: " + port, e);
+            } finally {
+                try {
+                    if (server != null) {
+                        server.close();
+                    }
+                } catch (IOException e) {
+                    log.error(e.getMessage(), e);
+                }
+            }
+        }).start();
     }
 
     // 关闭服务器释放资源
     public void closeGracefully() {
         bossGroup.shutdownGracefully();
         workerGroup.shutdownGracefully();
+
+        // 信息记录
+        log.info("Server closed! Have a good day :)");
+    }
+
+    // 服务器准备好之后会被调用的钩子函数
+    public interface ReadyHook {
+        void hook();
+    }
+
+    // 销毁服务器之后会被调用的钩子函数
+    public interface ShutdownHook {
+        void hook();
     }
 }
