@@ -35,7 +35,7 @@ under the License.
 
         <!-- 主要的核心依赖框架如下 -->
         <tuz.version>0.6.6-FINAL</tuz.version>
-        <netty.version>4.1.33.Final</netty.version>
+        <netty.version>4.1.42.Final</netty.version>
         <fastjson.version>1.2.56</fastjson.version>
         <logback.version>1.2.3</logback.version>
     </properties>
