@@ -1,6 +1,8 @@
 # Lighter 轻量级对象缓存服务中间件 [![License](./license.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 (目前主分支是 rebuild，如果在代码设计和风格统一上存在问题，请在评论区留言)
 
+**此项目已经废弃，请转移到 Go 重构的版本 kafo -- [码云](https://gitee.com/FishGoddess/kafo) / [Github](https://github.com/FishGoddess/kafo)**
+
 **目前正在使用 Go 语言进行重构！！！不仅会加入持久化功能，还会改造为真正的分布式缓存中间件。。。**
 **master 和 rebuild 分支是使用 Java 开发的单机版本，而 develop 分支则是目前正在改造的分布式版本。**
 
@@ -33,7 +35,7 @@
 
 2. 当你下载好压缩包之后，就成功了一大半啦！
     + 在 Linux 系统上如何启动 Lighter 服务？
-        
+      
         a. 使用 `ls` 命令查看下载好的文件
 
         ![linux_tar_gz_1.png](./images/HowToUse/linux_tar_gz_1.png)
@@ -60,6 +62,7 @@
         
         + 注意：由于运行需要权限，如果你发现运行时显示`没有权限`，就先使用 `chmod` 赋予权限
                 
+        
         ![linux_chmod.png](./images/HowToUse/linux_chmod.png)
         
         + 如果你需要关闭服务，当然，我们不建议你这么做哈哈，但如果你坚持要这么做，可以执行 `shutdown.sh` 脚本
@@ -74,10 +77,10 @@
         
         b. 进入到这个目录，同样有三个目录，进入到 `bin` 目录下，双击 `startup.bat` 即可启动
         
-        c. 如果需要关闭服务，双击 `shutdown.bat` 即可
-
-3. 服务运行中，日志在哪？
+    c. 如果需要关闭服务，双击 `shutdown.bat` 即可
     
+3. 服务运行中，日志在哪？
+   
     在得到的目录中，有三个目录，`bin` / `conf` / `logs`
     
     我想聪明的你已经猜到了，日志就是存放在 `logs` 目录，它以时间进行分割日志文件，一天一个日志文件
@@ -126,7 +129,8 @@
     + **建议使用 `POST 请求`**
     + **建议使用 Content-Type: application/json;charset=utf-8**
     + 注意：返回值是一个 json 对象数组
-        
+      
+    
     请求体：
     ```json
     {
@@ -296,6 +300,7 @@
     
     ![firstTest.png](./images/FourthTest_60s_mixed_request.png)
             
+
 具体测试文件在 images 下，为 Lighter.jmx，是一个 JMeter 的测试计划
 
 + 具体配置文件详见 resources/conf/config.properties
