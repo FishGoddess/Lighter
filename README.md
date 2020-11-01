@@ -1,7 +1,7 @@
 # Lighter 轻量级对象缓存服务中间件 [![License](./license.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
 (目前主分支是 rebuild，如果在代码设计和风格统一上存在问题，请在评论区留言)
 
-**此项目已经废弃，请转移到 Go 重构的版本 kafo -- [码云](https://gitee.com/FishGoddess/kafo) / [Github](https://github.com/FishGoddess/kafo)**
+**此项目已经废弃，请转移到 Go 重构的版本 kafo -- [码云](https://gitee.com/avino-plan/kafo) / [Github](https://github.com/avino-plan/kafo)**
 
 **目前正在使用 Go 语言进行重构！！！不仅会加入持久化功能，还会改造为真正的分布式缓存中间件。。。**
 **master 和 rebuild 分支是使用 Java 开发的单机版本，而 develop 分支则是目前正在改造的分布式版本。**
@@ -77,6 +77,7 @@
         
         b. 进入到这个目录，同样有三个目录，进入到 `bin` 目录下，双击 `startup.bat` 即可启动
         
+    
     c. 如果需要关闭服务，双击 `shutdown.bat` 即可
     
 3. 服务运行中，日志在哪？
